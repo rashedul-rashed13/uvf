@@ -277,4 +277,65 @@
 <script type="module" src="script.js"></script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>United Volunteers Foundation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+    <!-- Header & Navigation -->
+    <header>
+        <div class="logo" data-en="UVF Logo" data-bn="ইউভিএফ লোগো">UVF Logo</div>
+        <nav>
+            <div class="lang-toggle">
+                <button onclick="changeLanguage('bn')">বাংলা</button>
+                <button onclick="changeLanguage('en')">English</button>
+            </div>
+            <ul>
+                <li><a href="#" data-en="Home" data-bn="হোম">Home</a></li>
+                <li><a href="#" data-en="About Us" data-bn="আমাদের সম্পর্কে">About Us</a></li>
+                <li><a href="#" data-en="Blood Donors" data-bn="রক্তদাতা অনুসন্ধান">Blood Donors</a></li>
+                <li><a href="#" data-en="Volunteers" data-bn="স্বেচ্ছাসেবী">Volunteers</a></li>
+                <li><a href="#" data-en="Contact" data-bn="যোগাযোগ">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content / Search Section -->
+    <main>
+        <section class="search-section">
+            <h2 data-en="Find Blood Donor" data-bn="রক্তদাতা খুঁজুন">Find Blood Donor</h2>
+            <div class="filter-group">
+                <select id="division">
+                    <option value="" data-en="Select Division" data-bn="বিভাগ নির্বাচন করুন">Select Division</option>
+                    <option value="Dhaka" data-en="Dhaka" data-bn="ঢাকা">Dhaka</option>
+                    <option value="Mymensingh" data-en="Mymensingh" data-bn="ময়মনসিংহ">Mymensingh</option>
+                </select>
+
+                <select id="district">
+                    <option value="" data-en="Select District" data-bn="জেলা নির্বাচন করুন">Select District</option>
+                    <option value="Dhaka" data-en="Dhaka" data-bn="ঢাকা">Dhaka</option>
+                    <option value="Jamalpur" data-en="Jamalpur" data-bn="জামালপুর">Jamalpur</option>
+                </select>
+
+                <select id="upazila">
+                    <option value="" data-en="Select Upazila/City" data-bn="উপজেলা/সিটি কর্পোরেশন">Select Upazila/City</option>
+                    <option value="Dewanganj" data-en="Dewanganj" data-bn="দেওয়ানগঞ্জ">Dewanganj</option>
+                </select>
+
+                <select id="blood-group">
+                    <option value="" data-en="All Blood Groups" data-bn="সব রক্ত গ্রুপ">All Blood Groups</option>
+                    <option value="A+" data-en="A+" data-bn="এ পজেটিভ">A+</option>
+                    <option value="B+" data-en="B+" data-bn="বি পজেটিভ">B+</option>
+                </select>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
