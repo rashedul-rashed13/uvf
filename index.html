@@ -1,341 +1,177 @@
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#103e35">
-<title>United Volunteers Foundation | UVF</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>United Volunteers Foundation</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-
 <body>
 
-<header>
- <div class="brand">
-  <img src="logo.png" alt="UVF Logo">
-  <div>
-   <span>ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন</span>
-   <small>মানুষের জন্য মানবতার পথে</small>
+<header class="header">
+  <div class="brand">
+    <img src="logo.png" alt="UVF Logo">
+    <div>
+      <h3 data-bn="ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন"
+          data-en="United Volunteers Foundation">ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন</h3>
+      <small>মানুষের জন্য মানবতার পথ</small>
+    </div>
   </div>
- </div>
- <button class="menu-button" onclick="toggleMenu()">☰ মেনু</button>
- <nav class="menu" id="mainMenu">
-  <div class="lang-box">
-   <button onclick="setLanguage('bn')" id="bnBtn">বাংলা</button>
-   <button onclick="setLanguage('en')" id="enBtn">English</button>
-  </div>
-  <a href="#home" onclick="closeMenu()">⌂ হোম</a>
-  <a href="#search" onclick="closeMenu()">রক্তদাতা অনুসন্ধান</a>
-  <a href="#about" onclick="closeMenu()">আমাদের সম্পর্কে</a>
-  <a href="#volunteers" onclick="closeMenu()">স্বেচ্ছাসেবী</a>
-  <a href="#contact" onclick="closeMenu()">যোগাযোগ</a>
- </nav>
+  <button class="menu-btn" id="menuBtn">☰ মেনু</button>
 </header>
 
-<div class="hero" id="home">
- <div class="tag">♥ মানুষের জন্য মানবতার পথে</div>
- <h1>মানবিকতার পথে আপনিও পথচলা শুরু করুন</h1>
- <p>রক্তদাতা খুঁজুন, মানবিক কাজে যুক্ত হোন এবং মানুষের পাশে দাঁড়ান।</p>
- <div class="actions">
-  <button class="btn outline" onclick="openForm('volunteerForm')">স্বেচ্ছাসেবী নিবন্ধন</button>
-  <button class="btn" onclick="openForm('donorForm')">রক্তদাতা নিবন্ধন</button>
- </div>
-</div>
+<nav class="menu" id="menu">
+  <button onclick="toggleLanguage()">বাংলা / English</button>
+  <a href="#home" data-bn="হোম" data-en="Home">হোম</a>
+  <a href="#search" data-bn="অনুসন্ধান" data-en="Search">অনুসন্ধান</a>
+  <a href="#about" data-bn="আমাদের সম্পর্কে" data-en="About Us">আমাদের সম্পর্কে</a>
+  <a href="#services" data-bn="সেবাসমূহ" data-en="Services">সেবাসমূহ</a>
+  <a href="#volunteer" data-bn="স্বেচ্ছাসেবী" data-en="Volunteer">স্বেচ্ছাসেবী</a>
+  <a href="#contact" data-bn="যোগাযোগ" data-en="Contact">যোগাযোগ</a>
+</nav>
 
-<section id="search">
- <div class="heading">
-  <span class="line"></span>
-  <h2>রক্তদাতা খুঁজুন</h2>
-  <p>আপনার প্রয়োজনীয় এলাকার রক্তদাতা খুঁজে নিন</p>
- </div>
- <div class="search-box">
-  <div class="field">
-   <label>বিভাগ</label>
-   <select id="searchDivision"><option value="">বিভাগ নির্বাচন করুন</option></select>
+<section class="hero" id="home">
+  <div class="hero-content">
+    <p>♥ মানুষের জন্য মানবতার পথ</p>
+    <h1 data-bn="মানবিকতার পথে আপনিও পথচলা শুরু করুন"
+        data-en="Start Your Journey Towards Humanity">
+      মানবিকতার পথে আপনিও পথচলা শুরু করুন
+    </h1>
+    <p>নিচে রক্তদাতাদের রক্তের গ্রুপ, নাম, আইডি, ঠিকানা ও নোট দেখুন।</p>
+
+    <div class="hero-buttons">
+      <a href="#search" class="btn white">🩸 রক্তদাতা খুঁজুন</a>
+      <a href="#volunteer" class="btn outline">স্বেচ্ছাসেবী নিবন্ধন</a>
+      <a href="#donate" class="btn red">রক্তদাতা নিবন্ধন</a>
+    </div>
   </div>
-  <div class="field">
-   <label>জেলা</label>
-   <select id="searchDistrict" disabled><option value="">আগে বিভাগ নির্বাচন করুন</option></select>
-  </div>
-  <div class="field">
-   <label>উপজেলা / সিটি কর্পোরেশন</label>
-   <select id="searchUpazila" disabled><option value="">আগে জেলা নির্বাচন করুন</option></select>
-  </div>
-  <div class="field">
-   <label>রক্তের গ্রুপ</label>
-   <select id="searchBlood">
-    <option value="">সব গ্রুপ</option>
-    <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
-    <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
-   </select>
-  </div>
- </div>
- <div class="search-result" id="searchResults">
-  <div class="symbol">⌕</div>
-  <h3>রক্তদাতা দেখতে সার্চ করুন</h3>
-  <p>উপরের ফিল্টারগুলো নির্বাচন করুন।</p>
- </div>
 </section>
 
-<section>
- <div class="join-heading">
-  <h2>মানবতার পথে আপনিও যুক্ত হন</h2>
-  <p>রক্তদাতা অথবা স্বেচ্ছাসেবী হিসেবে নিবন্ধন করুন।</p>
- </div>
- <div class="cards">
-  <div class="card green" id="volunteers">
-   <div class="emoji">♡</div>
-   <h3>স্বেচ্ছাসেবী হিসেবে যুক্ত হন</h3>
-   <p>সংগঠনের সদস্য হিসেবে যোগ দিন এবং মানুষের পাশে দাঁড়ান।</p>
-   <a href="javascript:void(0)" onclick="openForm('volunteerForm')">আবেদন করুন →</a>
+<section class="search-section" id="search">
+  <div class="section-heading">
+    <span></span>
+    <h2>রক্তদাতা খুঁজুন</h2>
+    <p>🔒 নিরাপদে রক্তদাতার তথ্য খুঁজে নিন।</p>
   </div>
-  <div class="card red">
-   <div class="emoji">🩸</div>
-   <h3>রক্তদাতা নিবন্ধন করুন</h3>
-   <p>আপনার রক্ত দিয়ে একটি জীবন বাঁচাতে এগিয়ে আসুন।</p>
-   <a href="javascript:void(0)" onclick="openForm('donorForm')">নিবন্ধন করুন →</a>
+
+  <div class="filter-box">
+    <div class="filter-grid">
+      <div>
+        <label>বিভাগ</label>
+        <select id="division">
+          <option value="">সব বিভাগ</option>
+        </select>
+      </div>
+      <div>
+        <label>জেলা</label>
+        <select id="district" disabled>
+          <option value="">জেলা নির্বাচন করুন</option>
+        </select>
+      </div>
+      <div>
+        <label>সিটি কর্পোরেশন / উপজেলা</label>
+        <select id="upazila" disabled>
+          <option value="">আগে জেলা নির্বাচন করুন</option>
+        </select>
+      </div>
+      <div>
+        <label>রক্তের গ্রুপ</label>
+        <select id="blood">
+          <option value="">সব গ্রুপ</option>
+          <option>A+</option>
+          <option>A-</option>
+          <option>B+</option>
+          <option>B-</option>
+          <option>AB+</option>
+          <option>AB-</option>
+          <option>O+</option>
+          <option>O-</option>
+        </select>
+      </div>
+    </div>
+    <p class="total" id="totalFound">রক্তদাতা খুঁজুন</p>
   </div>
- </div>
- <div class="stats">
-  <div class="stat"><strong id="donorCount">0</strong><p>নিবন্ধিত রক্তদাতা</p></div>
-  <div class="stat"><strong id="volunteerCount">0</strong><p>স্বেচ্ছাসেবী সদস্য</p></div>
- </div>
+
+  <div class="results" id="results">
+    <div class="empty">
+      <div class="search-icon">⌕</div>
+      <h3>রক্তদাতা দেখতে সার্চ করুন</h3>
+      <p>উপরের ফিল্টার নির্বাচন করলে রক্তদাতাদের তথ্য দেখাবে।</p>
+    </div>
+  </div>
 </section>
 
-<!-- DONOR FORM -->
-<section class="form-section" id="donorForm">
- <button class="form-close" onclick="closeForms()">বন্ধ করুন ✕</button>
- <h2>রক্তদাতা নিবন্ধন ফর্ম</h2>
- <p class="form-description">রক্তদাতা হিসেবে নিবন্ধনের জন্য সম্পূর্ণ তথ্য দিন।</p>
-
- <form id="donorRegistrationForm">
-  <div class="form-grid">
-   <div class="form-field">
-    <label>পূর্ণ নাম <span class="required">*</span></label>
-    <input name="name" required placeholder="আপনার পূর্ণ নাম">
-   </div>
-   <div class="form-field">
-    <label>মোবাইল নম্বর <span class="required">*</span></label>
-    <input name="phone" type="tel" required placeholder="01XXXXXXXXX">
-   </div>
-   <div class="form-field">
-    <label>বিকল্প মোবাইল নম্বর</label>
-    <input name="altPhone" type="tel" placeholder="বিকল্প নম্বর">
-   </div>
-   <div class="form-field">
-    <label>রক্তের গ্রুপ <span class="required">*</span></label>
-    <select name="bloodGroup" required>
-     <option value="">নির্বাচন করুন</option>
-     <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
-     <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
-    </select>
-   </div>
-   <div class="form-field">
-    <label>জন্ম তারিখ <span class="required">*</span></label>
-    <input name="dob" type="date" required>
-   </div>
-   <div class="form-field">
-    <label>লিঙ্গ <span class="required">*</span></label>
-    <select name="gender" required>
-     <option value="">নির্বাচন করুন</option>
-     <option>পুরুষ</option><option>নারী</option><option>অন্যান্য</option>
-    </select>
-   </div>
-   <div class="form-field">
-    <label>বিভাগ <span class="required">*</span></label>
-    <select name="division" id="donorDivision" required><option value="">বিভাগ নির্বাচন করুন</option></select>
-   </div>
-   <div class="form-field">
-    <label>জেলা <span class="required">*</span></label>
-    <select name="district" id="donorDistrict" required disabled><option value="">আগে বিভাগ নির্বাচন করুন</option></select>
-   </div>
-   <div class="form-field">
-    <label>উপজেলা / সিটি কর্পোরেশন <span class="required">*</span></label>
-    <select name="upazila" id="donorUpazila" required disabled><option value="">আগে জেলা নির্বাচন করুন</option></select>
-   </div>
-   <div class="form-field full">
-    <label>গ্রাম / মহল্লা / বিস্তারিত ঠিকানা <span class="required">*</span></label>
-    <input name="address" required placeholder="গ্রাম, মহল্লা, বাড়ি নম্বর">
-   </div>
-   <div class="form-field">
-    <label>সর্বশেষ রক্তদান করার তারিখ</label>
-    <input name="lastDonation" type="date">
-   </div>
-   <div class="form-field">
-    <label>আপনি কি বর্তমানে রক্তদানে আগ্রহী?</label>
-    <select name="available"><option value="হ্যাঁ">হ্যাঁ</option><option value="না">না</option></select>
-   </div>
-   <div class="form-field full">
-    <label>নিজের সম্পর্কে / নোট</label>
-    <textarea name="note" placeholder="প্রয়োজনীয় তথ্য লিখুন"></textarea>
-   </div>
-   <div class="form-field full">
-    <label><input type="checkbox" name="consent" required style="width:auto"> আমার দেওয়া তথ্য ব্যবহারে সম্মতি দিচ্ছি।</label>
-   </div>
+<section class="join-section" id="services">
+  <div class="section-heading">
+    <p>— যুক্ত হোন —</p>
+    <h2>মানবতার পথে আপনিও পথচলা শুরু করুন</h2>
+    <p>আমাদের সংগঠনে যুক্ত হয়ে মানুষের পাশে দাঁড়ান।</p>
   </div>
-  <button class="form-submit" type="submit">রক্তদাতা হিসেবে নিবন্ধন করুন</button>
-  <div class="form-message" id="donorMessage"></div>
- </form>
+
+  <div class="join-grid">
+    <div class="join-card volunteer" id="volunteer">
+      <div class="card-icon">♡</div>
+      <h3>স্বেচ্ছাসেবী হিসেবে যুক্ত হন</h3>
+      <p>সংগঠনের সদস্য হিসেবে যোগ দিন এবং মানুষের পাশে দাঁড়ান।</p>
+      <a href="#">নিবন্ধন করুন →</a>
+    </div>
+
+    <div class="join-card donor" id="donate">
+      <div class="card-icon">🩸</div>
+      <h3>রক্তদাতা নিবন্ধন করুন</h3>
+      <p>আপনার রক্ত দিয়ে একটি জীবন বাঁচান।</p>
+      <a href="#">নিবন্ধন করুন →</a>
+    </div>
+  </div>
+
+  <div class="stats-grid" id="stats" hidden>
+    <div class="stat-card" id="donorStat" hidden>
+      <h2 id="donorCount">0</h2>
+      <p>নিবন্ধিত রক্তদাতা</p>
+    </div>
+    <div class="stat-card" id="volunteerStat" hidden>
+      <h2 id="volunteerCount">0</h2>
+      <p>স্বেচ্ছাসেবী সদস্য</p>
+    </div>
+  </div>
 </section>
 
-<!-- VOLUNTEER FORM -->
-<section class="form-section" id="volunteerForm">
- <button class="form-close" onclick="closeForms()">বন্ধ করুন ✕</button>
- <h2>স্বেচ্ছাসেবী আবেদন ফর্ম</h2>
- <p class="form-description">স্বেচ্ছাসেবী আবেদন করতে আগে রক্তদাতা নিবন্ধন সম্পন্ন করুন।</p>
-
- <form id="volunteerRegistrationForm">
-  <div class="form-grid">
-   <div class="form-field full">
-    <label>রক্তদাতা মোবাইল নম্বর <span class="required">*</span></label>
-    <input name="donorPhone" type="tel" required placeholder="রক্তদাতা নিবন্ধনের মোবাইল নম্বর">
-   </div>
-   <div class="form-field">
-    <label>পূর্ণ নাম <span class="required">*</span></label>
-    <input name="name" required>
-   </div>
-   <div class="form-field">
-    <label>পিতার নাম</label>
-    <input name="fatherName">
-   </div>
-   <div class="form-field">
-    <label>মাতার নাম</label>
-    <input name="motherName">
-   </div>
-   <div class="form-field">
-    <label>জন্ম তারিখ <span class="required">*</span></label>
-    <input name="dob" type="date" required>
-   </div>
-   <div class="form-field">
-    <label>মোবাইল নম্বর <span class="required">*</span></label>
-    <input name="phone" type="tel" required>
-   </div>
-   <div class="form-field">
-    <label>ই-মেইল</label>
-    <input name="email" type="email">
-   </div>
-   <div class="form-field">
-    <label>শিক্ষাগত যোগ্যতা</label>
-    <input name="education">
-   </div>
-   <div class="form-field">
-    <label>পেশা</label>
-    <input name="occupation">
-   </div>
-   <div class="form-field">
-    <label>আবেদনকৃত পদ</label>
-    <select name="position">
-     <option value="">নির্বাচন করুন</option>
-     <option>সাধারণ স্বেচ্ছাসেবী</option>
-     <option>টিম লিডার</option>
-     <option>সমন্বয়ক</option>
-     <option>অন্যান্য</option>
-    </select>
-   </div>
-   <div class="form-field full">
-    <label>বর্তমান ঠিকানা</label>
-    <textarea name="address"></textarea>
-   </div>
-   <div class="form-field full">
-    <label>কেন স্বেচ্ছাসেবী হতে চান?</label>
-    <textarea name="reason"></textarea>
-   </div>
-   <div class="form-field full">
-    <label><input type="checkbox" required style="width:auto"> আমার দেওয়া তথ্য সঠিক এবং যাচাইয়ের জন্য সম্মতি দিচ্ছি।</label>
-   </div>
+<section class="about-section" id="about">
+  <div class="about-icon">♧</div>
+  <h2>একটি অরাজনৈতিক স্বেচ্ছাসেবী সংগঠন</h2>
+  <p>
+    ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন একটি অরাজনৈতিক স্বেচ্ছাসেবী সংগঠন।
+    আমাদের লক্ষ্য মানবিকতা, সততা ও সেবার মানসিকতায় মানুষের পাশে দাঁড়ানো।
+  </p>
+  <div class="about-buttons">
+    <a href="#">আমাদের সম্পর্কে জানুন</a>
+    <a href="#">আমাদের কার্যক্রম দেখুন</a>
   </div>
-  <button class="form-submit" type="submit">স্বেচ্ছাসেবী আবেদন জমা দিন</button>
-  <div class="form-message" id="volunteerMessage"></div>
- </form>
 </section>
-
-<div class="about" id="about">
- <div class="shield">♧</div>
- <h2>একটি অরাজনৈতিক স্বেচ্ছাসেবী সংগঠন</h2>
- <p>ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন একটি অরাজনৈতিক স্বেচ্ছাসেবী সংগঠন। আমরা মানবিকতা, সততা ও সেবার মনোভাব নিয়ে একটি সুন্দর সমাজ গঠনে কাজ করি।</p>
-</div>
 
 <footer id="contact">
- <div class="footer-content">
-  <div class="footer-brand">
-   <img src="logo.png" alt="UVF">
-   <div><h3>ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন</h3><p>মানুষের জন্য মানবতার পথে</p></div>
+  <div class="footer-content">
+    <div>
+      <div class="footer-brand">
+        <img src="logo.png" alt="Logo">
+        <h3>ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন</h3>
+      </div>
+      <p>মানুষের জন্য মানবতার পথ</p>
+      <small>একটি অরাজনৈতিক স্বেচ্ছাসেবী সংগঠন</small>
+    </div>
+    <div>
+      <h4>যোগাযোগ</h4>
+      <p>E-mail: uvf.info@gmail.com</p>
+      <p>Call: +880 1516-513020</p>
+      <p>Call: +880 1636-949584</p>
+    </div>
   </div>
-  <div>
-   <h4>যোগাযোগ</h4>
-   <p>E-mail: uvf.info@gmail.com</p>
-   <p>Call: +880 1516-513020</p>
-   <p>ঠিকানা: দেওয়ানগঞ্জ, জামালপুর</p>
-  </div>
- </div>
+  <div class="copyright">© 2026 United Volunteers Foundation</div>
 </footer>
-<div class="copyright">© 2026 United Volunteers Foundation. All Rights Reserved.</div>
 
-<!-- JavaScript File Link -->
-<script type="module" src="script.js"></script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>United Volunteers Foundation</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-    <!-- Header & Navigation -->
-    <header>
-        <div class="logo" data-en="UVF Logo" data-bn="ইউভিএফ লোগো">UVF Logo</div>
-        <nav>
-            <div class="lang-toggle">
-                <button onclick="changeLanguage('bn')">বাংলা</button>
-                <button onclick="changeLanguage('en')">English</button>
-            </div>
-            <ul>
-                <li><a href="#" data-en="Home" data-bn="হোম">Home</a></li>
-                <li><a href="#" data-en="About Us" data-bn="আমাদের সম্পর্কে">About Us</a></li>
-                <li><a href="#" data-en="Blood Donors" data-bn="রক্তদাতা অনুসন্ধান">Blood Donors</a></li>
-                <li><a href="#" data-en="Volunteers" data-bn="স্বেচ্ছাসেবী">Volunteers</a></li>
-                <li><a href="#" data-en="Contact" data-bn="যোগাযোগ">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <!-- Main Content / Search Section -->
-    <main>
-        <section class="search-section">
-            <h2 data-en="Find Blood Donor" data-bn="রক্তদাতা খুঁজুন">Find Blood Donor</h2>
-            <div class="filter-group">
-                <select id="division">
-                    <option value="" data-en="Select Division" data-bn="বিভাগ নির্বাচন করুন">Select Division</option>
-                    <option value="Dhaka" data-en="Dhaka" data-bn="ঢাকা">Dhaka</option>
-                    <option value="Mymensingh" data-en="Mymensingh" data-bn="ময়মনসিংহ">Mymensingh</option>
-                </select>
-
-                <select id="district">
-                    <option value="" data-en="Select District" data-bn="জেলা নির্বাচন করুন">Select District</option>
-                    <option value="Dhaka" data-en="Dhaka" data-bn="ঢাকা">Dhaka</option>
-                    <option value="Jamalpur" data-en="Jamalpur" data-bn="জামালপুর">Jamalpur</option>
-                </select>
-
-                <select id="upazila">
-                    <option value="" data-en="Select Upazila/City" data-bn="উপজেলা/সিটি কর্পোরেশন">Select Upazila/City</option>
-                    <option value="Dewanganj" data-en="Dewanganj" data-bn="দেওয়ানগঞ্জ">Dewanganj</option>
-                </select>
-
-                <select id="blood-group">
-                    <option value="" data-en="All Blood Groups" data-bn="সব রক্ত গ্রুপ">All Blood Groups</option>
-                    <option value="A+" data-en="A+" data-bn="এ পজেটিভ">A+</option>
-                    <option value="B+" data-en="B+" data-bn="বি পজেটিভ">B+</option>
-                </select>
-            </div>
-        </section>
-    </main>
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
