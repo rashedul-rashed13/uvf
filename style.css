@@ -1,1 +1,142 @@
+:root{
+ --green:#103e35;
+ --teal:#11786e;
+ --red:#dc242c;
+ --dark:#101a30;
+ --bg:#faf9f7;
+ --border:#eae7e4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+ font-family:"Noto Sans Bengali",Arial,sans-serif;
+ background:var(--bg);
+ color:#242424;
+ line-height:1.7;
+}
+button,input,select,textarea{font:inherit}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer}
+header{
+ height:76px;background:white;
+ display:flex;justify-content:space-between;
+ align-items:center;padding:8px 4%;
+ border-bottom:1px solid var(--border);
+ position:sticky;top:0;z-index:1000;
+}
+.brand{display:flex;align-items:center;gap:10px;color:var(--green);font-weight:700;font-size:15px}
+.brand img{width:48px;height:48px;object-fit:contain}
+.brand small{display:block;font-size:11px;color:#ad2937;font-weight:400}
+.menu-button{background:#b51e32;color:white;border:0;border-radius:9px;padding:9px 15px}
+.menu{
+ display:none;position:absolute;right:4%;top:68px;width:270px;
+ max-height:80vh;overflow:auto;background:white;padding:12px;
+ border:1px solid var(--border);border-radius:13px;
+ box-shadow:0 8px 25px #0002;
+}
+.menu.open{display:block}
+.menu a{display:block;padding:10px 12px;border-radius:7px;font-size:14px}
+.menu a:hover{background:#f9e9ec;color:var(--red)}
+.lang-box{display:flex;gap:8px;padding:8px;border-bottom:1px solid var(--border);margin-bottom:6px}
+.lang-box button{flex:1;padding:8px;border:1px solid #ddd;background:white;border-radius:7px}
+.lang-box button.active{background:var(--green);color:white}
+.hero{background:var(--green);color:white;padding:48px 5%}
+.hero .tag{color:#e8c1c1;font-size:13px}
+.hero h1{font-size:clamp(24px,4vw,36px);line-height:1.5;margin:10px 0}
+.hero p{font-size:14px;color:#ddd}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}
+.btn{display:inline-block;border:0;border-radius:9px;padding:10px 17px;font-size:13px;background:var(--red);color:white}
+.btn.white{background:white;color:var(--green)}
+.btn.outline{background:transparent;border:1px solid #91aaa1}
+section{padding:45px 5%}
+.heading{text-align:center;margin-bottom:25px}
+.heading .line{display:block;width:28px;height:3px;background:#b51e32;margin:0 auto 12px;border-radius:5px}
+.heading h2{font-size:25px}
+.heading p{font-size:13px;color:#888;margin-top:7px}
+.search-box{
+ background:white;border:1px solid var(--border);
+ border-radius:15px;padding:22px;
+ display:grid;grid-template-columns:1fr 1fr;gap:15px;
+}
+.field label{display:block;font-size:13px;margin-bottom:6px;font-weight:500}
+.field input,.field select,.field textarea{
+ width:100%;min-height:44px;border:1px solid #ddd;
+ background:white;border-radius:9px;padding:9px 10px;
+ color:#444;font-size:13px;
+}
+.field textarea{min-height:85px;resize:vertical}
+.field select:disabled{background:#f4f4f4;color:#999}
+#locationStatus{grid-column:1/-1;color:#888;font-size:12px}
+.search-result{
+ background:white;border:1px solid var(--border);
+ border-radius:15px;min-height:145px;margin-top:16px;
+ padding:20px 15px;text-align:center;
+}
+.search-result .symbol{font-size:35px;color:#c27b8b}
+.search-result p{font-size:13px;color:#888;margin-top:5px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card{border-radius:13px;padding:22px;color:white;min-height:165px;box-shadow:0 3px 7px #0001}
+.card.green{background:var(--teal)}
+.card.red{background:#dc2428}
+.card .emoji{font-size:25px}
+.card h3{font-size:16px;margin:7px 0}
+.card p{font-size:12px;color:#eee}
+.card a{display:inline-block;margin-top:12px;font-size:13px}
+.join-heading{text-align:center;margin-bottom:22px}
+.join-heading h2{font-size:25px}
+.join-heading p{font-size:13px;color:#888;margin-top:8px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:13px}
+.stat{background:white;border:1px solid var(--border);border-radius:13px;padding:17px 10px;text-align:center}
+.stat strong{display:block;font-size:23px;color:#bd2939}
+.stat p{font-size:12px;color:#888}
+.about{background:white;text-align:center;padding:55px 8%;border-top:1px solid var(--border)}
+.about .shield{font-size:27px}
+.about h2{font-size:24px;margin:10px 0}
+.about p{font-size:13px;color:#777;max-width:850px;margin:auto}
+.about-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:9px;margin-top:18px}
+.about-actions a{padding:8px 15px;background:#f7f7f7;border-radius:30px;font-size:12px}
+.about-actions a:last-child{background:var(--dark);color:white}
+footer{background:var(--dark);color:white;padding:32px 5%}
+.footer-content{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.footer-brand{display:flex;gap:12px;align-items:center}
+.footer-brand img{width:50px;height:50px;object-fit:contain}
+.footer-brand h3{font-size:14px}
+.footer-brand p{font-size:11px;color:#c8aaaa}
+footer h4{margin-bottom:10px}
+footer p{font-size:12px;color:#ddd;margin-top:7px}
+.copyright{background:#0b1426;color:#aaa;text-align:center;padding:12px;font-size:11px}
+
+/* FORM STYLES */
+.form-section{display:none;background:white;border:1px solid var(--border);border-radius:15px;padding:22px;max-width:850px;margin:25px auto}
+.form-section.active{display:block}
+.form-section h2{text-align:center;color:var(--green);margin-bottom:8px}
+.form-description{text-align:center;color:#888;font-size:13px;margin-bottom:20px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-grid .full{grid-column:1/-1}
+.form-field label{display:block;font-size:13px;margin-bottom:5px}
+.form-field input,.form-field select,.form-field textarea{
+ width:100%;padding:11px;border:1px solid #ddd;border-radius:8px;
+ font:inherit;font-size:13px;background:white;
+}
+.form-field textarea{min-height:80px}
+.form-submit{width:100%;padding:12px;background:var(--green);color:white;border:0;border-radius:8px;margin-top:18px}
+.form-message{padding:10px;margin-top:12px;border-radius:8px;display:none;font-size:13px}
+.form-message.error{display:block;background:#ffe9e9;color:#a00}
+.form-message.success{display:block;background:#e8f7ed;color:#176b35}
+.form-close{float:right;border:0;background:#eee;padding:5px 10px;border-radius:6px}
+.required{color:red}
+
+@media(max-width:600px){
+ header{height:68px}
+ .brand{font-size:12px}
+ .brand img{width:43px;height:43px}
+ .hero{padding:35px 5%}
+ .search-box{padding:14px;gap:12px}
+ .cards{gap:10px}
+ .card{padding:14px;min-height:175px}
+ .card h3{font-size:14px}
+ .card p{font-size:11px}
+ .heading h2,.join-heading h2{font-size:22px}
+ .footer-content,.form-grid{grid-template-columns:1fr}
+ .form-grid .full{grid-column:auto}
+}
 
