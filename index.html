@@ -6,79 +6,73 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>United Volunteers Foundation</title>
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <header class="header">
-  <div class="brand">
-    <img src="logo.png" alt="UVF Logo">
-    <div>
-      <h3 data-bn="ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন"
-          data-en="United Volunteers Foundation">ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন</h3>
-      <small>মানুষের জন্য মানবতার পথ</small>
-    </div>
+  <div class="navbar">
+    <a href="#" class="brand">
+      <img src="logo.png" alt="UVF Logo">
+      <div>
+        <h3>ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন</h3>
+        <small>মানুষের জন্য মানবতার পথ</small>
+      </div>
+    </a>
+    <button id="menuBtn" class="menu-btn">☰ মেনু</button>
+    <nav id="nav">
+      <a href="#home">হোম</a>
+      <a href="#donors">অনুসন্ধান</a>
+      <a href="#about">আমাদের সম্পর্কে</a>
+      <a href="#volunteer">স্বেচ্ছাসেবী</a>
+      <a href="#activities">কার্যক্রম</a>
+      <a href="#contact">যোগাযোগ</a>
+      <a href="#register">একাউন্ট তৈরি</a>
+    </nav>
   </div>
-  <button class="menu-btn" id="menuBtn">☰ মেনু</button>
 </header>
 
-<nav class="menu" id="menu">
-  <button onclick="toggleLanguage()">বাংলা / English</button>
-  <a href="#home" data-bn="হোম" data-en="Home">হোম</a>
-  <a href="#search" data-bn="অনুসন্ধান" data-en="Search">অনুসন্ধান</a>
-  <a href="#about" data-bn="আমাদের সম্পর্কে" data-en="About Us">আমাদের সম্পর্কে</a>
-  <a href="#services" data-bn="সেবাসমূহ" data-en="Services">সেবাসমূহ</a>
-  <a href="#volunteer" data-bn="স্বেচ্ছাসেবী" data-en="Volunteer">স্বেচ্ছাসেবী</a>
-  <a href="#contact" data-bn="যোগাযোগ" data-en="Contact">যোগাযোগ</a>
-</nav>
-
 <section class="hero" id="home">
-  <div class="hero-content">
-    <p>♥ মানুষের জন্য মানবতার পথ</p>
-    <h1 data-bn="মানবিকতার পথে আপনিও পথচলা শুরু করুন"
-        data-en="Start Your Journey Towards Humanity">
-      মানবিকতার পথে আপনিও পথচলা শুরু করুন
-    </h1>
-    <p>নিচে রক্তদাতাদের রক্তের গ্রুপ, নাম, আইডি, ঠিকানা ও নোট দেখুন।</p>
-
+  <div class="container">
+    <p class="tag">♥ মানুষের জন্য মানবতার পথ</p>
+    <h1>মানবিকতার পথে আপনিও পথচলা শুরু করুন</h1>
+    <p>রক্তদাতা খুঁজুন, স্বেচ্ছাসেবী হিসেবে যুক্ত হোন এবং মানুষের পাশে দাঁড়ান। আপনার সামান্য সহযোগিতায় বাঁচতে পারে একটি জীবন।</p>
     <div class="hero-buttons">
-      <a href="#search" class="btn white">🩸 রক্তদাতা খুঁজুন</a>
+      <a href="#donors" class="btn white">🩸 রক্তদাতা খুঁজুন</a>
       <a href="#volunteer" class="btn outline">স্বেচ্ছাসেবী নিবন্ধন</a>
-      <a href="#donate" class="btn red">রক্তদাতা নিবন্ধন</a>
+      <a href="#register" class="btn red">রক্তদাতা নিবন্ধন</a>
     </div>
   </div>
 </section>
 
-<section class="search-section" id="search">
-  <div class="section-heading">
-    <span></span>
-    <h2>রক্তদাতা খুঁজুন</h2>
-    <p>🔒 নিরাপদে রক্তদাতার তথ্য খুঁজে নিন।</p>
-  </div>
+<section class="section" id="donors">
+  <div class="container">
+    <div class="section-title">
+      <span></span>
+      <h2>রক্তদাতা খুঁজুন</h2>
+      <p>আপনার প্রয়োজন অনুযায়ী এলাকা ও রক্তের গ্রুপ নির্বাচন করুন</p>
+    </div>
 
-  <div class="filter-box">
-    <div class="filter-grid">
-      <div>
-        <label>বিভাগ</label>
+    <div class="search-box">
+      <label>বিভাগ
         <select id="division">
           <option value="">সব বিভাগ</option>
         </select>
-      </div>
-      <div>
-        <label>জেলা</label>
+      </label>
+
+      <label>জেলা
         <select id="district" disabled>
-          <option value="">জেলা নির্বাচন করুন</option>
+          <option value="">আগে বিভাগ নির্বাচন করুন</option>
         </select>
-      </div>
-      <div>
-        <label>সিটি কর্পোরেশন / উপজেলা</label>
+      </label>
+
+      <label>উপজেলা / সিটি কর্পোরেশন
         <select id="upazila" disabled>
           <option value="">আগে জেলা নির্বাচন করুন</option>
         </select>
-      </div>
-      <div>
-        <label>রক্তের গ্রুপ</label>
+      </label>
+
+      <label>রক্তের গ্রুপ
         <select id="blood">
           <option value="">সব গ্রুপ</option>
           <option>A+</option>
@@ -90,86 +84,130 @@
           <option>O+</option>
           <option>O-</option>
         </select>
+      </label>
+
+      <button class="btn red search-btn" id="searchBtn">রক্তদাতা খুঁজুন</button>
+      <small id="searchCount">মোট ৯ জন রক্তদাতা পাওয়া গেছে</small>
+    </div>
+
+    <div class="results" id="results">
+      <div class="search-symbol">⌕</div>
+      <h3>রক্তদাতা দেখতে সার্চ করুন</h3>
+      <p>উপরের ফিল্টারগুলো নির্বাচন করে সার্চ করুন।</p>
+    </div>
+  </div>
+</section>
+
+<section class="section join" id="volunteer">
+  <div class="container">
+    <div class="section-title">
+      <small>যুক্ত হোন</small>
+      <h2>মানবতার পথে আপনিও পথচলা শুরু করুন</h2>
+      <p>রক্তদাতা হিসেবে যুক্ত হোন অথবা সংগঠনে স্বেচ্ছাসেবী হিসেবে নিবন্ধন করুন।</p>
+    </div>
+
+    <div class="join-grid">
+      <a href="#register" class="join-card green">
+        <div class="join-icon">♡</div>
+        <h3>স্বেচ্ছাসেবী হিসেবে যুক্ত হোন</h3>
+        <p>সংগঠনের সদস্য হিসেবে যোগ দিন এবং মানুষের পাশে দাঁড়ান।</p>
+        <b>নিবন্ধন করুন →</b>
+      </a>
+
+      <a href="#register" class="join-card red-bg">
+        <div class="join-icon">🩸</div>
+        <h3>রক্তদাতা নিবন্ধন করুন</h3>
+        <p>আপনার রক্ত দিয়ে একটি জীবন বাঁচান। রক্তদাতা হিসেবে নিবন্ধন করুন।</p>
+        <b>নিবন্ধন করুন →</b>
+      </a>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <h2 id="donorTotal">৯+</h2>
+        <p>নিবন্ধিত রক্তদাতা</p>
+      </div>
+      <div class="stat">
+        <h2 id="volunteerTotal">২+</h2>
+        <p>স্বেচ্ছাসেবী সদস্য</p>
       </div>
     </div>
-    <p class="total" id="totalFound">রক্তদাতা খুঁজুন</p>
   </div>
+</section>
 
-  <div class="results" id="results">
-    <div class="empty">
-      <div class="search-icon">⌕</div>
-      <h3>রক্তদাতা দেখতে সার্চ করুন</h3>
-      <p>উপরের ফিল্টার নির্বাচন করলে রক্তদাতাদের তথ্য দেখাবে।</p>
+<section class="about section" id="about">
+  <div class="container">
+    <div class="about-icon">♧</div>
+    <h2>একটি অরাজনৈতিক স্বেচ্ছাসেবী সংগঠন</h2>
+    <p>ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন কোনো রাজনৈতিক দলের সাথে সম্পৃক্ত নয়। আমরা মানবিকতা, সততা ও সেবার মনোভাব নিয়ে একটি স্বেচ্ছাসেবী সংগঠন হিসেবে কাজ করি। আমাদের লক্ষ্য— প্রতিটি মানুষের পাশে দাঁড়ানো এবং সমাজে ইতিবাচক পরিবর্তন আনা।</p>
+    <div class="about-buttons">
+      <a href="#about" class="btn light-border">আমাদের সম্পর্কে জানুন</a>
+      <a href="#activities" class="btn dark">আমাদের কার্যক্রম দেখুন</a>
     </div>
   </div>
 </section>
 
-<section class="join-section" id="services">
-  <div class="section-heading">
-    <p>— যুক্ত হোন —</p>
-    <h2>মানবতার পথে আপনিও পথচলা শুরু করুন</h2>
-    <p>আমাদের সংগঠনে যুক্ত হয়ে মানুষের পাশে দাঁড়ান।</p>
-  </div>
-
-  <div class="join-grid">
-    <div class="join-card volunteer" id="volunteer">
-      <div class="card-icon">♡</div>
-      <h3>স্বেচ্ছাসেবী হিসেবে যুক্ত হন</h3>
-      <p>সংগঠনের সদস্য হিসেবে যোগ দিন এবং মানুষের পাশে দাঁড়ান।</p>
-      <a href="#">নিবন্ধন করুন →</a>
+<section class="section" id="activities">
+  <div class="container">
+    <div class="section-title">
+      <h2>আমাদের কার্যক্রম</h2>
+      <p>মানবতার সেবায় আমাদের সঙ্গে যুক্ত হোন।</p>
     </div>
-
-    <div class="join-card donor" id="donate">
-      <div class="card-icon">🩸</div>
-      <h3>রক্তদাতা নিবন্ধন করুন</h3>
-      <p>আপনার রক্ত দিয়ে একটি জীবন বাঁচান।</p>
-      <a href="#">নিবন্ধন করুন →</a>
-    </div>
-  </div>
-
-  <div class="stats-grid" id="stats" hidden>
-    <div class="stat-card" id="donorStat" hidden>
-      <h2 id="donorCount">0</h2>
-      <p>নিবন্ধিত রক্তদাতা</p>
-    </div>
-    <div class="stat-card" id="volunteerStat" hidden>
-      <h2 id="volunteerCount">0</h2>
-      <p>স্বেচ্ছাসেবী সদস্য</p>
+    <div class="activity-grid">
+      <div class="activity">
+        <h3>🩸 রক্তদান কর্মসূচি</h3>
+        <p>জরুরি প্রয়োজনে রক্তদাতা খুঁজে দিতে সহায়তা।</p>
+      </div>
+      <div class="activity">
+        <h3>🤝 স্বেচ্ছাসেবী কার্যক্রম</h3>
+        <p>মানুষের কল্যাণে সামাজিক ও মানবিক কাজ।</p>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="about-section" id="about">
-  <div class="about-icon">♧</div>
-  <h2>একটি অরাজনৈতিক স্বেচ্ছাসেবী সংগঠন</h2>
-  <p>
-    ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন একটি অরাজনৈতিক স্বেচ্ছাসেবী সংগঠন।
-    আমাদের লক্ষ্য মানবিকতা, সততা ও সেবার মানসিকতায় মানুষের পাশে দাঁড়ানো।
-  </p>
-  <div class="about-buttons">
-    <a href="#">আমাদের সম্পর্কে জানুন</a>
-    <a href="#">আমাদের কার্যক্রম দেখুন</a>
+<section class="section" id="register">
+  <div class="container">
+    <div class="section-title">
+      <h2>নিবন্ধন করুন</h2>
+      <p>এটি আপাতত Frontend ডেমো ফর্ম।</p>
+    </div>
+    <form id="demoForm" class="register-form">
+      <input type="text" placeholder="আপনার পূর্ণ নাম" required>
+      <input type="tel" placeholder="মোবাইল নম্বর" required>
+      <select required>
+        <option value="">রক্তের গ্রুপ নির্বাচন</option>
+        <option>A+</option><option>A-</option>
+        <option>B+</option><option>B-</option>
+        <option>AB+</option><option>AB-</option>
+        <option>O+</option><option>O-</option>
+      </select>
+      <button class="btn red" type="submit">নিবন্ধন জমা দিন</button>
+      <p id="formMessage"></p>
+    </form>
   </div>
 </section>
 
 <footer id="contact">
-  <div class="footer-content">
+  <div class="container footer-grid">
     <div>
       <div class="footer-brand">
-        <img src="logo.png" alt="Logo">
-        <h3>ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন</h3>
+        <img src="logo.png" alt="UVF">
+        <h3>ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন</h3>
       </div>
       <p>মানুষের জন্য মানবতার পথ</p>
       <small>একটি অরাজনৈতিক স্বেচ্ছাসেবী সংগঠন</small>
     </div>
     <div>
-      <h4>যোগাযোগ</h4>
+      <h3>যোগাযোগ</h3>
       <p>E-mail: uvf.info@gmail.com</p>
-      <p>Call: +880 1516-513020</p>
+      <p>Call: +880 1516-530120</p>
       <p>Call: +880 1636-949584</p>
     </div>
   </div>
-  <div class="copyright">© 2026 United Volunteers Foundation</div>
+  <div class="copyright">
+    সর্বস্বত্ব সংরক্ষিত © <span id="year"></span> United Volunteers Foundation
+  </div>
 </footer>
 
 <script src="script.js"></script>
