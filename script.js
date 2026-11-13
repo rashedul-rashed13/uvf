@@ -1,339 +1,712 @@
-const locations = {
-  "Dhaka": {
-    bn: "ঢাকা",
-    districts: {
-      "Dhaka": {
-        bn: "ঢাকা",
-        upazilas: ["Dhamrai", "Dohar", "Keraniganj", "Nawabganj", "Savar"]
-      },
-      "Gazipur": {
-        bn: "গাজীপুর",
-        upazilas: ["Gazipur Sadar", "Kaliakair", "Kapasia", "Sreepur"]
-      },
-      "Narayanganj": {
-        bn: "নারায়ণগঞ্জ",
-        upazilas: ["Narayanganj Sadar", "Sonargaon", "Rupganj"]
-      },
-      "Tangail": {
-        bn: "টাঙ্গাইল",
-        upazilas: ["Tangail Sadar", "Mirzapur", "Kalihati"]
-      }
-    }
-  },
-  "Chattogram": {
-    bn: "চট্টগ্রাম",
-    districts: {
-      "Chattogram": {
-        bn: "চট্টগ্রাম",
-        upazilas: ["Panchlaish", "Pahartali", "Hathazari", "Sitakunda", "Raozan"]
-      },
-      "Cox's Bazar": {
-        bn: "কক্সবাজার",
-        upazilas: ["Cox's Bazar Sadar", "Teknaf", "Ukhia", "Ramu"]
-      },
-      "Cumilla": {
-        bn: "কুমিল্লা",
-        upazilas: ["Cumilla Sadar", "Daudkandi", "Chandina", "Laksam"]
-      },
-      "Feni": {
-        bn: "ফেনী",
-        upazilas: ["Feni Sadar", "Daganbhuiyan", "Chhagalnaiya"]
-      },
-      "Noakhali": {
-        bn: "নোয়াখালী",
-        upazilas: ["Noakhali Sadar", "Begumganj", "Senbagh"]
-      }
-    }
-  },
-  "Rajshahi": {
-    bn: "রাজশাহী",
-    districts: {
-      "Rajshahi": {
-        bn: "রাজশাহী",
-        upazilas: ["Boalia", "Rajpara", "Paba", "Godagari"]
-      },
-      "Bogura": {
-        bn: "বগুড়া",
-        upazilas: ["Bogura Sadar", "Sherpur", "Shibganj"]
-      }
-    }
-  },
-  "Khulna": {
-    bn: "খুলনা",
-    districts: {
-      "Khulna": {
-        bn: "খুলনা",
-        upazilas: ["Khulna Sadar", "Dumuria", "Dighalia"]
-      },
-      "Jashore": {
-        bn: "যশোর",
-        upazilas: ["Jashore Sadar", "Manirampur", "Jhikargacha"]
-      }
-    }
-  },
-  "Barishal": {
-    bn: "বরিশাল",
-    districts: {
-      "Barishal": {
-        bn: "বরিশাল",
-        upazilas: ["Barishal Sadar", "Bakerganj", "Babuganj"]
-      }
-    }
-  },
-  "Sylhet": {
-    bn: "সিলেট",
-    districts: {
-      "Sylhet": {
-        bn: "সিলেট",
-        upazilas: ["Sylhet Sadar", "Beanibazar", "Golapganj"]
-      }
-    }
-  },
-  "Rangpur": {
-    bn: "রংপুর",
-    districts: {
-      "Rangpur": {
-        bn: "রংপুর",
-        upazilas: ["Rangpur Sadar", "Mithapukur", "Pirgachha"]
-      }
-    }
-  },
-  "Mymensingh": {
-    bn: "ময়মনসিংহ",
-    districts: {
-      "Mymensingh": {
-        bn: "ময়মনসিংহ",
-        upazilas: ["Mymensingh Sadar", "Trishal", "Bhaluka"]
-      }
-    }
-  }
+
+/* =====================================
+   UNITED VOLUNTEERS FOUNDATION
+   UVF - MAIN JAVASCRIPT
+===================================== */
+
+
+/* =====================================
+   1. LANGUAGE SYSTEM
+===================================== */
+
+let currentLanguage =
+  localStorage.getItem("uvf_language") || "bn";
+
+function setLanguage(language) {
+
+  currentLanguage = language;
+
+  localStorage.setItem("uvf_language", language);
+
+  document.documentElement.lang = language;
+
+  document.querySelectorAll("[data-bn][data-en]").forEach(element => {
+
+    element.textContent =
+      element.getAttribute("data-" + language);
+
+  });
+
+  document.getElementById("bnButton")
+    .classList.toggle("active", language === "bn");
+
+  document.getElementById("enButton")
+    .classList.toggle("active", language === "en");
+
+  renderDivisions();
+  renderDistricts();
+  renderAreas();
+}
+
+document.getElementById("bnButton")
+  .addEventListener("click", () => setLanguage("bn"));
+
+document.getElementById("enButton")
+  .addEventListener("click", () => setLanguage("en"));
+
+
+/* =====================================
+   2. MOBILE MENU
+===================================== */
+
+const menu = document.getElementById("menu");
+
+document.getElementById("menuButton")
+  .addEventListener("click", () => {
+    menu.classList.toggle("show");
+  });
+
+menu.querySelectorAll("a").forEach(link => {
+  link.addEventListener("click", () => {
+    menu.classList.remove("show");
+  });
+});
+
+
+/* =====================================
+   3. SUPABASE CONFIGURATION
+===================================== */
+
+// নিজের Supabase Project URL বসাও
+const SUPABASE_URL =
+  "YOUR_SUPABASE_PROJECT_URL";
+
+// নিজের Publishable Key অথবা legacy anon key বসাও
+const SUPABASE_KEY =
+  "YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY";
+
+let db = null;
+
+if (
+  window.supabase &&
+  SUPABASE_URL.startsWith("https://") &&
+  !SUPABASE_URL.includes("YOUR_") &&
+  !SUPABASE_KEY.includes("YOUR_")
+) {
+
+  db = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+}
+
+
+/* =====================================
+   4. BANGLADESH LOCATION API
+===================================== */
+
+const LOCATION_API =
+  "https://bdapis.com/api/v1.2";
+
+let divisions = [];
+let allDistricts = [];
+let currentDistricts = [];
+
+let selectedDivision = "";
+let selectedDistrict = "";
+
+const divisionSelect =
+  document.getElementById("divisionSelect");
+
+const districtSelect =
+  document.getElementById("districtSelect");
+
+const areaSelect =
+  document.getElementById("areaSelect");
+
+const locationStatus =
+  document.getElementById("locationStatus");
+
+
+const cityCorporations = {
+
+  Dhaka: [
+    ["ঢাকা উত্তর", "Dhaka North City Corporation"],
+    ["ঢাকা দক্ষিণ", "Dhaka South City Corporation"]
+  ],
+
+  Chattogram: [
+    ["চট্টগ্রাম", "Chattogram City Corporation"]
+  ],
+
+  Khulna: [
+    ["খুলনা", "Khulna City Corporation"]
+  ],
+
+  Rajshahi: [
+    ["রাজশাহী", "Rajshahi City Corporation"]
+  ],
+
+  Barishal: [
+    ["বরিশাল", "Barishal City Corporation"]
+  ],
+
+  Sylhet: [
+    ["সিলেট", "Sylhet City Corporation"]
+  ],
+
+  Rangpur: [
+    ["রংপুর", "Rangpur City Corporation"]
+  ],
+
+  Mymensingh: [
+    ["ময়মনসিংহ", "Mymensingh City Corporation"]
+  ],
+
+  Cumilla: [
+    ["কুমিল্লা", "Cumilla City Corporation"]
+  ],
+
+  Gazipur: [
+    ["গাজীপুর", "Gazipur City Corporation"]
+  ],
+
+  Narayanganj: [
+    ["নারায়ণগঞ্জ", "Narayanganj City Corporation"]
+  ]
+
 };
 
-// English ও বাংলা নাম
-function getBanglaUpazila(name) {
-  const names = {
-    "Dhamrai": "ধামরাই",
-    "Dohar": "দোহার",
-    "Keraniganj": "কেরানীগঞ্জ",
-    "Savar": "সাভার",
-    "Gazipur Sadar": "গাজীপুর সদর",
-    "Panchlaish": "পাঁচলাইশ",
-    "Pahartali": "পাহাড়তলী",
-    "Hathazari": "হাটহাজারী",
-    "Sitakunda": "সীতাকুণ্ড",
-    "Raozan": "রাউজান",
-    "Cox's Bazar Sadar": "কক্সবাজার সদর",
-    "Teknaf": "টেকনাফ",
-    "Ukhia": "উখিয়া",
-    "Ramu": "রামু",
-    "Cumilla Sadar": "কুমিল্লা সদর",
-    "Feni Sadar": "ফেনী সদর",
-    "Noakhali Sadar": "নোয়াখালী সদর"
-  };
-  return names[name] || name;
-}
 
-const division = document.getElementById("division");
-const district = document.getElementById("district");
-const upazila = document.getElementById("upazila");
+async function getLocationData(path) {
 
-function fillOptions(select, items, placeholder) {
-  select.innerHTML = `<option value="">${placeholder}</option>`;
+  const response = await fetch(LOCATION_API + path);
 
-  items.forEach(item => {
-    const option = document.createElement("option");
-    option.value = item.value;
-    option.textContent = item.label;
-    select.appendChild(option);
-  });
-}
-
-// বিভাগ
-fillOptions(
-  division,
-  Object.entries(locations).map(([key, value]) => ({
-    value: key,
-    label: `${value.bn} - ${key}`
-  })),
-  "সব বিভাগ"
-);
-
-// বিভাগ নির্বাচন
-division.addEventListener("change", () => {
-  district.disabled = !division.value;
-  upazila.disabled = true;
-
-  fillOptions(district, [], "সব জেলা");
-  fillOptions(upazila, [], "আগে জেলা নির্বাচন করুন");
-
-  if (!division.value) return;
-
-  const districts = locations[division.value].districts;
-
-  fillOptions(
-    district,
-    Object.entries(districts).map(([key, value]) => ({
-      value: key,
-      label: `${value.bn} - ${key}`
-    })),
-    "সব জেলা"
-  );
-});
-
-// জেলা নির্বাচন
-district.addEventListener("change", () => {
-  upazila.disabled = !district.value;
-
-  fillOptions(upazila, [], "সব উপজেলা / সিটি কর্পোরেশন");
-
-  if (!district.value) return;
-
-  const list = locations[division.value]
-    .districts[district.value].upazilas;
-
-  fillOptions(
-    upazila,
-    list.map(name => ({
-      value: name,
-      label: `${getBanglaUpazila(name)} - ${name}`
-    })),
-    "সব উপজেলা / সিটি কর্পোরেশন"
-  );
-});
-
-// ডেমো রক্তদাতা
-const donors = [
-  {
-    name: "মোঃ আব্দুল্লাহ",
-    blood: "A+",
-    division: "Dhaka",
-    district: "Dhaka",
-    upazila: "Savar",
-    phone: "01700000001"
-  },
-  {
-    name: "মোঃ হাসান",
-    blood: "B+",
-    division: "Chattogram",
-    district: "Chattogram",
-    upazila: "Panchlaish",
-    phone: "01700000002"
-  },
-  {
-    name: "মোঃ রাকিব",
-    blood: "O+",
-    division: "Chattogram",
-    district: "Cox's Bazar",
-    upazila: "Teknaf",
-    phone: "01700000003"
-  },
-  {
-    name: "মোঃ সাকিব",
-    blood: "AB+",
-    division: "Dhaka",
-    district: "Gazipur",
-    upazila: "Gazipur Sadar",
-    phone: "01700000004"
-  },
-  {
-    name: "মোঃ ইমরান",
-    blood: "A-",
-    division: "Rajshahi",
-    district: "Rajshahi",
-    upazila: "Paba",
-    phone: "01700000005"
-  },
-  {
-    name: "মোঃ সোহেল",
-    blood: "B-",
-    division: "Khulna",
-    district: "Khulna",
-    upazila: "Dumuria",
-    phone: "01700000006"
-  },
-  {
-    name: "মোঃ আরিফ",
-    blood: "O-",
-    division: "Sylhet",
-    district: "Sylhet",
-    upazila: "Beanibazar",
-    phone: "01700000007"
-  },
-  {
-    name: "মোঃ নাঈম",
-    blood: "AB-",
-    division: "Barishal",
-    district: "Barishal",
-    upazila: "Bakerganj",
-    phone: "01700000008"
-  },
-  {
-    name: "মোঃ রিয়াদ",
-    blood: "A+",
-    division: "Mymensingh",
-    district: "Mymensingh",
-    upazila: "Trishal",
-    phone: "01700000009"
+  if (!response.ok) {
+    throw new Error("Location API error");
   }
-];
 
-const results = document.getElementById("results");
+  const result = await response.json();
 
-document.getElementById("searchBtn").addEventListener("click", () => {
-  const selectedDivision = division.value;
-  const selectedDistrict = district.value;
-  const selectedUpazila = upazila.value;
-  const selectedBlood = document.getElementById("blood").value;
+  if (result.status && result.status.code !== 200) {
+    throw new Error("Location API returned an error");
+  }
 
-  const filtered = donors.filter(donor =>
-    (!selectedDivision || donor.division === selectedDivision) &&
-    (!selectedDistrict || donor.district === selectedDistrict) &&
-    (!selectedUpazila || donor.upazila === selectedUpazila) &&
-    (!selectedBlood || donor.blood === selectedBlood)
+  return result.data || [];
+
+}
+
+
+function bilingual(bn, en) {
+
+  if (bn && en) return bn + " - " + en;
+
+  return bn || en || "";
+
+}
+
+
+function resetSelect(select, placeholder) {
+
+  select.innerHTML = "";
+
+  const option = document.createElement("option");
+
+  option.value = "";
+  option.textContent = placeholder;
+
+  select.appendChild(option);
+
+}
+
+
+function renderDivisions() {
+
+  resetSelect(
+    divisionSelect,
+    currentLanguage === "bn"
+      ? "বিভাগ নির্বাচন করুন"
+      : "Select Division"
   );
 
-  document.getElementById("searchCount").textContent =
-    `মোট ${filtered.length} জন রক্তদাতা পাওয়া গেছে`;
+  divisions.forEach(item => {
 
-  if (!filtered.length) {
-    results.innerHTML = `
-      <div class="search-symbol">⌕</div>
-      <h3>কোনো রক্তদাতা পাওয়া যায়নি</h3>
-      <p>অন্য এলাকা অথবা রক্তের গ্রুপ দিয়ে চেষ্টা করুন।</p>
-    `;
+    const option = document.createElement("option");
+
+    option.value = item.division;
+
+    option.textContent = bilingual(
+      item.divisionbn,
+      item.division
+    );
+
+    divisionSelect.appendChild(option);
+
+  });
+
+  divisionSelect.value = selectedDivision;
+
+}
+
+
+function renderDistricts() {
+
+  resetSelect(
+    districtSelect,
+    currentLanguage === "bn"
+      ? "জেলা নির্বাচন করুন"
+      : "Select District"
+  );
+
+  currentDistricts.forEach(item => {
+
+    const districtInfo = allDistricts.find(
+      district => district.district === item.district
+    );
+
+    const option = document.createElement("option");
+
+    option.value = item.district;
+
+    option.textContent = bilingual(
+      districtInfo?.districtbn,
+      item.district
+    );
+
+    districtSelect.appendChild(option);
+
+  });
+
+  districtSelect.disabled = !selectedDivision;
+
+  districtSelect.value = selectedDistrict;
+
+}
+
+
+function renderAreas() {
+
+  resetSelect(
+    areaSelect,
+    currentLanguage === "bn"
+      ? "উপজেলা / সিটি কর্পোরেশন নির্বাচন করুন"
+      : "Select Upazila / City Corporation"
+  );
+
+  const district = currentDistricts.find(
+    item => item.district === selectedDistrict
+  );
+
+  if (!district) {
+    areaSelect.disabled = true;
     return;
   }
 
-  results.innerHTML = `
-    <div class="donor-list">
-      ${filtered.map(donor => `
-        <div class="donor-item">
-          <h3>${donor.name}</h3>
-          <span class="blood-badge">${donor.blood}</span>
-          <p>
-            ${locations[donor.division].bn} -
-            ${locations[donor.division].districts[donor.district].bn}
-          </p>
-          <p>${getBanglaUpazila(donor.upazila)}</p>
-          <a href="tel:${donor.phone}">যোগাযোগ করুন →</a>
-        </div>
-      `).join("")}
-    </div>
-  `;
+  // Upazila list
+  (district.upazilla || []).forEach(name => {
+
+    const option = document.createElement("option");
+
+    option.value = name;
+    option.textContent = name;
+
+    areaSelect.appendChild(option);
+
+  });
+
+  // City corporation list
+  const cities = cityCorporations[selectedDistrict] || [];
+
+  if (cities.length) {
+
+    const group = document.createElement("optgroup");
+
+    group.label =
+      currentLanguage === "bn"
+        ? "সিটি কর্পোরেশন"
+        : "City Corporation";
+
+    cities.forEach(city => {
+
+      const option = document.createElement("option");
+
+      option.value = "CITY:" + city[1];
+
+      option.textContent = bilingual(city[0], city[1]);
+
+      group.appendChild(option);
+
+    });
+
+    areaSelect.appendChild(group);
+
+  }
+
+  areaSelect.disabled = false;
+
+}
+
+
+// Division change
+divisionSelect.addEventListener("change", async function() {
+
+  selectedDivision = this.value;
+  selectedDistrict = "";
+  currentDistricts = [];
+
+  resetSelect(
+    districtSelect,
+    currentLanguage === "bn"
+      ? "জেলা লোড হচ্ছে..."
+      : "Loading Districts..."
+  );
+
+  resetSelect(
+    areaSelect,
+    currentLanguage === "bn"
+      ? "উপজেলা নির্বাচন করুন"
+      : "Select Upazila"
+  );
+
+  districtSelect.disabled = true;
+  areaSelect.disabled = true;
+
+  if (!selectedDivision) {
+    renderDistricts();
+    return;
+  }
+
+  try {
+
+    locationStatus.textContent =
+      currentLanguage === "bn"
+        ? "জেলা লোড হচ্ছে..."
+        : "Loading districts...";
+
+    currentDistricts = await getLocationData(
+      "/division/" + encodeURIComponent(selectedDivision)
+    );
+
+    renderDistricts();
+
+    locationStatus.textContent =
+      currentLanguage === "bn"
+        ? "জেলা নির্বাচন করুন।"
+        : "Select a district.";
+
+  } catch (error) {
+
+    console.error(error);
+
+    locationStatus.textContent =
+      "জেলা লোড করা যায়নি।";
+
+  }
+
 });
 
-// মোবাইল মেনু
-document.getElementById("menuBtn").addEventListener("click", () => {
-  document.getElementById("nav").classList.toggle("show");
+
+// District change
+districtSelect.addEventListener("change", function() {
+
+  selectedDistrict = this.value;
+
+  renderAreas();
+
+  locationStatus.textContent =
+    selectedDistrict
+      ? "এলাকা নির্বাচন করুন।"
+      : "জেলা নির্বাচন করুন।";
+
 });
 
-// ডেমো নিবন্ধন ফর্ম
-document.getElementById("demoForm").addEventListener("submit", event => {
-  event.preventDefault();
-  document.getElementById("formMessage").textContent =
-    "এটি ডেমো ফর্ম। পরবর্তীতে ডাটাবেস যুক্ত হলে নিবন্ধন কার্যকর হবে।";
-});
 
-// বর্তমান বছর
+// Load location
+async function loadLocations() {
+
+  try {
+
+    locationStatus.textContent =
+      "বাংলাদেশের ঠিকানা লোড হচ্ছে...";
+
+    const results = await Promise.all([
+
+      getLocationData("/divisions"),
+
+      getLocationData("/districts")
+
+    ]);
+
+    divisions = results[0];
+    allDistricts = results[1];
+
+    renderDivisions();
+
+    locationStatus.textContent =
+      "বিভাগ নির্বাচন করুন।";
+
+  } catch (error) {
+
+    console.error("Location loading error:", error);
+
+    locationStatus.textContent =
+      "ঠিকানা লোড হয়নি। ইন্টারনেট পরীক্ষা করুন।";
+
+  }
+
+}
+
+
+/* =====================================
+   5. SUPABASE MEMBER COUNTS
+===================================== */
+
+async function loadMemberCounts() {
+
+  const donorCount =
+    document.getElementById("donorCount");
+
+  const volunteerCount =
+    document.getElementById("volunteerCount");
+
+  const status =
+    document.getElementById("statsStatus");
+
+  if (!db) {
+
+    status.textContent =
+      "Supabase সংযোগ সেটআপ করা হয়নি।";
+
+    return;
+
+  }
+
+  try {
+
+    const [
+      donorResult,
+      volunteerResult
+    ] = await Promise.all([
+
+      db.from("blood_donors")
+        .select("id", {
+          count: "exact",
+          head: true
+        }),
+
+      db.from("volunteers")
+        .select("id", {
+          count: "exact",
+          head: true
+        })
+
+    ]);
+
+    if (donorResult.error) throw donorResult.error;
+
+    if (volunteerResult.error) throw volunteerResult.error;
+
+    donorCount.textContent =
+      (donorResult.count || 0).toLocaleString("en-US") + "+";
+
+    volunteerCount.textContent =
+      (volunteerResult.count || 0).toLocaleString("en-US") + "+";
+
+    status.textContent = "";
+
+  } catch (error) {
+
+    console.error("Supabase count error:", error);
+
+    status.textContent =
+      "সদস্য সংখ্যা লোড করা যায়নি।";
+
+  }
+
+}
+
+
+/* =====================================
+   6. BLOOD DONOR SEARCH
+===================================== */
+
+const searchButton =
+  document.getElementById("searchButton");
+
+const donorResults =
+  document.getElementById("donorResults");
+
+
+function showMessage(message) {
+
+  donorResults.innerHTML = "";
+
+  const p = document.createElement("p");
+
+  p.className = "search-placeholder";
+  p.textContent = message;
+
+  donorResults.appendChild(p);
+
+}
+
+
+function createDonorCard(donor) {
+
+  const card = document.createElement("div");
+
+  card.className = "donor-card-result";
+
+  const details = document.createElement("div");
+
+  const name = document.createElement("strong");
+
+  name.textContent = donor.name || "রক্তদাতা";
+
+  const info = document.createElement("p");
+
+  info.textContent = [
+    donor.blood_group,
+    donor.district,
+    donor.upazila
+  ].filter(Boolean).join(" | ");
+
+  details.append(name, info);
+
+  card.appendChild(details);
+
+  if (donor.phone) {
+
+    const phone = document.createElement("a");
+
+    phone.href = "tel:" + donor.phone;
+
+    phone.textContent =
+      currentLanguage === "bn"
+        ? "কল করুন"
+        : "Call";
+
+    phone.className = "btn btn-green";
+
+    card.appendChild(phone);
+
+  }
+
+  return card;
+
+}
+
+
+async function searchDonors() {
+
+  if (!db) {
+
+    showMessage("Supabase সংযোগ সেটআপ করা হয়নি।");
+
+    return;
+
+  }
+
+  const division = divisionSelect.value;
+  const district = districtSelect.value;
+  const area = areaSelect.value;
+  const blood = document.getElementById(
+    "bloodGroupSelect"
+  ).value;
+
+  if (!division && !district && !area && !blood) {
+
+    showMessage("অনুগ্রহ করে অন্তত একটি ফিল্টার নির্বাচন করুন।");
+
+    return;
+
+  }
+
+  searchButton.disabled = true;
+
+  showMessage("রক্তদাতা খোঁজা হচ্ছে...");
+
+  try {
+
+    let query = db
+      .from("blood_donors")
+      .select(
+        "name, phone, blood_group, division, district, upazila"
+      );
+
+    if (division) {
+      query = query.eq("division", division);
+    }
+
+    if (district) {
+      query = query.eq("district", district);
+    }
+
+    if (area) {
+
+      if (area.startsWith("CITY:")) {
+
+        query = query.eq("upazila", area.substring(5));
+
+      } else {
+
+        query = query.eq("upazila", area);
+
+      }
+
+    }
+
+    if (blood) {
+      query = query.eq("blood_group", blood);
+    }
+
+    const { data, error } = await query.limit(50);
+
+    if (error) throw error;
+
+    donorResults.innerHTML = "";
+
+    if (!data || data.length === 0) {
+
+      showMessage("কোনো রক্তদাতা পাওয়া যায়নি।");
+
+    } else {
+
+      data.forEach(donor => {
+
+        donorResults.appendChild(
+          createDonorCard(donor)
+        );
+
+      });
+
+    }
+
+  } catch (error) {
+
+    console.error("Donor search error:", error);
+
+    showMessage(
+      "রক্তদাতার তথ্য লোড করা যায়নি। ডাটাবেসের কলাম ও অনুমতি পরীক্ষা করুন।"
+    );
+
+  } finally {
+
+    searchButton.disabled = false;
+
+  }
+
+}
+
+
+searchButton.addEventListener(
+  "click",
+  searchDonors
+);
+
+
+/* =====================================
+   7. INITIALIZE WEBSITE
+===================================== */
+
 document.getElementById("year").textContent =
   new Date().getFullYear();
+
+setLanguage(currentLanguage);
+
+loadLocations();
+
+loadMemberCounts();
+
+setInterval(loadMemberCounts, 60000);
