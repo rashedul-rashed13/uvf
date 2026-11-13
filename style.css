@@ -584,3 +584,217 @@ footer p{
     text-align:left;
   }
 }
+
+
+/* ===== STANDARD MENU BUTTON ===== */
+
+.menu-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-width: 105px;
+  height: 44px;
+  padding: 0 17px;
+  border: none;
+  border-radius: 9px;
+  background: #b91f31;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 2px 5px #00000018;
+}
+
+.menu-button:hover {
+  background: #991b2b;
+}
+
+/* ===== DROPDOWN MENU ===== */
+
+.menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 3%;
+  width: min(400px, 94vw);
+  max-height: 80vh;
+  overflow-y: auto;
+  background: white;
+  padding: 14px;
+  border: 1px solid #e9e7e3;
+  border-radius: 14px;
+  box-shadow: 0 8px 25px #00000018;
+}
+
+.menu.show {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.menu-link {
+  display: block;
+  padding: 12px 15px;
+  border-radius: 8px;
+  color: #292929;
+  font-size: 14px;
+}
+
+.menu-link:hover,
+.menu-link.active {
+  background: #faeeee;
+  color: #b91f31;
+}
+
+/* ===== LANGUAGE BUTTONS ===== */
+
+.language-box {
+  border-top: 1px solid #eee;
+  margin-top: 10px;
+  padding: 15px 8px 5px;
+}
+
+.language-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.language-buttons button {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 8px;
+}
+
+.language-buttons button.active {
+  background: #103e35;
+  color: white;
+}
+
+/* ===== FILTER GRID ===== */
+
+.filter-card {
+  background: white;
+  border: 1px solid #e9e7e3;
+  border-radius: 13px;
+  padding: 18px;
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.form-group {
+  min-width: 0;
+}
+
+.form-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.form-group select {
+  width: 100%;
+  min-width: 0;
+  height: 46px;
+  padding: 0 9px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  color: #333;
+  font-size: 12px;
+}
+
+.form-group select:focus {
+  outline: 2px solid #11796e;
+  border-color: #11796e;
+}
+
+.form-group select:disabled {
+  background: #f3f3f3;
+  color: #999;
+}
+
+.filter-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+/* ===== MOBILE: KEEP PC-STYLE 2x2 GRID ===== */
+
+@media (max-width: 600px) {
+
+  .container {
+    width: 94%;
+  }
+
+  .navbar {
+    min-height: 68px;
+  }
+
+  .brand h3 {
+    font-size: 11px;
+  }
+
+  .logo {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+  }
+
+  .menu-button {
+    min-width: 90px;
+    height: 40px;
+    padding: 0 12px;
+    font-size: 12px;
+  }
+
+  .menu {
+    right: 3%;
+    width: 94%;
+  }
+
+  .filter-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 9px;
+  }
+
+  .filter-card {
+    padding: 12px;
+  }
+
+  .form-group label {
+    font-size: 10px;
+    line-height: 1.6;
+  }
+
+  .form-group select {
+    height: 42px;
+    font-size: 11px;
+    padding: 0 5px;
+  }
+
+  .filter-bottom {
+    gap: 8px;
+  }
+
+  .filter-bottom span {
+    font-size: 10px;
+  }
+
+  .filter-bottom .btn {
+    padding: 10px 12px;
+    font-size: 11px;
+  }
+}
+
