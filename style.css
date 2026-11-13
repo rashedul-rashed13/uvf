@@ -826,3 +826,28 @@ footer p{
   border-top: none;
   border-bottom: 1px solid #e5e7eb;
 }
+.menu {
+  display: none;
+}
+
+.menu.open {
+  display: flex;
+  flex-direction: column;
+  z-index: 9999;
+}
+
+.menu-button {
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .menu.open {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    padding: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.12);
+  }
+}
