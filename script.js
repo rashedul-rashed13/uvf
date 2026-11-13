@@ -123,7 +123,7 @@ if (
 
 
 // ============================================
-// 4. BANGLADESH DIVISION / DISTRICT / UPAZILA (FAST API & BN-EN)
+// 4. BANGLADESH DIVISION / DISTRICT / UPAZILA (BN - EN FORMAT)
 // ============================================
 
 const LOCATION_API = "https://bdapis.com/api/v1.2";
@@ -141,7 +141,7 @@ let selectedDivision = "";
 let selectedDistrict = "";
 let selectedArea = "";
 
-// পূর্ণাঙ্গ বিভাগের বাংলা রূপান্তর
+// ১. সকল বিভাগের বাংলা নাম
 const divisionBN = {
   "Dhaka": "ঢাকা",
   "Chattogram": "চট্টগ্রাম",
@@ -153,7 +153,7 @@ const divisionBN = {
   "Mymensingh": "ময়মনসিংহ"
 };
 
-// জেলার বাংলা রূপান্তর
+// ২. সকল জেলার বাংলা নাম
 const districtBN = {
   "Dhaka": "ঢাকা", "Gazipur": "গাজীপুর", "Jamalpur": "জামালপুর", "Mymensingh": "ময়মনসিংহ",
   "Tangail": "টাঙ্গাইল", "Kishoreganj": "কিশোরগঞ্জ", "Narayanganj": "নারায়ণগঞ্জ", "Narsingdi": "নরসিংদী",
@@ -173,14 +173,15 @@ const districtBN = {
   "Dinajpur": "দিনাজপুর", "Thakurgaon": "ঠাকুরগাঁও", "Panchagarh": "পঞ্চগড়"
 };
 
-// কিছু সাধারণ উপজেলার বাংলা রূপান্তর (API থেকে না আসলে fallback হিসেবে কাজ করবে)
+// ৩. উপজেলাগুলোর বাংলা নাম (জামালপুর, ঢাকা ও অন্যান্য প্রধান এলাকার জন্য)
 const upazilaBN = {
   "Dewanganj": "দেওয়ানগঞ্জ", "Islampur": "ইসলামপুর", "Jamalpur Sadar": "জামালপুর সদর",
   "Melandaha": "মেলান্দহ", "Madarganj": "মাদারগঞ্জ", "Sarishabari": "সরিষাবাড়ী",
-  "Bakshiganj": "বকশীগঞ্জ", "Dhamrai": "ধামরাই", "Savar": "সাভার", "Gazipur Sadar": "গাজীপুর সদর"
+  "Bakshiganj": "বকশীগঞ্জ", "Dhamrai": "ধামরাই", "Savar": "সাভার", "Gazipur Sadar": "গাজীপুর সদর",
+  "Uttara": "উত্তরা", "Mirpur": "মিরপুর", "Gulshan": "গুলশান", "Dhanmondi": "ধানমন্ডি"
 };
 
-// সকল প্রধান সিটি কর্পোরেশন
+// ৪. প্রধান সিটি কর্পোরেশন
 const cityCorporations = {
   "Dhaka": [
     { bn: "ঢাকা উত্তর সিটি কর্পোরেশন", en: "Dhaka North City Corporation" },
@@ -198,7 +199,7 @@ const cityCorporations = {
   "Narayanganj": [{ bn: "নারায়ণগঞ্জ সিটি কর্পোরেশন", en: "Narayanganj City Corporation" }]
 };
 
-// বাংলা - ইংরেজি ফরম্যাট ফাংশন
+// সুনির্দিষ্ট ফরম্যাট: বাংলা - ইংরেজি (যেমন: ঢাকা - Dhaka)
 function formatName(bn, en) {
   if (bn && en && bn !== en) {
     return bn + " - " + en;
@@ -280,7 +281,7 @@ function renderAreas() {
   (district.upazilla || []).forEach(name => {
     const option = document.createElement("option");
     option.value = name;
-    const bn = upazilaBN[name] || name; // যদি বাংলা না থাকে ইংরেজি দেখাবে
+    const bn = upazilaBN[name] || name; 
     option.textContent = formatName(bn, name);
     areaSelect.appendChild(option);
   });
