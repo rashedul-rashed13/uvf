@@ -1,13 +1,13 @@
 
-/* =====================================
-   UNITED VOLUNTEERS FOUNDATION
-   UVF - MAIN JAVASCRIPT
-===================================== */
+// ============================================
+// UNITED VOLUNTEERS FOUNDATION
+// UVF WEBSITE JAVASCRIPT
+// ============================================
 
 
-/* =====================================
-   1. LANGUAGE SYSTEM
-===================================== */
+// ============================================
+// 1. LANGUAGE SYSTEM
+// ============================================
 
 let currentLanguage =
   localStorage.getItem("uvf_language") || "bn";
@@ -36,6 +36,7 @@ function setLanguage(language) {
   renderDivisions();
   renderDistricts();
   renderAreas();
+
 }
 
 document.getElementById("bnButton")
@@ -45,33 +46,77 @@ document.getElementById("enButton")
   .addEventListener("click", () => setLanguage("en"));
 
 
-/* =====================================
-   2. MOBILE MENU
-===================================== */
+// ============================================
+// 2. MENU SYSTEM
+// ============================================
 
 const menu = document.getElementById("menu");
+const menuButton = document.getElementById("menuButton");
 
-document.getElementById("menuButton")
-  .addEventListener("click", () => {
-    menu.classList.toggle("show");
-  });
+function closeMenu() {
+  menu.classList.remove("show");
+  menuButton.setAttribute("aria-expanded", "false");
+}
 
+menuButton.addEventListener("click", function(event) {
+
+  event.stopPropagation();
+
+  const isOpen = menu.classList.toggle("show");
+
+  menuButton.setAttribute("aria-expanded", String(isOpen));
+
+});
+
+// Menu link click
 menu.querySelectorAll("a").forEach(link => {
-  link.addEventListener("click", () => {
-    menu.classList.remove("show");
+
+  link.addEventListener("click", function() {
+
+    menu.querySelectorAll(".menu-link")
+      .forEach(item => item.classList.remove("active"));
+
+    if (this.classList.contains("menu-link")) {
+      this.classList.add("active");
+    }
+
+    closeMenu();
+
   });
+
+});
+
+// Click outside to close
+document.addEventListener("click", function(event) {
+
+  if (
+    !menu.contains(event.target) &&
+    !menuButton.contains(event.target)
+  ) {
+    closeMenu();
+  }
+
+});
+
+// Escape key
+document.addEventListener("keydown", function(event) {
+
+  if (event.key === "Escape") {
+    closeMenu();
+  }
+
 });
 
 
-/* =====================================
-   3. SUPABASE CONFIGURATION
-===================================== */
+// ============================================
+// 3. SUPABASE CONNECTION
+// ============================================
 
-// নিজের Supabase Project URL বসাও
+// Supabase Dashboard থেকে URL বসাও
 const SUPABASE_URL =
   "YOUR_SUPABASE_PROJECT_URL";
 
-// নিজের Publishable Key অথবা legacy anon key বসাও
+// Publishable key অথবা legacy anon key বসাও
 const SUPABASE_KEY =
   "YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY";
 
@@ -92,9 +137,9 @@ if (
 }
 
 
-/* =====================================
-   4. BANGLADESH LOCATION API
-===================================== */
+// ============================================
+// 4. BANGLADESH DIVISION / DISTRICT / UPAZILA
+// ============================================
 
 const LOCATION_API =
   "https://bdapis.com/api/v1.2";
@@ -118,6 +163,8 @@ const areaSelect =
 const locationStatus =
   document.getElementById("locationStatus");
 
+
+// City Corporation data
 
 const cityCorporations = {
 
@@ -169,6 +216,8 @@ const cityCorporations = {
 };
 
 
+// API request
+
 async function getLocationData(path) {
 
   const response = await fetch(LOCATION_API + path);
@@ -180,7 +229,7 @@ async function getLocationData(path) {
   const result = await response.json();
 
   if (result.status && result.status.code !== 200) {
-    throw new Error("Location API returned an error");
+    throw new Error("Location API error");
   }
 
   return result.data || [];
@@ -188,14 +237,20 @@ async function getLocationData(path) {
 }
 
 
+// বাংলা - English
+
 function bilingual(bn, en) {
 
-  if (bn && en) return bn + " - " + en;
+  if (bn && en) {
+    return bn + " - " + en;
+  }
 
   return bn || en || "";
 
 }
 
+
+// Select reset
 
 function resetSelect(select, placeholder) {
 
@@ -210,6 +265,8 @@ function resetSelect(select, placeholder) {
 
 }
 
+
+// Division rendering
 
 function renderDivisions() {
 
@@ -239,6 +296,8 @@ function renderDivisions() {
 
 }
 
+
+// District rendering
 
 function renderDistricts() {
 
@@ -275,6 +334,8 @@ function renderDistricts() {
 }
 
 
+// Upazila rendering
+
 function renderAreas() {
 
   resetSelect(
@@ -289,11 +350,13 @@ function renderAreas() {
   );
 
   if (!district) {
+
     areaSelect.disabled = true;
+
     return;
+
   }
 
-  // Upazila list
   (district.upazilla || []).forEach(name => {
 
     const option = document.createElement("option");
@@ -305,7 +368,6 @@ function renderAreas() {
 
   });
 
-  // City corporation list
   const cities = cityCorporations[selectedDistrict] || [];
 
   if (cities.length) {
@@ -338,47 +400,41 @@ function renderAreas() {
 }
 
 
-// Division change
+// Division selection
+
 divisionSelect.addEventListener("change", async function() {
 
   selectedDivision = this.value;
+
   selectedDistrict = "";
+
   currentDistricts = [];
-
-  resetSelect(
-    districtSelect,
-    currentLanguage === "bn"
-      ? "জেলা লোড হচ্ছে..."
-      : "Loading Districts..."
-  );
-
-  resetSelect(
-    areaSelect,
-    currentLanguage === "bn"
-      ? "উপজেলা নির্বাচন করুন"
-      : "Select Upazila"
-  );
 
   districtSelect.disabled = true;
   areaSelect.disabled = true;
 
   if (!selectedDivision) {
+
     renderDistricts();
+    renderAreas();
+
     return;
+
   }
 
-  try {
+  locationStatus.textContent =
+    currentLanguage === "bn"
+      ? "জেলা লোড হচ্ছে..."
+      : "Loading districts...";
 
-    locationStatus.textContent =
-      currentLanguage === "bn"
-        ? "জেলা লোড হচ্ছে..."
-        : "Loading districts...";
+  try {
 
     currentDistricts = await getLocationData(
       "/division/" + encodeURIComponent(selectedDivision)
     );
 
     renderDistricts();
+    renderAreas();
 
     locationStatus.textContent =
       currentLanguage === "bn"
@@ -390,14 +446,17 @@ divisionSelect.addEventListener("change", async function() {
     console.error(error);
 
     locationStatus.textContent =
-      "জেলা লোড করা যায়নি।";
+      currentLanguage === "bn"
+        ? "জেলা লোড করা যায়নি।"
+        : "Could not load districts.";
 
   }
 
 });
 
 
-// District change
+// District selection
+
 districtSelect.addEventListener("change", function() {
 
   selectedDistrict = this.value;
@@ -405,20 +464,23 @@ districtSelect.addEventListener("change", function() {
   renderAreas();
 
   locationStatus.textContent =
-    selectedDistrict
-      ? "এলাকা নির্বাচন করুন।"
-      : "জেলা নির্বাচন করুন।";
+    currentLanguage === "bn"
+      ? "উপজেলা নির্বাচন করুন।"
+      : "Select an upazila.";
 
 });
 
 
-// Load location
+// Load all divisions
+
 async function loadLocations() {
 
   try {
 
     locationStatus.textContent =
-      "বাংলাদেশের ঠিকানা লোড হচ্ছে...";
+      currentLanguage === "bn"
+        ? "বাংলাদেশের ঠিকানা লোড হচ্ছে..."
+        : "Loading Bangladesh locations...";
 
     const results = await Promise.all([
 
@@ -434,38 +496,33 @@ async function loadLocations() {
     renderDivisions();
 
     locationStatus.textContent =
-      "বিভাগ নির্বাচন করুন।";
+      currentLanguage === "bn"
+        ? "বিভাগ নির্বাচন করুন।"
+        : "Select a division.";
 
   } catch (error) {
 
-    console.error("Location loading error:", error);
+    console.error("Location error:", error);
 
     locationStatus.textContent =
-      "ঠিকানা লোড হয়নি। ইন্টারনেট পরীক্ষা করুন।";
+      currentLanguage === "bn"
+        ? "ঠিকানা লোড হয়নি। ইন্টারনেট পরীক্ষা করুন।"
+        : "Could not load locations. Check internet.";
 
   }
 
 }
 
 
-/* =====================================
-   5. SUPABASE MEMBER COUNTS
-===================================== */
+// ============================================
+// 5. SUPABASE MEMBER COUNTS
+// ============================================
 
 async function loadMemberCounts() {
 
-  const donorCount =
-    document.getElementById("donorCount");
-
-  const volunteerCount =
-    document.getElementById("volunteerCount");
-
-  const status =
-    document.getElementById("statsStatus");
-
   if (!db) {
 
-    status.textContent =
+    document.getElementById("statsStatus").textContent =
       "Supabase সংযোগ সেটআপ করা হয়নি।";
 
     return;
@@ -474,10 +531,7 @@ async function loadMemberCounts() {
 
   try {
 
-    const [
-      donorResult,
-      volunteerResult
-    ] = await Promise.all([
+    const [donors, volunteers] = await Promise.all([
 
       db.from("blood_donors")
         .select("id", {
@@ -493,23 +547,23 @@ async function loadMemberCounts() {
 
     ]);
 
-    if (donorResult.error) throw donorResult.error;
+    if (donors.error) throw donors.error;
 
-    if (volunteerResult.error) throw volunteerResult.error;
+    if (volunteers.error) throw volunteers.error;
 
-    donorCount.textContent =
-      (donorResult.count || 0).toLocaleString("en-US") + "+";
+    document.getElementById("donorCount").textContent =
+      (donors.count || 0).toLocaleString("en-US") + "+";
 
-    volunteerCount.textContent =
-      (volunteerResult.count || 0).toLocaleString("en-US") + "+";
+    document.getElementById("volunteerCount").textContent =
+      (volunteers.count || 0).toLocaleString("en-US") + "+";
 
-    status.textContent = "";
+    document.getElementById("statsStatus").textContent = "";
 
   } catch (error) {
 
-    console.error("Supabase count error:", error);
+    console.error("Statistics error:", error);
 
-    status.textContent =
+    document.getElementById("statsStatus").textContent =
       "সদস্য সংখ্যা লোড করা যায়নি।";
 
   }
@@ -517,27 +571,32 @@ async function loadMemberCounts() {
 }
 
 
-/* =====================================
-   6. BLOOD DONOR SEARCH
-===================================== */
-
-const searchButton =
-  document.getElementById("searchButton");
+// ============================================
+// 6. BLOOD DONOR SEARCH
+// ============================================
 
 const donorResults =
   document.getElementById("donorResults");
 
+const searchButton =
+  document.getElementById("searchButton");
 
-function showMessage(message) {
+
+function showSearchMessage(message) {
 
   donorResults.innerHTML = "";
 
-  const p = document.createElement("p");
+  const box = document.createElement("div");
 
-  p.className = "search-placeholder";
-  p.textContent = message;
+  box.className = "search-placeholder";
 
-  donorResults.appendChild(p);
+  const text = document.createElement("p");
+
+  text.textContent = message;
+
+  box.appendChild(text);
+
+  donorResults.appendChild(box);
 
 }
 
@@ -572,12 +631,12 @@ function createDonorCard(donor) {
 
     phone.href = "tel:" + donor.phone;
 
+    phone.className = "btn btn-green";
+
     phone.textContent =
       currentLanguage === "bn"
         ? "কল করুন"
         : "Call";
-
-    phone.className = "btn btn-green";
 
     card.appendChild(phone);
 
@@ -592,7 +651,7 @@ async function searchDonors() {
 
   if (!db) {
 
-    showMessage("Supabase সংযোগ সেটআপ করা হয়নি।");
+    showSearchMessage("Supabase সংযোগ সেটআপ করা হয়নি।");
 
     return;
 
@@ -601,13 +660,18 @@ async function searchDonors() {
   const division = divisionSelect.value;
   const district = districtSelect.value;
   const area = areaSelect.value;
+
   const blood = document.getElementById(
     "bloodGroupSelect"
   ).value;
 
   if (!division && !district && !area && !blood) {
 
-    showMessage("অনুগ্রহ করে অন্তত একটি ফিল্টার নির্বাচন করুন।");
+    showSearchMessage(
+      currentLanguage === "bn"
+        ? "অন্তত একটি ফিল্টার নির্বাচন করুন।"
+        : "Please select at least one filter."
+    );
 
     return;
 
@@ -615,15 +679,18 @@ async function searchDonors() {
 
   searchButton.disabled = true;
 
-  showMessage("রক্তদাতা খোঁজা হচ্ছে...");
+  showSearchMessage(
+    currentLanguage === "bn"
+      ? "রক্তদাতা খোঁজা হচ্ছে..."
+      : "Searching donors..."
+  );
 
   try {
 
     let query = db
       .from("blood_donors")
-      .select(
-        "name, phone, blood_group, division, district, upazila"
-      );
+      .select("name, phone, blood_group, division, district, upazila")
+      .limit(50);
 
     if (division) {
       query = query.eq("division", division);
@@ -635,15 +702,11 @@ async function searchDonors() {
 
     if (area) {
 
-      if (area.startsWith("CITY:")) {
+      const areaValue = area.startsWith("CITY:")
+        ? area.substring(5)
+        : area;
 
-        query = query.eq("upazila", area.substring(5));
-
-      } else {
-
-        query = query.eq("upazila", area);
-
-      }
+      query = query.eq("upazila", areaValue);
 
     }
 
@@ -651,7 +714,7 @@ async function searchDonors() {
       query = query.eq("blood_group", blood);
     }
 
-    const { data, error } = await query.limit(50);
+    const { data, error } = await query;
 
     if (error) throw error;
 
@@ -659,7 +722,11 @@ async function searchDonors() {
 
     if (!data || data.length === 0) {
 
-      showMessage("কোনো রক্তদাতা পাওয়া যায়নি।");
+      showSearchMessage(
+        currentLanguage === "bn"
+          ? "কোনো রক্তদাতা পাওয়া যায়নি।"
+          : "No donors found."
+      );
 
     } else {
 
@@ -677,8 +744,10 @@ async function searchDonors() {
 
     console.error("Donor search error:", error);
 
-    showMessage(
-      "রক্তদাতার তথ্য লোড করা যায়নি। ডাটাবেসের কলাম ও অনুমতি পরীক্ষা করুন।"
+    showSearchMessage(
+      currentLanguage === "bn"
+        ? "রক্তদাতার তথ্য পাওয়া যায়নি। ডাটাবেজ পরীক্ষা করুন।"
+        : "Could not load donors. Check database settings."
     );
 
   } finally {
@@ -689,16 +758,12 @@ async function searchDonors() {
 
 }
 
-
-searchButton.addEventListener(
-  "click",
-  searchDonors
-);
+searchButton.addEventListener("click", searchDonors);
 
 
-/* =====================================
-   7. INITIALIZE WEBSITE
-===================================== */
+// ============================================
+// 7. WEBSITE INITIALIZATION
+// ============================================
 
 document.getElementById("year").textContent =
   new Date().getFullYear();
