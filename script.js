@@ -1,4 +1,3 @@
-
 // ============================================
 // UNITED VOLUNTEERS FOUNDATION
 // UVF WEBSITE JAVASCRIPT
@@ -141,8 +140,12 @@ if (
 // 4. BANGLADESH DIVISION / DISTRICT / UPAZILA
 // ============================================
 
-const LOCATION_API =
-  "https://bdapis.com/api/v1.2";
+const LOCATION_API = "https://bdapis.com/api/v1.2";
+
+const divisionSelect = document.getElementById("divisionSelect");
+const districtSelect = document.getElementById("districtSelect");
+const areaSelect = document.getElementById("areaSelect");
+const locationStatus = document.getElementById("locationStatus");
 
 let divisions = [];
 let allDistricts = [];
@@ -151,75 +154,95 @@ let currentDistricts = [];
 let selectedDivision = "";
 let selectedDistrict = "";
 
-const divisionSelect =
-  document.getElementById("divisionSelect");
-
-const districtSelect =
-  document.getElementById("districtSelect");
-
-const areaSelect =
-  document.getElementById("areaSelect");
-
-const locationStatus =
-  document.getElementById("locationStatus");
-
-
-// City Corporation data
-
-const cityCorporations = {
-
-  Dhaka: [
-    ["ঢাকা উত্তর", "Dhaka North City Corporation"],
-    ["ঢাকা দক্ষিণ", "Dhaka South City Corporation"]
-  ],
-
-  Chattogram: [
-    ["চট্টগ্রাম", "Chattogram City Corporation"]
-  ],
-
-  Khulna: [
-    ["খুলনা", "Khulna City Corporation"]
-  ],
-
-  Rajshahi: [
-    ["রাজশাহী", "Rajshahi City Corporation"]
-  ],
-
-  Barishal: [
-    ["বরিশাল", "Barishal City Corporation"]
-  ],
-
-  Sylhet: [
-    ["সিলেট", "Sylhet City Corporation"]
-  ],
-
-  Rangpur: [
-    ["রংপুর", "Rangpur City Corporation"]
-  ],
-
-  Mymensingh: [
-    ["ময়মনসিংহ", "Mymensingh City Corporation"]
-  ],
-
-  Cumilla: [
-    ["কুমিল্লা", "Cumilla City Corporation"]
-  ],
-
-  Gazipur: [
-    ["গাজীপুর", "Gazipur City Corporation"]
-  ],
-
-  Narayanganj: [
-    ["নারায়ণগঞ্জ", "Narayanganj City Corporation"]
-  ]
-
+// Division Bangla names
+const divisionBN = {
+  "Dhaka": "ঢাকা",
+  "Chattogram": "চট্টগ্রাম",
+  "Rajshahi": "রাজশাহী",
+  "Khulna": "খুলনা",
+  "Barishal": "বরিশাল",
+  "Sylhet": "সিলেট",
+  "Rangpur": "রংপুর",
+  "Mymensingh": "ময়মনসিংহ"
 };
 
+// District Bangla names
+const districtBN = {
+  "Dhaka": "ঢাকা",
+  "Gazipur": "গাজীপুর",
+  "Jamalpur": "জামালপুর",
+  "Mymensingh": "ময়মনসিংহ",
+  "Tangail": "টাঙ্গাইল",
+  "Kishoreganj": "কিশোরগঞ্জ",
+  "Narayanganj": "নারায়ণগঞ্জ",
+  "Narsingdi": "নরসিংদী",
+  "Manikganj": "মানিকগঞ্জ",
+  "Munshiganj": "মুন্সীগঞ্জ",
+  "Faridpur": "ফরিদপুর",
+  "Gopalganj": "গোপালগঞ্জ",
+  "Madaripur": "মাদারীপুর",
+  "Shariatpur": "শরীয়তপুর",
+  "Netrokona": "নেত্রকোনা",
+  "Sherpur": "শেরপুর",
+  "Kurigram": "কুড়িগ্রাম",
+  "Bogura": "বগুড়া",
+  "Cumilla": "কুমিল্লা",
+  "Sylhet": "সিলেট",
+  "Chattogram": "চট্টগ্রাম"
+};
 
-// API request
+// Upazila Bangla names
+const upazilaBN = {
+  "Dewanganj": "দেওয়ানগঞ্জ",
+  "Islampur": "ইসলামপুর",
+  "Jamalpur Sadar": "জামালপুর সদর",
+  "Melandaha": "মেলান্দহ",
+  "Madarganj": "মাদারগঞ্জ",
+  "Sarishabari": "সরিষাবাড়ী",
+  "Bakshiganj": "বকশীগঞ্জ",
+  "Dhamrai": "ধামরাই",
+  "Savar": "সাভার",
+  "Gazipur Sadar": "গাজীপুর সদর"
+};
 
+// City corporations under Dhaka district
+const cityCorporations = {
+  "Dhaka": [
+    {
+      bn: "ঢাকা উত্তর সিটি কর্পোরেশন",
+      en: "Dhaka North City Corporation"
+    },
+    {
+      bn: "ঢাকা দক্ষিণ সিটি কর্পোরেশন",
+      en: "Dhaka South City Corporation"
+    }
+  ],
+  "Gazipur": [
+    {
+      bn: "গাজীপুর সিটি কর্পোরেশন",
+      en: "Gazipur City Corporation"
+    }
+  ]
+};
+
+// Bilingual name
+function locationName(bn, en) {
+  return (bn || en) + " - " + en;
+}
+
+// Reset dropdown
+function resetDropdown(element, placeholder) {
+  element.innerHTML = "";
+
+  const option = document.createElement("option");
+  option.value = "";
+  option.textContent = placeholder;
+
+  element.appendChild(option);
+}
+
+// API fetch
 async function getLocationData(path) {
-
   const response = await fetch(LOCATION_API + path);
 
   if (!response.ok) {
@@ -228,290 +251,149 @@ async function getLocationData(path) {
 
   const result = await response.json();
 
-  if (result.status && result.status.code !== 200) {
-    throw new Error("Location API error");
-  }
-
   return result.data || [];
-
 }
 
+// Load divisions
+async function loadDivisions() {
+  try {
+    locationStatus.textContent = "বিভাগ লোড হচ্ছে...";
 
-// বাংলা - English
+    const [divisionData, districtData] = await Promise.all([
+      getLocationData("/divisions"),
+      getLocationData("/districts")
+    ]);
 
-function bilingual(bn, en) {
+    divisions = divisionData;
+    allDistricts = districtData;
 
-  if (bn && en) {
-    return bn + " - " + en;
-  }
+    resetDropdown(divisionSelect, "বিভাগ নির্বাচন করুন");
 
-  return bn || en || "";
-
-}
-
-
-// Select reset
-
-function resetSelect(select, placeholder) {
-
-  select.innerHTML = "";
-
-  const option = document.createElement("option");
-
-  option.value = "";
-  option.textContent = placeholder;
-
-  select.appendChild(option);
-
-}
-
-
-// Division rendering
-
-function renderDivisions() {
-
-  resetSelect(
-    divisionSelect,
-    currentLanguage === "bn"
-      ? "বিভাগ নির্বাচন করুন"
-      : "Select Division"
-  );
-
-  divisions.forEach(item => {
-
-    const option = document.createElement("option");
-
-    option.value = item.division;
-
-    option.textContent = bilingual(
-      item.divisionbn,
-      item.division
-    );
-
-    divisionSelect.appendChild(option);
-
-  });
-
-  divisionSelect.value = selectedDivision;
-
-}
-
-
-// District rendering
-
-function renderDistricts() {
-
-  resetSelect(
-    districtSelect,
-    currentLanguage === "bn"
-      ? "জেলা নির্বাচন করুন"
-      : "Select District"
-  );
-
-  currentDistricts.forEach(item => {
-
-    const districtInfo = allDistricts.find(
-      district => district.district === item.district
-    );
-
-    const option = document.createElement("option");
-
-    option.value = item.district;
-
-    option.textContent = bilingual(
-      districtInfo?.districtbn,
-      item.district
-    );
-
-    districtSelect.appendChild(option);
-
-  });
-
-  districtSelect.disabled = !selectedDivision;
-
-  districtSelect.value = selectedDistrict;
-
-}
-
-
-// Upazila rendering
-
-function renderAreas() {
-
-  resetSelect(
-    areaSelect,
-    currentLanguage === "bn"
-      ? "উপজেলা / সিটি কর্পোরেশন নির্বাচন করুন"
-      : "Select Upazila / City Corporation"
-  );
-
-  const district = currentDistricts.find(
-    item => item.district === selectedDistrict
-  );
-
-  if (!district) {
-
-    areaSelect.disabled = true;
-
-    return;
-
-  }
-
-  (district.upazilla || []).forEach(name => {
-
-    const option = document.createElement("option");
-
-    option.value = name;
-    option.textContent = name;
-
-    areaSelect.appendChild(option);
-
-  });
-
-  const cities = cityCorporations[selectedDistrict] || [];
-
-  if (cities.length) {
-
-    const group = document.createElement("optgroup");
-
-    group.label =
-      currentLanguage === "bn"
-        ? "সিটি কর্পোরেশন"
-        : "City Corporation";
-
-    cities.forEach(city => {
-
+    divisions.forEach(item => {
       const option = document.createElement("option");
 
-      option.value = "CITY:" + city[1];
+      const en = item.division;
+      const bn = divisionBN[en] || item.divisionbn || en;
 
-      option.textContent = bilingual(city[0], city[1]);
+      option.value = en;
+      option.textContent = locationName(bn, en);
 
-      group.appendChild(option);
-
+      divisionSelect.appendChild(option);
     });
 
-    areaSelect.appendChild(group);
+    locationStatus.textContent = "বিভাগ নির্বাচন করুন";
 
+  } catch (error) {
+    console.error(error);
+    locationStatus.textContent = "ঠিকানা লোড করা যায়নি";
   }
-
-  areaSelect.disabled = false;
-
 }
 
-
-// Division selection
-
+// Division change
 divisionSelect.addEventListener("change", async function() {
-
   selectedDivision = this.value;
-
   selectedDistrict = "";
 
   currentDistricts = [];
 
+  resetDropdown(districtSelect, "জেলা নির্বাচন করুন");
+  resetDropdown(areaSelect, "উপজেলা / সিটি কর্পোরেশন নির্বাচন করুন");
+
   districtSelect.disabled = true;
   areaSelect.disabled = true;
 
-  if (!selectedDivision) {
-
-    renderDistricts();
-    renderAreas();
-
-    return;
-
-  }
-
-  locationStatus.textContent =
-    currentLanguage === "bn"
-      ? "জেলা লোড হচ্ছে..."
-      : "Loading districts...";
+  if (!selectedDivision) return;
 
   try {
+    locationStatus.textContent = "জেলা লোড হচ্ছে...";
 
     currentDistricts = await getLocationData(
       "/division/" + encodeURIComponent(selectedDivision)
     );
 
-    renderDistricts();
-    renderAreas();
+    currentDistricts.forEach(item => {
+      const option = document.createElement("option");
 
-    locationStatus.textContent =
-      currentLanguage === "bn"
-        ? "জেলা নির্বাচন করুন।"
-        : "Select a district.";
+      const en = item.district;
+
+      const districtInfo = allDistricts.find(
+        d => d.district === en
+      );
+
+      const bn =
+        districtBN[en] ||
+        districtInfo?.districtbn ||
+        en;
+
+      option.value = en;
+      option.textContent = locationName(bn, en);
+
+      districtSelect.appendChild(option);
+    });
+
+    districtSelect.disabled = false;
+
+    locationStatus.textContent = "জেলা নির্বাচন করুন";
 
   } catch (error) {
-
     console.error(error);
-
-    locationStatus.textContent =
-      currentLanguage === "bn"
-        ? "জেলা লোড করা যায়নি।"
-        : "Could not load districts.";
-
+    locationStatus.textContent = "জেলা লোড করা যায়নি";
   }
-
 });
 
-
-// District selection
-
+// District change
 districtSelect.addEventListener("change", function() {
-
   selectedDistrict = this.value;
 
-  renderAreas();
+  resetDropdown(areaSelect, "উপজেলা / সিটি কর্পোরেশন নির্বাচন করুন");
 
-  locationStatus.textContent =
-    currentLanguage === "bn"
-      ? "উপজেলা নির্বাচন করুন।"
-      : "Select an upazila.";
+  areaSelect.disabled = true;
 
-});
+  if (!selectedDistrict) return;
 
+  const district = currentDistricts.find(
+    item => item.district === selectedDistrict
+  );
 
-// Load all divisions
+  if (!district) return;
 
-async function loadLocations() {
+  // Upazila options
+  (district.upazilla || []).forEach(name => {
+    const option = document.createElement("option");
 
-  try {
+    option.value = name;
 
-    locationStatus.textContent =
-      currentLanguage === "bn"
-        ? "বাংলাদেশের ঠিকানা লোড হচ্ছে..."
-        : "Loading Bangladesh locations...";
+    const bn = upazilaBN[name] || name;
 
-    const results = await Promise.all([
+    option.textContent = locationName(bn, name);
 
-      getLocationData("/divisions"),
+    areaSelect.appendChild(option);
+  });
 
-      getLocationData("/districts")
+  // City corporations
+  const cities = cityCorporations[selectedDistrict] || [];
 
-    ]);
+  if (cities.length) {
+    const group = document.createElement("optgroup");
 
-    divisions = results[0];
-    allDistricts = results[1];
+    group.label = "সিটি কর্পোরেশন / City Corporation";
 
-    renderDivisions();
+    cities.forEach(city => {
+      const option = document.createElement("option");
 
-    locationStatus.textContent =
-      currentLanguage === "bn"
-        ? "বিভাগ নির্বাচন করুন।"
-        : "Select a division.";
+      option.value = city.en;
+      option.textContent = locationName(city.bn, city.en);
 
-  } catch (error) {
+      group.appendChild(option);
+    });
 
-    console.error("Location error:", error);
-
-    locationStatus.textContent =
-      currentLanguage === "bn"
-        ? "ঠিকানা লোড হয়নি। ইন্টারনেট পরীক্ষা করুন।"
-        : "Could not load locations. Check internet.";
-
+    areaSelect.appendChild(group);
   }
 
-}
+  areaSelect.disabled = false;
+
+  locationStatus.textContent = "এলাকা নির্বাচন করুন";
+});
 
 
 // ============================================
@@ -768,9 +650,7 @@ searchButton.addEventListener("click", searchDonors);
 document.getElementById("year").textContent =
   new Date().getFullYear();
 
-setLanguage(currentLanguage);
-
-loadLocations();
+loadDivisions();
 
 loadMemberCounts();
 
