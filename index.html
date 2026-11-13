@@ -1,4 +1,4 @@
-
+আপনার দেওয়া নির্দেশনা অনুযায়ী index.html ফাইলের BLOOD DONOR SEARCH অংশটি আপডেট করে নতুন ফিল্টার কোডটি বসিয়ে সম্পূর্ণ কোড নিচে দেওয়া হলো। আপনি এটি কপি করে সরাসরি আপনার index.html ফাইলে ব্যবহার করতে পারেন:
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -173,48 +173,38 @@
       <div class="filter-grid">
 
         <div class="form-group">
-          <label data-bn="বিভাগ" data-en="Division">বিভাগ</label>
-
+          <label>বিভাগ / Division</label>
           <select id="divisionSelect">
-            <option value="">বিভাগ লোড হচ্ছে...</option>
+            <option value="">বিভাগ নির্বাচন করুন</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label data-bn="জেলা" data-en="District">জেলা</label>
-
+          <label>জেলা / District</label>
           <select id="districtSelect" disabled>
             <option value="">জেলা নির্বাচন করুন</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label data-bn="উপজেলা / সিটি কর্পোরেশন"
-                 data-en="Upazila / City Corporation">
-            উপজেলা / সিটি কর্পোরেশন
-          </label>
-
+          <label>উপজেলা / সিটি কর্পোরেশন</label>
           <select id="areaSelect" disabled>
             <option value="">এলাকা নির্বাচন করুন</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label data-bn="রক্তের গ্রুপ"
-                 data-en="Blood Group">
-            রক্তের গ্রুপ
-          </label>
-
+          <label>রক্তের গ্রুপ / Blood Group</label>
           <select id="bloodGroupSelect">
             <option value="">সকল গ্রুপ / All Groups</option>
-            <option>A+</option>
-            <option>A-</option>
-            <option>B+</option>
-            <option>B-</option>
-            <option>AB+</option>
-            <option>AB-</option>
-            <option>O+</option>
-            <option>O-</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
           </select>
         </div>
 
@@ -223,32 +213,14 @@
       <div class="filter-bottom">
         <span id="locationStatus">ঠিকানা লোড হচ্ছে...</span>
 
-        <button class="btn btn-green" id="searchButton"
-                data-bn="রক্তদাতা খুঁজুন"
-                data-en="Search Donors">
+        <button class="btn btn-green" id="searchButton">
           রক্তদাতা খুঁজুন
         </button>
       </div>
 
     </div>
 
-    <div class="donor-results" id="donorResults">
-
-      <div class="search-placeholder">
-        <div class="search-symbol">⌕</div>
-
-        <h3 data-bn="রক্তদাতা দেখতে সার্চ করুন"
-            data-en="Search to Find Donors">
-          রক্তদাতা দেখতে সার্চ করুন
-        </h3>
-
-        <p data-bn="উপরের ফিল্টার ব্যবহার করে রক্তদাতা খুঁজুন।"
-           data-en="Use the filters above to find donors.">
-          উপরের ফিল্টার ব্যবহার করে রক্তদাতা খুঁজুন।
-        </p>
-      </div>
-
-    </div>
+    <div class="donor-results" id="donorResults"></div>
 
   </div>
 </section>
@@ -454,3 +426,4 @@
 
 </body>
 </html>
+
