@@ -798,3 +798,31 @@ footer p{
   }
 }
 
+/* মেনু ডানদিকে রাখার জন্য এবং পুরো ডিসপ্লে না নেওয়ার জন্য */
+.header {
+  position: relative;
+}
+
+.menu {
+  position: absolute;
+  top: 100%;
+  right: 15px;        /* ডানদিক থেকে ১৫ পিক্সেল দূরত্বে থাকবে */
+  left: auto;         /* বামদিকের প্রসারণ বন্ধ করবে */
+  width: 260px;       /* পুরো ডিসপ্লের বদলে নির্দিষ্ট প্রস্থ */
+  max-width: 85vw;    /* খুব ছোট মোবাইলেও যেন স্ক্রিনের বাইরে না যায় */
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  padding: 15px;
+  z-index: 1000;
+}
+
+/* ভাষা বক্সের নিচে একটু দাগ ও গ্যাপ রাখার জন্য */
+.menu .language-box {
+  margin-top: 0;
+  margin-bottom: 12px;
+  padding-top: 0;
+  padding-bottom: 12px;
+  border-top: none;
+  border-bottom: 1px solid #e5e7eb;
+}
