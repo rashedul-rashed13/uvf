@@ -504,3 +504,33 @@ document.addEventListener("DOMContentLoaded", () => {
 /* =====================================================
    END OF UVF SCRIPT
 ===================================================== */
+document.addEventListener("DOMContentLoaded", () => {
+
+  const menuButton = document.getElementById("menuButton");
+  const menu = document.getElementById("menu");
+
+  if (!menuButton || !menu) return;
+
+  menuButton.addEventListener("click", () => {
+
+    const opened = menu.classList.toggle("open");
+
+    menuButton.setAttribute(
+      "aria-expanded",
+      String(opened)
+    );
+
+  });
+
+  menu.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", () => {
+      menu.classList.remove("open");
+      menuButton.setAttribute("aria-expanded", "false");
+    });
+  });
+
+});
+
+
+
+
