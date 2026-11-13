@@ -2,214 +2,499 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>United Volunteers Foundation</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#103e35">
+<title>United Volunteers Foundation | UVF</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+:root {
+  --green:#103e35;
+  --teal:#11796e;
+  --red:#d92129;
+  --dark:#111a2e;
+  --bg:#faf9f7;
+  --border:#e9e7e3;
+}
+* {box-sizing:border-box;margin:0;padding:0}
+body {
+  font-family:'Noto Sans Bengali',sans-serif;
+  background:var(--bg);
+  color:#292929;
+}
+button,a {font:inherit}
+a {text-decoration:none;color:inherit}
+.container {width:min(1120px,92%);margin:auto}
+
+/* HEADER */
+header {
+  background:#fff;
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+.nav {
+  min-height:68px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+.brand {
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.logo {
+  width:43px;height:43px;
+  border-radius:50%;
+  object-fit:contain;
+}
+.brand-name {font-weight:800;font-size:14px;color:var(--green)}
+.brand-sub {font-size:10px;color:var(--red)}
+.menu-btn {
+  background:#b91f31;color:white;
+  border:0;border-radius:8px;
+  padding:9px 16px;cursor:pointer;
+}
+.menu {
+  display:none;
+  padding:12px 4%;
+  border-top:1px solid var(--border);
+  background:white;
+}
+.menu.show {display:flex;flex-wrap:wrap;gap:10px}
+.menu a,.menu button {
+  border:0;background:none;padding:9px;
+  cursor:pointer;font-size:13px;
+}
+
+/* HERO */
+.hero {
+  background:var(--green);
+  color:white;
+  padding:65px 0 55px;
+}
+.hero small {color:#f2b8a9}
+.hero h1 {
+  font-size:clamp(25px,4vw,40px);
+  line-height:1.5;
+  margin:12px 0;
+}
+.hero p {
+  color:#d8e4df;
+  font-size:14px;
+  line-height:1.9;
+  max-width:700px;
+}
+.actions {display:flex;flex-wrap:wrap;gap:10px;margin-top:25px}
+.btn {
+  padding:11px 18px;border-radius:9px;
+  font-size:13px;font-weight:600;
+  border:1px solid transparent;
+  display:inline-block;
+  cursor:pointer;
+}
+.btn-white {background:white;color:var(--green)}
+.btn-outline {border-color:#77968c;color:white}
+.btn-red {background:var(--red);color:white}
+
+/* SECTION */
+section {padding:55px 0}
+.section-title{text-align:center;margin-bottom:25px}
+.section-title:before {
+  content:"";display:block;width:35px;
+  height:3px;background:#b8293d;
+  margin:0 auto 12px;
+}
+.section-title h2 {font-size:25px;color:#252525}
+.section-title p {font-size:12px;color:#888;margin-top:8px}
+
+/* SEARCH */
+.search-card,.result-card {
+  background:#fff;border:1px solid var(--border);
+  border-radius:15px;padding:20px;
+  box-shadow:0 2px 8px #00000005;
+}
+.filters {
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+.field label {display:block;font-size:12px;margin-bottom:7px}
+.field select {
+  width:100%;padding:12px;
+  border:1px solid var(--border);
+  border-radius:9px;background:white;
+  font-family:inherit;font-size:12px;
+}
+.hint {font-size:11px;color:#888;margin-top:12px}
+.result-card {
+  margin-top:16px;min-height:145px;
+  display:flex;align-items:center;
+  justify-content:center;text-align:center;
+}
+.search-icon {font-size:32px;color:#bd7e8c}
+.result-card p {font-size:12px;color:#888;margin-top:8px}
+
+/* JOIN */
+.join-grid {
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:16px;max-width:850px;margin:auto;
+}
+.join-card {
+  padding:23px;border-radius:14px;
+  color:white;min-height:160px;
+}
+.join-card.green {background:#11796e}
+.join-card.red {background:#dc242b}
+.join-card h3 {font-size:17px;margin:12px 0 6px}
+.join-card p {font-size:12px;line-height:1.8;color:#f4eeee}
+.join-card a {display:inline-block;margin-top:12px;font-size:12px;font-weight:bold}
+.stats {
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:15px;max-width:850px;margin:15px auto 0;
+}
+.stat {
+  background:#fff;border:1px solid var(--border);
+  border-radius:13px;text-align:center;padding:18px;
+}
+.stat strong {font-size:25px;color:var(--red)}
+.stat p {font-size:12px;color:#888;margin-top:5px}
+.loading {font-size:12px;color:#999}
+
+/* ABOUT */
+.about {
+  background:white;text-align:center;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+.about-icon {font-size:28px}
+.about h2 {font-size:25px;margin:10px 0}
+.about p {
+  max-width:720px;margin:10px auto 20px;
+  font-size:13px;line-height:2;color:#777;
+}
+.about-actions {display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.about-actions a {
+  padding:10px 16px;border:1px solid var(--border);
+  border-radius:30px;font-size:12px;
+}
+.about-actions a:last-child {background:var(--dark);color:white}
+
+/* FOOTER */
+footer {background:var(--dark);color:white;padding:35px 0}
+.footer-grid {
+  display:grid;grid-template-columns:1fr 1fr;gap:25px;
+}
+footer h3 {font-size:16px}
+footer p,footer a {font-size:12px;color:#bdc2ce;line-height:2}
+footer h4 {margin:15px 0 8px;font-size:13px}
+.contact {text-align:right}
+.copyright {
+  text-align:center;padding:12px;
+  background:#fff;font-size:10px;color:#888;
+}
+
+/* RESPONSIVE */
+@media(max-width:600px) {
+ .hero {padding:42px 0}
+ .hero h1 {font-size:25px}
+ .filters {grid-template-columns:1fr}
+ .join-grid {grid-template-columns:1fr}
+ .footer-grid {grid-template-columns:1fr}
+ .contact {text-align:left}
+ .brand-name {font-size:12px}
+ section {padding:40px 0}
+}
+</style>
 </head>
+
 <body>
 
-<header class="header">
-  <div class="navbar">
-    <a href="#" class="brand">
-      <img src="logo.png" alt="UVF Logo">
-      <div>
-        <h3>ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন</h3>
-        <small>মানুষের জন্য মানবতার পথ</small>
-      </div>
-    </a>
-    <button id="menuBtn" class="menu-btn">☰ মেনু</button>
-    <nav id="nav">
-      <a href="#home">হোম</a>
-      <a href="#donors">অনুসন্ধান</a>
-      <a href="#about">আমাদের সম্পর্কে</a>
-      <a href="#volunteer">স্বেচ্ছাসেবী</a>
-      <a href="#activities">কার্যক্রম</a>
-      <a href="#contact">যোগাযোগ</a>
-      <a href="#register">একাউন্ট তৈরি</a>
-    </nav>
-  </div>
+<header>
+ <div class="container nav">
+  <a href="#" class="brand">
+   <img class="logo" src="logo.png" alt="UVF Logo">
+   <div>
+    <div class="brand-name" data-bn="ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন" data-en="United Volunteers Foundation">ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন</div>
+    <div class="brand-sub" data-bn="মানুষের জন্য মানবতার পথে" data-en="For People, For Humanity">মানুষের জন্য মানবতার পথে</div>
+   </div>
+  </a>
+  <button class="menu-btn" onclick="toggleMenu()">☰ <span data-bn="মেনু" data-en="Menu">মেনু</span></button>
+ </div>
+
+ <nav class="menu container" id="menu">
+  <a href="#home" data-bn="হোম" data-en="Home">হোম</a>
+  <a href="#search" data-bn="রক্তদাতা খুঁজুন" data-en="Find Donors">রক্তদাতা খুঁজুন</a>
+  <a href="#join" data-bn="নিবন্ধন" data-en="Registration">নিবন্ধন</a>
+  <a href="#about" data-bn="আমাদের সম্পর্কে" data-en="About Us">আমাদের সম্পর্কে</a>
+  <a href="#contact" data-bn="যোগাযোগ" data-en="Contact">যোগাযোগ</a>
+  <button onclick="changeLanguage()">বাংলা / English</button>
+ </nav>
 </header>
 
-<section class="hero" id="home">
-  <div class="container">
-    <p class="tag">♥ মানুষের জন্য মানবতার পথ</p>
-    <h1>মানবিকতার পথে আপনিও পথচলা শুরু করুন</h1>
-    <p>রক্তদাতা খুঁজুন, স্বেচ্ছাসেবী হিসেবে যুক্ত হোন এবং মানুষের পাশে দাঁড়ান। আপনার সামান্য সহযোগিতায় বাঁচতে পারে একটি জীবন।</p>
-    <div class="hero-buttons">
-      <a href="#donors" class="btn white">🩸 রক্তদাতা খুঁজুন</a>
-      <a href="#volunteer" class="btn outline">স্বেচ্ছাসেবী নিবন্ধন</a>
-      <a href="#register" class="btn red">রক্তদাতা নিবন্ধন</a>
-    </div>
+<!-- HERO -->
+<div class="hero" id="home">
+ <div class="container">
+  <small data-bn="♥ মানুষের জন্য মানবতার পথে" data-en="♥ On the path of humanity">♥ মানুষের জন্য মানবতার পথে</small>
+
+  <h1 data-bn="মানবিকতার পথে আপনিও পথচলা শুরু করুন" data-en="Start Your Journey on the Path of Humanity">
+   মানবিকতার পথে আপনিও পথচলা শুরু করুন
+  </h1>
+
+  <p data-bn="নিঃস্বার্থ মানবসেবার অঙ্গীকার, স্বেচ্ছাসেবী কার্যক্রম এবং রক্তদানের মাধ্যমে আমাদের এই উদ্যোগ। আপনার ছোট্ট সহযোগিতাও কারো জীবনে বড় পরিবর্তন আনতে পারে।"
+  data-en="A commitment to selfless service through volunteer activities and blood donation. Your small contribution can make a big difference in someone's life.">
+  নিঃস্বার্থ মানবসেবার অঙ্গীকার, স্বেচ্ছাসেবী কার্যক্রম এবং রক্তদানের মাধ্যমে আমাদের এই উদ্যোগ। আপনার ছোট্ট সহযোগিতাও কারো জীবনে বড় পরিবর্তন আনতে পারে।
+  </p>
+
+  <div class="actions">
+   <a class="btn btn-white" href="#search" data-bn="🩸 রক্তদাতা খুঁজুন" data-en="🩸 Find Blood Donors">🩸 রক্তদাতা খুঁজুন</a>
+   <a class="btn btn-outline" href="#join" data-bn="স্বেচ্ছাসেবী নিবন্ধন" data-en="Volunteer Registration">স্বেচ্ছাসেবী নিবন্ধন</a>
+   <a class="btn btn-red" href="#join" data-bn="রক্তদাতা নিবন্ধন" data-en="Donor Registration">রক্তদাতা নিবন্ধন</a>
   </div>
+ </div>
+</div>
+
+<!-- BLOOD SEARCH -->
+<section id="search">
+ <div class="container">
+  <div class="section-title">
+   <h2 data-bn="রক্তদাতা খুঁজুন" data-en="Find Blood Donors">রক্তদাতা খুঁজুন</h2>
+   <p data-bn="প্রয়োজনীয় তথ্য দিয়ে আপনার এলাকার রক্তদাতা খুঁজে নিন" data-en="Find blood donors in your area">প্রয়োজনীয় তথ্য দিয়ে আপনার এলাকার রক্তদাতা খুঁজে নিন</p>
+  </div>
+
+  <div class="search-card">
+   <div class="filters">
+    <div class="field">
+     <label data-bn="বিভাগ" data-en="Division">বিভাগ</label>
+     <select><option>সকল বিভাগ</option></select>
+    </div>
+    <div class="field">
+     <label data-bn="জেলা" data-en="District">জেলা</label>
+     <select><option>জেলা নির্বাচন করুন</option></select>
+    </div>
+    <div class="field">
+     <label data-bn="সিটি কর্পোরেশন / উপজেলা" data-en="City / Upazila">সিটি কর্পোরেশন / উপজেলা</label>
+     <select><option>আগে জেলা নির্বাচন করুন</option></select>
+    </div>
+    <div class="field">
+     <label data-bn="রক্তের গ্রুপ" data-en="Blood Group">রক্তের গ্রুপ</label>
+     <select>
+      <option>সকল গ্রুপ</option>
+      <option>A+</option><option>A-</option>
+      <option>B+</option><option>B-</option>
+      <option>AB+</option><option>AB-</option>
+      <option>O+</option><option>O-</option>
+     </select>
+    </div>
+   </div>
+   <p class="hint" data-bn="রক্তদাতার তথ্য অনুসন্ধান করতে প্রয়োজনীয় তথ্য নির্বাচন করুন।" data-en="Select the required information to search for donors.">রক্তদাতার তথ্য অনুসন্ধান করতে প্রয়োজনীয় তথ্য নির্বাচন করুন।</p>
+  </div>
+
+  <div class="result-card">
+   <div>
+    <div class="search-icon">⌕</div>
+    <strong data-bn="রক্তদাতা দেখতে সার্চ করুন" data-en="Search to find donors">রক্তদাতা দেখতে সার্চ করুন</strong>
+    <p data-bn="উপরের ফিল্টারগুলো ব্যবহার করে আপনার এলাকার রক্তদাতা খুঁজে নিন।" data-en="Use the filters above to find donors in your area.">উপরের ফিল্টারগুলো ব্যবহার করে আপনার এলাকার রক্তদাতা খুঁজে নিন।</p>
+   </div>
+  </div>
+ </div>
 </section>
 
-<section class="section" id="donors">
-  <div class="container">
-    <div class="section-title">
-      <span></span>
-      <h2>রক্তদাতা খুঁজুন</h2>
-      <p>আপনার প্রয়োজন অনুযায়ী এলাকা ও রক্তের গ্রুপ নির্বাচন করুন</p>
-    </div>
-
-    <div class="search-box">
-      <label>বিভাগ
-        <select id="division">
-          <option value="">সব বিভাগ</option>
-        </select>
-      </label>
-
-      <label>জেলা
-        <select id="district" disabled>
-          <option value="">আগে বিভাগ নির্বাচন করুন</option>
-        </select>
-      </label>
-
-      <label>উপজেলা / সিটি কর্পোরেশন
-        <select id="upazila" disabled>
-          <option value="">আগে জেলা নির্বাচন করুন</option>
-        </select>
-      </label>
-
-      <label>রক্তের গ্রুপ
-        <select id="blood">
-          <option value="">সব গ্রুপ</option>
-          <option>A+</option>
-          <option>A-</option>
-          <option>B+</option>
-          <option>B-</option>
-          <option>AB+</option>
-          <option>AB-</option>
-          <option>O+</option>
-          <option>O-</option>
-        </select>
-      </label>
-
-      <button class="btn red search-btn" id="searchBtn">রক্তদাতা খুঁজুন</button>
-      <small id="searchCount">মোট ৯ জন রক্তদাতা পাওয়া গেছে</small>
-    </div>
-
-    <div class="results" id="results">
-      <div class="search-symbol">⌕</div>
-      <h3>রক্তদাতা দেখতে সার্চ করুন</h3>
-      <p>উপরের ফিল্টারগুলো নির্বাচন করে সার্চ করুন।</p>
-    </div>
+<!-- JOIN AND STATS -->
+<section id="join">
+ <div class="container">
+  <div class="section-title">
+   <h2 data-bn="মানবতার পথে আপনিও পথচলা শুরু করুন" data-en="Start Your Journey with Us">মানবতার পথে আপনিও পথচলা শুরু করুন</h2>
+   <p data-bn="নিবন্ধন করুন, মানবতার সেবায় অংশ নিন" data-en="Register and participate in humanitarian service">নিবন্ধন করুন, মানবতার সেবায় অংশ নিন</p>
   </div>
+
+  <div class="join-grid">
+   <div class="join-card green">
+    <div style="font-size:27px">♡</div>
+    <h3 data-bn="স্বেচ্ছাসেবী হিসেবে যোগ দিন" data-en="Join as a Volunteer">স্বেচ্ছাসেবী হিসেবে যোগ দিন</h3>
+    <p data-bn="মানবতার সেবায় নিজেকে যুক্ত করুন এবং সমাজের পাশে দাঁড়ান।" data-en="Join humanitarian service and stand beside society.">মানবতার সেবায় নিজেকে যুক্ত করুন এবং সমাজের পাশে দাঁড়ান।</p>
+    <a href="volunteer-register.html" data-bn="নিবন্ধন করুন →" data-en="Register →">নিবন্ধন করুন →</a>
+   </div>
+
+   <div class="join-card red">
+    <div style="font-size:27px">🩸</div>
+    <h3 data-bn="রক্তদাতা হিসেবে নিবন্ধন করুন" data-en="Register as a Blood Donor">রক্তদাতা হিসেবে নিবন্ধন করুন</h3>
+    <p data-bn="আপনার রক্তদান একটি জীবন বাঁচাতে পারে। রক্তদাতা হিসেবে নিবন্ধন করুন।" data-en="Your blood donation can save a life. Register as a donor.">আপনার রক্তদান একটি জীবন বাঁচাতে পারে। রক্তদাতা হিসেবে নিবন্ধন করুন।</p>
+    <a href="donor-register.html" data-bn="নিবন্ধন করুন →" data-en="Register →">নিবন্ধন করুন →</a>
+   </div>
+  </div>
+
+  <div class="stats">
+   <div class="stat">
+    <strong id="donorCount" class="loading">...</strong>
+    <p data-bn="নিবন্ধিত রক্তদাতা" data-en="Registered Blood Donors">নিবন্ধিত রক্তদাতা</p>
+   </div>
+   <div class="stat">
+    <strong id="volunteerCount" class="loading">...</strong>
+    <p data-bn="স্বেচ্ছাসেবী সদস্য" data-en="Volunteer Members">স্বেচ্ছাসেবী সদস্য</p>
+   </div>
+  </div>
+  <p id="statsMessage" class="hint" style="text-align:center"></p>
+ </div>
 </section>
 
-<section class="section join" id="volunteer">
-  <div class="container">
-    <div class="section-title">
-      <small>যুক্ত হোন</small>
-      <h2>মানবতার পথে আপনিও পথচলা শুরু করুন</h2>
-      <p>রক্তদাতা হিসেবে যুক্ত হোন অথবা সংগঠনে স্বেচ্ছাসেবী হিসেবে নিবন্ধন করুন।</p>
-    </div>
-
-    <div class="join-grid">
-      <a href="#register" class="join-card green">
-        <div class="join-icon">♡</div>
-        <h3>স্বেচ্ছাসেবী হিসেবে যুক্ত হোন</h3>
-        <p>সংগঠনের সদস্য হিসেবে যোগ দিন এবং মানুষের পাশে দাঁড়ান।</p>
-        <b>নিবন্ধন করুন →</b>
-      </a>
-
-      <a href="#register" class="join-card red-bg">
-        <div class="join-icon">🩸</div>
-        <h3>রক্তদাতা নিবন্ধন করুন</h3>
-        <p>আপনার রক্ত দিয়ে একটি জীবন বাঁচান। রক্তদাতা হিসেবে নিবন্ধন করুন।</p>
-        <b>নিবন্ধন করুন →</b>
-      </a>
-    </div>
-
-    <div class="stats">
-      <div class="stat">
-        <h2 id="donorTotal">৯+</h2>
-        <p>নিবন্ধিত রক্তদাতা</p>
-      </div>
-      <div class="stat">
-        <h2 id="volunteerTotal">২+</h2>
-        <p>স্বেচ্ছাসেবী সদস্য</p>
-      </div>
-    </div>
+<!-- ABOUT -->
+<section class="about" id="about">
+ <div class="container">
+  <div class="about-icon">♧</div>
+  <h2 data-bn="একটি অরাজনৈতিক স্বেচ্ছাসেবী সংগঠন" data-en="A Non-Political Volunteer Organization">একটি অরাজনৈতিক স্বেচ্ছাসেবী সংগঠন</h2>
+  <p data-bn="ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন একটি অরাজনৈতিক এবং স্বেচ্ছাসেবী সংগঠন। আমরা মানবিকতা, সততা ও সেবার মূল্যবোধ নিয়ে একটি মানবিক স্বেচ্ছাসেবী প্ল্যাটফর্ম গড়ে তুলতে কাজ করছি।"
+  data-en="United Volunteers Foundation is a non-political volunteer organization. We work to build a humanitarian volunteer platform based on humanity, integrity and service.">
+  ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন একটি অরাজনৈতিক এবং স্বেচ্ছাসেবী সংগঠন। আমরা মানবিকতা, সততা ও সেবার মূল্যবোধ নিয়ে একটি মানবিক স্বেচ্ছাসেবী প্ল্যাটফর্ম গড়ে তুলতে কাজ করছি।
+  </p>
+  <div class="about-actions">
+   <a href="about.html" data-bn="আমাদের সম্পর্কে আরও" data-en="Learn More">আমাদের সম্পর্কে আরও</a>
+   <a href="activities.html" data-bn="আমাদের কার্যক্রম দেখুন" data-en="Our Activities">আমাদের কার্যক্রম দেখুন</a>
   </div>
+ </div>
 </section>
 
-<section class="about section" id="about">
-  <div class="container">
-    <div class="about-icon">♧</div>
-    <h2>একটি অরাজনৈতিক স্বেচ্ছাসেবী সংগঠন</h2>
-    <p>ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন কোনো রাজনৈতিক দলের সাথে সম্পৃক্ত নয়। আমরা মানবিকতা, সততা ও সেবার মনোভাব নিয়ে একটি স্বেচ্ছাসেবী সংগঠন হিসেবে কাজ করি। আমাদের লক্ষ্য— প্রতিটি মানুষের পাশে দাঁড়ানো এবং সমাজে ইতিবাচক পরিবর্তন আনা।</p>
-    <div class="about-buttons">
-      <a href="#about" class="btn light-border">আমাদের সম্পর্কে জানুন</a>
-      <a href="#activities" class="btn dark">আমাদের কার্যক্রম দেখুন</a>
-    </div>
-  </div>
-</section>
+<div class="copyright">
+ <span data-bn="সর্বশেষ হালনাগাদ:" data-en="Last Updated:">সর্বশেষ হালনাগাদ:</span>
+ <span id="updatedTime"></span>
+</div>
 
-<section class="section" id="activities">
-  <div class="container">
-    <div class="section-title">
-      <h2>আমাদের কার্যক্রম</h2>
-      <p>মানবতার সেবায় আমাদের সঙ্গে যুক্ত হোন।</p>
-    </div>
-    <div class="activity-grid">
-      <div class="activity">
-        <h3>🩸 রক্তদান কর্মসূচি</h3>
-        <p>জরুরি প্রয়োজনে রক্তদাতা খুঁজে দিতে সহায়তা।</p>
-      </div>
-      <div class="activity">
-        <h3>🤝 স্বেচ্ছাসেবী কার্যক্রম</h3>
-        <p>মানুষের কল্যাণে সামাজিক ও মানবিক কাজ।</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="register">
-  <div class="container">
-    <div class="section-title">
-      <h2>নিবন্ধন করুন</h2>
-      <p>এটি আপাতত Frontend ডেমো ফর্ম।</p>
-    </div>
-    <form id="demoForm" class="register-form">
-      <input type="text" placeholder="আপনার পূর্ণ নাম" required>
-      <input type="tel" placeholder="মোবাইল নম্বর" required>
-      <select required>
-        <option value="">রক্তের গ্রুপ নির্বাচন</option>
-        <option>A+</option><option>A-</option>
-        <option>B+</option><option>B-</option>
-        <option>AB+</option><option>AB-</option>
-        <option>O+</option><option>O-</option>
-      </select>
-      <button class="btn red" type="submit">নিবন্ধন জমা দিন</button>
-      <p id="formMessage"></p>
-    </form>
-  </div>
-</section>
-
+<!-- FOOTER -->
 <footer id="contact">
-  <div class="container footer-grid">
+ <div class="container footer-grid">
+  <div>
+   <div class="brand">
+    <img src="logo.png" class="logo" alt="UVF">
     <div>
-      <div class="footer-brand">
-        <img src="logo.png" alt="UVF">
-        <h3>ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন</h3>
-      </div>
-      <p>মানুষের জন্য মানবতার পথ</p>
-      <small>একটি অরাজনৈতিক স্বেচ্ছাসেবী সংগঠন</small>
+     <h3 data-bn="ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন" data-en="United Volunteers Foundation">ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন</h3>
+     <div class="brand-sub" data-bn="মানুষের জন্য মানবতার পথে" data-en="For People, For Humanity">মানুষের জন্য মানবতার পথে</div>
     </div>
-    <div>
-      <h3>যোগাযোগ</h3>
-      <p>E-mail: uvf.info@gmail.com</p>
-      <p>Call: +880 1516-530120</p>
-      <p>Call: +880 1636-949584</p>
-    </div>
+   </div>
+   <p data-bn="একটি অরাজনৈতিক স্বেচ্ছাসেবী সংগঠন" data-en="A Non-Political Volunteer Organization">একটি অরাজনৈতিক স্বেচ্ছাসেবী সংগঠন</p>
+   <h4 data-bn="♥ দ্রুত লিংক" data-en="♥ Quick Links">♥ দ্রুত লিংক</h4>
+   <p><a href="#home" data-bn="জাতীয় জরুরি সেবা →" data-en="National Emergency Service →">জাতীয় জরুরি সেবা →</a></p>
+   <p><a href="#search" data-bn="রক্তদাতা খুঁজুন →" data-en="Find Blood Donors →">রক্তদাতা খুঁজুন →</a></p>
+   <p><a href="#join" data-bn="নিবন্ধন করুন →" data-en="Register →">নিবন্ধন করুন →</a></p>
   </div>
-  <div class="copyright">
-    সর্বস্বত্ব সংরক্ষিত © <span id="year"></span> United Volunteers Foundation
+  <div class="contact">
+   <h4 data-bn="যোগাযোগ" data-en="Contact">যোগাযোগ</h4>
+   <p>E-mail: uvf.info@gmail.com</p>
+   <p>Call: +880 1516-503120</p>
+   <p>Call: +880 1636-949584</p>
+   <p data-bn="দেওয়ানগঞ্জ, জামালপুর" data-en="Dewanganj, Jamalpur">দেওয়ানগঞ্জ, জামালপুর</p>
   </div>
+ </div>
 </footer>
 
-<script src="script.js"></script>
+<script>
+// ===============================
+// SUPABASE CONFIGURATION
+// ===============================
+
+// এখানে নিজের Supabase Project URL বসাবি
+const SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL";
+
+// এখানে নিজের Publishable/Anon Key বসাবি
+const SUPABASE_KEY = "YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY";
+
+let db = null;
+
+if (SUPABASE_URL.startsWith("https://") &&
+    !SUPABASE_URL.includes("YOUR_") &&
+    !SUPABASE_KEY.includes("YOUR_")) {
+  db = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+}
+
+// ===============================
+// LIVE REGISTRATION COUNTS
+// ===============================
+
+async function loadStats() {
+  const donor = document.getElementById("donorCount");
+  const volunteer = document.getElementById("volunteerCount");
+  const message = document.getElementById("statsMessage");
+
+  if (!db) {
+    donor.textContent = "—";
+    volunteer.textContent = "—";
+    message.textContent = "Supabase সংযোগ সেটআপ করা হয়নি।";
+    return;
+  }
+
+  try {
+    const {data, error} = await db.rpc("get_uvf_public_stats");
+
+    if (error) throw error;
+
+    const donorTotal = Number(data.blood_donors);
+    const volunteerTotal = Number(data.volunteers);
+
+    if (!Number.isFinite(donorTotal) ||
+        !Number.isFinite(volunteerTotal)) {
+      throw new Error("Invalid statistics response");
+    }
+
+    donor.textContent = donorTotal.toLocaleString("en-US") + "+";
+    volunteer.textContent = volunteerTotal.toLocaleString("en-US") + "+";
+
+    message.textContent = "";
+  } catch (error) {
+    console.error("UVF stats error:", error);
+    donor.textContent = "—";
+    volunteer.textContent = "—";
+    message.textContent = "পরিসংখ্যান লোড করা যায়নি।";
+  }
+}
+
+// প্রথমবার লোড
+loadStats();
+
+// প্রতি ৩০ সেকেন্ডে আপডেট
+setInterval(loadStats, 30000);
+
+// ===============================
+// LANGUAGE SWITCHER
+// ===============================
+
+let currentLanguage = "bn";
+
+function changeLanguage() {
+  currentLanguage = currentLanguage === "bn" ? "en" : "bn";
+
+  document.documentElement.lang = currentLanguage;
+
+  document.querySelectorAll("[data-bn][data-en]").forEach(element => {
+    element.textContent =
+      element.getAttribute("data-" + currentLanguage);
+  });
+
+  localStorage.setItem("uvf_language", currentLanguage);
+}
+
+// আগের ভাষা মনে রাখা
+const savedLanguage = localStorage.getItem("uvf_language");
+if (savedLanguage === "en") changeLanguage();
+
+// ===============================
+// MOBILE MENU
+// ===============================
+
+function toggleMenu() {
+  document.getElementById("menu").classList.toggle("show");
+}
+
+document.getElementById("updatedTime").textContent =
+  new Date().toLocaleString("bn-BD");
+</script>
+
 </body>
 </html>
