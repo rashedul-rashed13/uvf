@@ -18,16 +18,19 @@
 
 <body>
 
+<!-- HEADER -->
 <header class="header">
   <div class="container navbar">
 
     <a href="#home" class="brand">
       <img src="./logo.png" class="logo" alt="UVF Logo">
-      <div>
+
+      <div class="brand-text">
         <h3 data-bn="ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন"
             data-en="United Volunteers Foundation">
           ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন
         </h3>
+
         <small data-bn="মানুষের জন্য মানবতার পথে"
                data-en="For People, For Humanity">
           মানুষের জন্য মানবতার পথে
@@ -35,41 +38,81 @@
       </div>
     </a>
 
-    <button class="menu-button" id="menuButton">
-      ☰ <span data-bn="মেনু" data-en="Menu">মেনু</span>
+    <button class="menu-button" id="menuButton"
+            aria-expanded="false" aria-controls="menu">
+      <span>☰</span>
+      <span data-bn="মেনু" data-en="Menu">মেনু</span>
     </button>
 
   </div>
 
-  <nav class="menu container" id="menu">
+  <!-- DROPDOWN MENU -->
+  <nav class="menu" id="menu">
 
-    <a href="#home" data-bn="হোম" data-en="Home">হোম</a>
-    <a href="#search" data-bn="অনুসন্ধান" data-en="Search">অনুসন্ধান</a>
-    <a href="#about" data-bn="আমাদের সম্পর্কে" data-en="About Us">আমাদের সম্পর্কে</a>
-    <a href="#join" data-bn="সেবাসমূহ" data-en="Services">সেবাসমূহ</a>
-    <a href="volunteer-register.html" data-bn="স্বেচ্ছাসেবী" data-en="Volunteers">স্বেচ্ছাসেবী</a>
-    <a href="#join" data-bn="কার্যক্রম" data-en="Activities">কার্যক্রম</a>
-    <a href="#contact" data-bn="যোগাযোগ" data-en="Contact">যোগাযোগ</a>
+    <a href="#home" class="menu-link active"
+       data-bn="হোম" data-en="Home">হোম</a>
 
-    <div class="language">
-      <button id="bnButton">বাংলা</button>
-      <button id="enButton">English</button>
+    <a href="#search" class="menu-link"
+       data-bn="অনুসন্ধান" data-en="Search">অনুসন্ধান</a>
+
+    <a href="#about" class="menu-link"
+       data-bn="আমাদের সম্পর্কে" data-en="About Us">আমাদের সম্পর্কে</a>
+
+    <a href="achievements.html" class="menu-link"
+       data-bn="অর্জনসমূহ" data-en="Achievements">অর্জনসমূহ</a>
+
+    <a href="#join" class="menu-link"
+       data-bn="সেবাসমূহ" data-en="Services">সেবাসমূহ</a>
+
+    <a href="volunteer-register.html" class="menu-link"
+       data-bn="স্বেচ্ছাসেবী" data-en="Volunteers">স্বেচ্ছাসেবী</a>
+
+    <a href="#activities" class="menu-link"
+       data-bn="কার্যক্রম" data-en="Activities">কার্যক্রম</a>
+
+    <a href="verify.html" class="menu-link"
+       data-bn="যাচাই করুন" data-en="Verify">যাচাই করুন</a>
+
+    <a href="#contact" class="menu-link"
+       data-bn="যোগাযোগ" data-en="Contact">যোগাযোগ</a>
+
+    <a href="profile.html" class="menu-link"
+       data-bn="প্রোফাইল" data-en="Profile">প্রোফাইল</a>
+
+    <a href="login.html" class="menu-link"
+       data-bn="লগইন" data-en="Login">লগইন</a>
+
+    <a href="signup.html" class="menu-link"
+       data-bn="একাউন্ট তৈরি" data-en="Create Account">একাউন্ট তৈরি</a>
+
+    <!-- LANGUAGE SWITCH -->
+    <div class="language-box">
+
+      <p data-bn="ভাষা নির্বাচন করুন"
+         data-en="Select Language">
+        ভাষা নির্বাচন করুন
+      </p>
+
+      <div class="language-buttons">
+        <button id="bnButton" type="button">বাংলা</button>
+        <button id="enButton" type="button">English</button>
+      </div>
+
     </div>
 
   </nav>
 </header>
 
+<!-- HERO -->
 <main>
 
-<!-- HERO -->
 <section class="hero" id="home">
   <div class="container">
 
-    <span class="hero-label">♥
-      <span data-bn="মানুষের জন্য মানবতার পথে"
-            data-en="On the path of humanity">
-        মানুষের জন্য মানবতার পথে
-      </span>
+    <span class="hero-label"
+          data-bn="♥ মানুষের জন্য মানবতার পথে"
+          data-en="♥ On the Path of Humanity">
+      ♥ মানুষের জন্য মানবতার পথে
     </span>
 
     <h1 data-bn="মানবিকতার পথে আপনিও পথচলা শুরু করুন"
@@ -83,6 +126,7 @@
     </p>
 
     <div class="hero-buttons">
+
       <a href="#search" class="btn btn-white"
          data-bn="🩸 রক্তদাতা খুঁজুন"
          data-en="🩸 Find Blood Donors">
@@ -100,20 +144,24 @@
          data-en="Donor Registration">
         রক্তদাতা নিবন্ধন
       </a>
-    </div>
 
+    </div>
   </div>
 </section>
 
-<!-- BLOOD SEARCH -->
+<!-- BLOOD DONOR SEARCH -->
 <section class="section" id="search">
+
   <div class="container">
 
     <div class="section-heading">
       <span class="heading-line"></span>
-      <h2 data-bn="রক্তদাতা খুঁজুন" data-en="Find Blood Donors">
+
+      <h2 data-bn="রক্তদাতা খুঁজুন"
+          data-en="Find Blood Donors">
         রক্তদাতা খুঁজুন
       </h2>
+
       <p data-bn="আপনার এলাকার রক্তদাতা খুঁজে নিন"
          data-en="Find blood donors in your area">
         আপনার এলাকার রক্তদাতা খুঁজে নিন
@@ -126,6 +174,7 @@
 
         <div class="form-group">
           <label data-bn="বিভাগ" data-en="Division">বিভাগ</label>
+
           <select id="divisionSelect">
             <option value="">বিভাগ লোড হচ্ছে...</option>
           </select>
@@ -133,6 +182,7 @@
 
         <div class="form-group">
           <label data-bn="জেলা" data-en="District">জেলা</label>
+
           <select id="districtSelect" disabled>
             <option value="">জেলা নির্বাচন করুন</option>
           </select>
@@ -143,15 +193,18 @@
                  data-en="Upazila / City Corporation">
             উপজেলা / সিটি কর্পোরেশন
           </label>
+
           <select id="areaSelect" disabled>
             <option value="">এলাকা নির্বাচন করুন</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label data-bn="রক্তের গ্রুপ" data-en="Blood Group">
+          <label data-bn="রক্তের গ্রুপ"
+                 data-en="Blood Group">
             রক্তের গ্রুপ
           </label>
+
           <select id="bloodGroupSelect">
             <option value="">সকল গ্রুপ / All Groups</option>
             <option>A+</option>
@@ -169,6 +222,7 @@
 
       <div class="filter-bottom">
         <span id="locationStatus">ঠিকানা লোড হচ্ছে...</span>
+
         <button class="btn btn-green" id="searchButton"
                 data-bn="রক্তদাতা খুঁজুন"
                 data-en="Search Donors">
@@ -179,17 +233,21 @@
     </div>
 
     <div class="donor-results" id="donorResults">
+
       <div class="search-placeholder">
         <div class="search-symbol">⌕</div>
+
         <h3 data-bn="রক্তদাতা দেখতে সার্চ করুন"
             data-en="Search to Find Donors">
           রক্তদাতা দেখতে সার্চ করুন
         </h3>
+
         <p data-bn="উপরের ফিল্টার ব্যবহার করে রক্তদাতা খুঁজুন।"
            data-en="Use the filters above to find donors.">
           উপরের ফিল্টার ব্যবহার করে রক্তদাতা খুঁজুন।
         </p>
       </div>
+
     </div>
 
   </div>
@@ -197,14 +255,17 @@
 
 <!-- JOIN -->
 <section class="section join-section" id="join">
+
   <div class="container">
 
     <div class="section-heading">
       <span class="heading-line"></span>
+
       <h2 data-bn="মানবতার পথে আপনিও পথচলা শুরু করুন"
           data-en="Start Your Journey with Us">
         মানবতার পথে আপনিও পথচলা শুরু করুন
       </h2>
+
       <p data-bn="মানবতার সেবায় অংশগ্রহণ করুন"
          data-en="Join us in serving humanity">
         মানবতার সেবায় অংশগ্রহণ করুন
@@ -215,37 +276,47 @@
 
       <div class="join-card volunteer-card">
         <div class="join-icon">♡</div>
+
         <h3 data-bn="স্বেচ্ছাসেবী হিসেবে যোগ দিন"
             data-en="Join as a Volunteer">
           স্বেচ্ছাসেবী হিসেবে যোগ দিন
         </h3>
+
         <p data-bn="মানবতার সেবায় নিজেকে যুক্ত করুন এবং সমাজের পাশে দাঁড়ান।"
            data-en="Join humanitarian service and stand beside society.">
           মানবতার সেবায় নিজেকে যুক্ত করুন এবং সমাজের পাশে দাঁড়ান।
         </p>
+
         <a href="volunteer-register.html"
            data-bn="নিবন্ধন করুন →"
-           data-en="Register →">নিবন্ধন করুন →</a>
+           data-en="Register →">
+          নিবন্ধন করুন →
+        </a>
       </div>
 
       <div class="join-card donor-card">
         <div class="join-icon">🩸</div>
+
         <h3 data-bn="রক্তদাতা হিসেবে নিবন্ধন করুন"
             data-en="Register as a Blood Donor">
           রক্তদাতা হিসেবে নিবন্ধন করুন
         </h3>
+
         <p data-bn="আপনার রক্তদান একটি জীবন বাঁচাতে পারে।"
            data-en="Your blood donation can save a life.">
           আপনার রক্তদান একটি জীবন বাঁচাতে পারে।
         </p>
+
         <a href="donor-register.html"
            data-bn="নিবন্ধন করুন →"
-           data-en="Register →">নিবন্ধন করুন →</a>
+           data-en="Register →">
+          নিবন্ধন করুন →
+        </a>
       </div>
 
     </div>
 
-    <!-- SUPABASE COUNTS -->
+    <!-- LIVE COUNTS -->
     <div class="stats-grid">
 
       <div class="stat-card">
@@ -271,8 +342,28 @@
   </div>
 </section>
 
+<!-- ACTIVITIES -->
+<section class="section" id="activities">
+  <div class="container section-heading">
+
+    <span class="heading-line"></span>
+
+    <h2 data-bn="আমাদের কার্যক্রম"
+        data-en="Our Activities">
+      আমাদের কার্যক্রম
+    </h2>
+
+    <p data-bn="মানবিক ও সামাজিক কার্যক্রমে আমাদের অংশগ্রহণ"
+       data-en="Our participation in humanitarian and social activities">
+      মানবিক ও সামাজিক কার্যক্রমে আমাদের অংশগ্রহণ
+    </p>
+
+  </div>
+</section>
+
 <!-- ABOUT -->
 <section class="section about-section" id="about">
+
   <div class="container about-content">
 
     <div class="about-icon">♧</div>
@@ -288,13 +379,19 @@
     </p>
 
     <div class="about-buttons">
+
       <a href="about.html" class="btn btn-light"
          data-bn="আমাদের সম্পর্কে আরও"
-         data-en="Learn More">আমাদের সম্পর্কে আরও</a>
+         data-en="Learn More">
+        আমাদের সম্পর্কে আরও
+      </a>
 
       <a href="activities.html" class="btn btn-dark"
          data-bn="আমাদের কার্যক্রম দেখুন"
-         data-en="Our Activities">আমাদের কার্যক্রম দেখুন</a>
+         data-en="Our Activities">
+        আমাদের কার্যক্রম দেখুন
+      </a>
+
     </div>
 
   </div>
@@ -302,22 +399,25 @@
 
 </main>
 
+<!-- FOOTER -->
 <div class="copyright">
   © <span id="year"></span> United Volunteers Foundation
 </div>
 
-<!-- FOOTER -->
 <footer id="contact">
+
   <div class="container footer-grid">
 
-    <div class="footer-brand">
+    <div>
       <div class="brand">
         <img src="./logo.png" class="logo" alt="UVF Logo">
+
         <div>
           <h3 data-bn="ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন"
               data-en="United Volunteers Foundation">
             ইউনাইটেড ভলান্টিয়ার্স ফাউন্ডেশন
           </h3>
+
           <small data-bn="মানুষের জন্য মানবতার পথে"
                  data-en="For People, For Humanity">
             মানুষের জন্য মানবতার পথে
@@ -329,21 +429,25 @@
          data-en="A Non-Political Volunteer Organization">
         একটি অরাজনৈতিক স্বেচ্ছাসেবী সংগঠন
       </p>
-
     </div>
 
     <div class="footer-contact">
+
       <h4 data-bn="যোগাযোগ" data-en="Contact">যোগাযোগ</h4>
+
       <p>E-mail: uvf.info@gmail.com</p>
       <p>Call: +880 1516-503120</p>
       <p>Call: +880 1636-949584</p>
+
       <p data-bn="দেওয়ানগঞ্জ, জামালপুর"
          data-en="Dewanganj, Jamalpur">
         দেওয়ানগঞ্জ, জামালপুর
       </p>
+
     </div>
 
   </div>
+
 </footer>
 
 <script src="./script.js"></script>
