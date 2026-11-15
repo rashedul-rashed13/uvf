@@ -524,107 +524,11 @@ footer p{
   text-align:right;
 }
 
-/* MOBILE RESPONSIVE */
-
-@media(max-width:600px){
-
-  body{
-    padding-top: 68px;
-  }
-
-  .navbar{
-    min-height:68px;
-  }
-
-  .logo{
-    width:42px;
-    height:42px;
-    min-width:42px;
-  }
-
-  .brand h3{
-    font-size:11px;
-  }
-
-  .brand small{
-    font-size:9px;
-  }
-
-  .menu-button{
-    min-width:90px;
-    height:40px;
-    padding:0 12px;
-    font-size:12px;
-  }
-
-  .menu{
-    right:10px;
-    width:calc(100% - 20px);
-  }
-
-  .filter-grid{
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px 9px;
-  }
-
-  .filter-card{
-    padding: 12px;
-  }
-
-  .form-group label{
-    font-size: 10px;
-    line-height: 1.6;
-  }
-
-  .form-group select{
-    height: 42px;
-    font-size: 11px;
-    padding: 0 5px;
-  }
-
-  .filter-bottom{
-    gap: 8px;
-  }
-
-  .filter-bottom span{
-    font-size: 10px;
-  }
-
-  .filter-bottom .btn{
-    padding: 10px 12px;
-    font-size: 11px;
-  }
-
-  .hero{
-    padding:42px 0;
-  }
-
-  .hero h1{
-    font-size:25px;
-  }
-
-  .section{
-    padding:40px 0;
-  }
-
-  .join-grid,
-  .footer-grid{
-    grid-template-columns:1fr;
-  }
-
-  .stats-grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .footer-contact{
-    text-align:left;
-  }
-}
 /* MOBILE RESPONSIVE DESIGN */
 @media(max-width: 600px){
 
   body{
-    padding-top: 68px; /* ফিক্সড হেডারের উচ্চতা অনুযায়ী প্যাডিং */
+    padding-top: 68px;
   }
 
   .navbar{
@@ -647,7 +551,6 @@ footer p{
     font-size: 8.5px;
   }
 
-  /* মোবাইল মেনু বাটন */
   .menu-button{
     min-width: 82px;
     height: 38px;
@@ -661,7 +564,6 @@ footer p{
     font-size: 16px;
   }
 
-  /* মোবাইল ড্রপডাউন মেনু (সেন্টার ও পারফেক্ট সাইজ) */
   .menu{
     position: absolute;
     top: 100%;
@@ -680,7 +582,6 @@ footer p{
     border-radius: 8px;
   }
 
-  /* হিরো সেকশন মোবাইল ভিউ */
   .hero{
     padding: 38px 0;
   }
@@ -703,14 +604,13 @@ footer p{
     font-size: 20px;
   }
 
-  /* রক্তদাতা অনুসন্ধান ফিল্ডগুলো মোবাইলে সুন্দরভাবে সাজানো */
   .filter-card{
     padding: 12px;
     border-radius: 12px;
   }
 
   .filter-grid{
-    grid-template-columns: 1fr; /* মোবাইলে এক কলামে থাকবে যাতে সিলেক্ট অপশন বড় দেখায় */
+    grid-template-columns: 1fr; /* মোবাইলে ফিল্টারগুলো সুন্দরভাবে ১ কলামে থাকবে */
     gap: 12px;
   }
 
@@ -744,7 +644,6 @@ footer p{
     font-size: 13px;
   }
 
-  /* জয়েন ও স্ট্যাটিস্টিক্স কার্ড */
   .join-grid,
   .stats-grid,
   .footer-grid{
