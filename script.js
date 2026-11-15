@@ -44,39 +44,25 @@ document.addEventListener("click", event => {
 });
 
 
-/* 2. MOBILE MENU */
+/* 2. MOBILE MENU & TOGGLE HANDLER */
 
-function toggleMenu() {
-  const menu = document.getElementById("navMenu") ||
-    document.getElementById("mobileMenu") ||
-    document.getElementById("mainMenu");
+document.addEventListener("DOMContentLoaded", () => {
+  const menuButton = document.getElementById("menuButton");
+  const menu = document.getElementById("menu");
 
-  if (menu) {
-    menu.classList.toggle("active");
-    menu.classList.toggle("show");
-  }
-}
+  if (menuButton && menu) {
+    menuButton.addEventListener("click", () => {
+      const opened = menu.classList.toggle("open");
+      menu.classList.toggle("show", opened);
+      menuButton.setAttribute("aria-expanded", String(opened));
+    });
 
-document.addEventListener("click", event => {
-  const button = event.target.closest(
-    "#menuToggle, #menuBtn, #hamburger, #mobileMenuBtn"
-  );
-
-  if (button) {
-    event.preventDefault();
-    toggleMenu();
-  }
-
-  const link = event.target.closest(
-    "#navMenu a, #mobileMenu a, #mainMenu a"
-  );
-
-  if (link) {
-    const menu = document.getElementById("navMenu") ||
-      document.getElementById("mobileMenu") ||
-      document.getElementById("mainMenu");
-
-    if (menu) menu.classList.remove("active", "show");
+    menu.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        menu.classList.remove("open", "show");
+        menuButton.setAttribute("aria-expanded", "false");
+      });
+    });
   }
 });
 
@@ -171,7 +157,6 @@ function getLocationId(item) {
   return item.id ?? item._id ?? item.code ?? "";
 }
 
-// ভাষা অনুযায়ী শুধু বাংলা অথবা শুধু ইংরেজি নাম দেখানোর জন্য ফাংশন আপডেট করা হয়েছে
 function formatLocation(item) {
   const bn = getBanglaName(item);
   const en = getEnglishName(item);
@@ -193,31 +178,30 @@ async function fetchLocationData(endpoint) {
 }
 
 
-/* 6. FILTER ELEMENTS */
+/* 6. FILTER ELEMENTS (Updated with your HTML IDs) */
 
 function divisionSelect() {
-  return document.getElementById("filterDivision") ||
-    document.getElementById("divisionFilter") ||
-    document.getElementById("searchDivision");
+  return document.getElementById("divisionSelect") ||
+    document.getElementById("filterDivision") ||
+    document.getElementById("divisionFilter");
 }
 
 function districtSelect() {
-  return document.getElementById("filterDistrict") ||
-    document.getElementById("districtFilter") ||
-    document.getElementById("searchDistrict");
+  return document.getElementById("districtSelect") ||
+    document.getElementById("filterDistrict") ||
+    document.getElementById("districtFilter");
 }
 
 function areaSelect() {
-  return document.getElementById("filterUpazila") ||
-    document.getElementById("upazilaFilter") ||
-    document.getElementById("filterArea") ||
-    document.getElementById("searchUpazila");
+  return document.getElementById("areaSelect") ||
+    document.getElementById("filterUpazila") ||
+    document.getElementById("upazilaFilter");
 }
 
 function bloodGroupSelect() {
-  return document.getElementById("filterBloodGroup") ||
-    document.getElementById("bloodGroupFilter") ||
-    document.getElementById("searchBloodGroup");
+  return document.getElementById("bloodGroupSelect") ||
+    document.getElementById("filterBloodGroup") ||
+    document.getElementById("bloodGroupFilter");
 }
 
 
@@ -253,7 +237,7 @@ function renderDivisionOptions() {
   setSelectOptions(
     select,
     divisions.map(item => ({
-      value: getEnglishName(item), // ভ্যালু সবসময় ইংরেজিতে থাকবে ব্যাকএন্ড বা ফিল্টারিংয়ের সুবিধার জন্য
+      value: getEnglishName(item),
       label: formatLocation(item)
     })),
     currentLanguage === "bn"
@@ -287,7 +271,6 @@ function renderAreaOptions() {
     label: formatLocation(item)
   }));
 
-  // নির্দিষ্ট জেলার সিটি কর্পোরেশন যুক্ত করা
   (cityCorporations[selectedDistrict] || []).forEach(item => {
     items.push({
       value: item.en,
@@ -484,38 +467,9 @@ function resetDonorFilters() {
 }
 
 
-/* 15. WEBSITE INITIALIZATION */
+/* 15. WEBSITE INITIALIZATION & START */
 
-async function initializeUVF() {
+document.addEventListener("DOMContentLoaded", () => {
   setLanguage(currentLanguage);
-  await loadLocations();
-}
-
-
-/* 16. START WEBSITE */
-
-document.addEventListener("DOMContentLoaded", () => {
-  initializeUVF();
-});
-
-
-/* 17. MOBILE MENU TOGGLE HANDLER */
-
-document.addEventListener("DOMContentLoaded", () => {
-  const menuButton = document.getElementById("menuButton");
-  const menu = document.getElementById("menu");
-
-  if (!menuButton || !menu) return;
-
-  menuButton.addEventListener("click", () => {
-    const opened = menu.classList.toggle("open");
-    menuButton.setAttribute("aria-expanded", String(opened));
-  });
-
-  menu.querySelectorAll("a").forEach(link => {
-    link.addEventListener("click", () => {
-      menu.classList.remove("open");
-      menuButton.setAttribute("aria-expanded", "false");
-    });
-  });
+  loadLocations();
 });
