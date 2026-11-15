@@ -2,9 +2,9 @@
 :root {
   --green: #103e35;
   --teal: #11796e;
-  --red: #b91f31;
+  --red: #b91f35;
   --gold: #c6a45b;
-  --dark: #111a2e;
+  --dark: #17202d;
   --bg: #faf9f7;
   --border: #e9e7e3;
 }
@@ -35,7 +35,6 @@ a {
 
 button, select {
   font: inherit;
-  cursor: pointer;
 }
 
 .container {
@@ -53,7 +52,7 @@ button, select {
   width: 100%;
   z-index: 1000;
   border-bottom: 1px solid var(--border);
-  box-shadow: 0 2px 8px #0000000d;
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
 }
 
 .navbar {
@@ -72,26 +71,28 @@ button, select {
 }
 
 .logo {
-  width: 48px;
-  height: 48px;
-  min-width: 48px;
+  width: 68px;
+  height: 68px;
+  min-width: 68px;
   object-fit: contain;
   border-radius: 50%;
   background: white;
-  border: 1px solid #eee;
-  padding: 2px;
+  padding: 3px;
 }
 
-.brand h3 {
-  font-size: 13px;
+.brand-text h3 {
+  font-family: 'Inter', 'Noto Sans Bengali', sans-serif;
+  font-size: 17px;
   font-weight: 800;
   color: var(--green);
   line-height: 1.5;
 }
 
-.brand small {
-  color: var(--red);
-  font-size: 10px;
+.brand-text small {
+  display: block;
+  color: #b94c58;
+  font-size: 13px;
+  margin-top: 4px;
 }
 
 /* MENU BUTTON */
@@ -100,17 +101,18 @@ button, select {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
-  min-width: 105px;
-  height: 44px;
-  padding: 0 17px;
+  gap: 10px;
+  min-width: 135px;
+  height: 48px;
+  padding: 0 18px;
   border: none;
-  border-radius: 9px;
+  border-radius: 13px;
   background: var(--red);
   color: white;
-  font-size: 14px;
-  font-weight: 600;
-  box-shadow: 0 2px 5px #00000018;
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 3px 8px rgba(0,0,0,.12);
+  cursor: pointer;
 }
 
 .menu-button:hover {
@@ -118,7 +120,7 @@ button, select {
 }
 
 .menu-button span:first-child {
-  font-size: 19px;
+  font-size: 23px;
 }
 
 /* DROPDOWN MENU */
@@ -126,30 +128,30 @@ button, select {
 .menu {
   display: none;
   position: absolute;
-  top: 100%;
-  right: 4%;
-  width: min(320px, 92vw);
-  max-height: calc(100vh - 90px);
+  top: calc(100% + 5px);
+  right: 3%;
+  width: min(340px, 94vw);
+  max-height: calc(100vh - 100px);
   overflow-y: auto;
   background: #fff;
   padding: 15px;
   border: 1px solid var(--border);
-  border-radius: 14px;
-  box-shadow: 0 10px 30px #00000026;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.16);
   z-index: 1001;
 }
 
 .menu.show {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
 }
 
 .menu-link {
   display: block;
   padding: 12px 15px;
-  border-radius: 8px;
-  font-size: 14px;
+  border-radius: 30px;
+  font-size: 15px;
   color: #292929;
   transition: .2s;
 }
@@ -173,8 +175,8 @@ button, select {
 /* LANGUAGE */
 
 .language-box {
-  margin-bottom: 12px;
-  padding-bottom: 12px;
+  margin-bottom: 10px;
+  padding-bottom: 13px;
   border-bottom: 1px solid #e5e7eb;
 }
 
@@ -193,9 +195,10 @@ button, select {
   flex: 1;
   padding: 10px;
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 9px;
   background: white;
   font-size: 13px;
+  cursor: pointer;
 }
 
 .language-buttons button.active {
@@ -207,41 +210,36 @@ button, select {
 /* HERO */
 
 .hero {
-  background:
-    radial-gradient(circle at 90% 15%, #ffffff12, transparent 30%),
-    linear-gradient(120deg, #103e35, #11796e);
+  background: var(--green);
   color: white;
-  padding: 75px 0 65px;
-  overflow: hidden;
-  position: relative;
+  padding: 76px 0 72px;
 }
 
 .hero-content {
-  position: relative;
-  z-index: 1;
+  max-width: 1120px;
 }
 
 .hero-label {
   display: inline-block;
-  font-size: 12px;
-  color: #f3c58b;
-  border: 1px solid #ffffff38;
-  padding: 6px 13px;
-  border-radius: 30px;
+  color: #f0c2b5;
+  font-size: 17px;
+  margin-bottom: 17px;
 }
 
 .hero h1 {
-  font-size: clamp(27px, 4vw, 43px);
+  font-family: 'Inter', 'Noto Sans Bengali', sans-serif;
+  font-size: clamp(28px, 4vw, 44px);
   line-height: 1.5;
-  margin: 18px 0;
   font-weight: 800;
+  margin-bottom: 24px;
+  max-width: 900px;
 }
 
 .hero p {
-  font-size: 14px;
+  font-size: 16px;
   color: #d8e4df;
   line-height: 2;
-  max-width: 720px;
+  max-width: 850px;
 }
 
 .hero-buttons {
@@ -251,23 +249,18 @@ button, select {
   margin-top: 25px;
 }
 
-.hero-location {
-  margin-top: 25px;
-  font-size: 12px;
-  color: #e6e8e1;
-}
-
 /* BUTTONS */
 
 .btn {
   display: inline-block;
-  padding: 11px 18px;
-  border-radius: 9px;
+  padding: 12px 20px;
+  border-radius: 10px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   border: 1px solid transparent;
   transition: .2s;
   text-align: center;
+  cursor: pointer;
 }
 
 .btn:hover {
@@ -280,116 +273,61 @@ button, select {
 }
 
 .btn-outline {
-  border-color: #9ab7ad;
+  border-color: #77968c;
   color: white;
 }
 
-.btn-red {
-  background: var(--red);
-  color: white;
-}
-
-.btn-green {
-  background: var(--green);
-  color: white;
-}
-
-.btn-light {
-  border-color: var(--border);
-  background: white;
-  color: var(--green);
-}
-
-/* QUICK LINKS */
-
-.quick-section {
-  padding: 28px 0;
-  background: white;
-  border-bottom: 1px solid var(--border);
-}
-
-.quick-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-
-.quick-card {
-  padding: 20px 12px;
-  border: 1px solid var(--border);
-  border-radius: 13px;
-  text-align: center;
-  transition: .25s;
-  background: #fff;
-}
-
-.quick-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--gold);
-  box-shadow: 0 8px 22px #0000000c;
-}
-
-.quick-card span {
-  font-size: 28px;
-}
-
-.quick-card h3 {
-  font-size: 14px;
-  color: var(--green);
-  margin: 8px 0 3px;
-}
-
-.quick-card p {
-  font-size: 11px;
-  color: #888;
-}
-
-/* SECTIONS */
+/* SECTION */
 
 .section {
-  padding: 58px 0;
+  padding: 60px 0;
 }
 
 .section-heading {
   text-align: center;
-  margin-bottom: 28px;
+  margin-bottom: 32px;
 }
 
 .heading-line {
   display: block;
-  width: 38px;
-  height: 3px;
+  width: 65px;
+  height: 5px;
   background: var(--red);
-  margin: 0 auto 12px;
-  border-radius: 5px;
+  margin: 0 auto 20px;
 }
 
 .section-heading h2 {
-  font-size: 25px;
-  color: var(--green);
+  font-family: 'Inter', 'Noto Sans Bengali', sans-serif;
+  font-size: 29px;
+  font-weight: 800;
+  color: #292929;
 }
 
 .section-heading p {
   color: #888;
-  font-size: 12px;
-  margin-top: 8px;
+  font-size: 15px;
+  margin-top: 10px;
 }
 
-/* FILTER */
+/* BLOOD SEARCH */
+
+.search-section {
+  background: var(--bg);
+}
 
 .filter-card,
 .donor-results {
   background: white;
   border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 20px;
-  box-shadow: 0 2px 8px #00000008;
+  border-radius: 23px;
+  padding: 25px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.04);
 }
 
 .filter-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 23px 18px;
 }
 
 .form-group {
@@ -398,36 +336,38 @@ button, select {
 
 .form-group label {
   display: block;
-  font-size: 13px;
-  font-weight: 600;
-  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 12px;
   color: #333;
 }
 
 .form-group select {
   width: 100%;
   min-width: 0;
-  height: 46px;
-  padding: 0 12px;
+  height: 62px;
+  padding: 0 15px;
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 14px;
   background: white;
   color: #333;
-  font-size: 13px;
+  font-size: 14px;
+  outline: none;
 }
 
 .form-group select:focus {
-  outline: 2px solid #11796e;
-  border-color: #11796e;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 2px #11796e20;
 }
 
 .form-group select:disabled {
   background: #f3f3f3;
-  color: #999;
+  color: #aaa;
+  cursor: not-allowed;
 }
 
 .filter-bottom {
-  margin-top: 20px;
+  margin-top: 25px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -436,12 +376,23 @@ button, select {
 }
 
 .filter-bottom span {
-  font-size: 11px;
+  font-size: 12px;
   color: #888;
 }
 
+.btn-green {
+  background: var(--green);
+  color: white;
+  padding: 16px 23px;
+  font-size: 14px;
+}
+
+.btn-green:hover {
+  background: var(--teal);
+}
+
 .donor-results {
-  margin-top: 16px;
+  margin-top: 25px;
   min-height: 120px;
 }
 
@@ -452,57 +403,56 @@ button, select {
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 8px;
+  gap: 10px;
   color: #888;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .empty-result span {
-  font-size: 30px;
+  font-size: 32px;
 }
 
-/* JOIN */
+/* SERVICES */
 
 .join-section {
-  background: #fff;
+  background: white;
 }
 
 .join-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 18px;
+  gap: 20px;
   max-width: 900px;
   margin: auto;
 }
 
 .join-card {
-  padding: 27px;
-  border-radius: 14px;
+  padding: 30px;
+  border-radius: 17px;
   color: white;
-  min-height: 190px;
+  min-height: 195px;
 }
 
 .volunteer-card {
-  background: linear-gradient(130deg, #11796e, #0b665c);
+  background: var(--teal);
 }
 
 .donor-card {
-  background: linear-gradient(130deg, #dc242b, #a81728);
+  background: #d92129;
 }
 
 .join-icon {
-  font-size: 30px;
+  font-size: 32px;
 }
 
 .join-card h3 {
-  font-size: 16px;
+  font-size: 17px;
   margin: 12px 0 8px;
 }
 
 .join-card p {
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.9;
-  color: #ffffffdc;
 }
 
 .join-card a {
@@ -521,38 +471,38 @@ button, select {
 
 .activity-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 15px;
+  grid-template-columns: repeat(4,1fr);
+  gap: 17px;
 }
 
 .activity-card {
   background: white;
   border: 1px solid var(--border);
-  border-radius: 13px;
-  padding: 22px 15px;
+  border-radius: 15px;
+  padding: 25px 15px;
   text-align: center;
-  transition: .25s;
+  transition: .2s;
 }
 
 .activity-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px #0000000d;
+  box-shadow: 0 8px 20px rgba(0,0,0,.07);
 }
 
 .activity-card span {
-  font-size: 30px;
+  font-size: 32px;
 }
 
 .activity-card h3 {
   color: var(--green);
-  font-size: 14px;
-  margin: 10px 0;
+  font-size: 15px;
+  margin: 12px 0 8px;
 }
 
 .activity-card p {
-  font-size: 11px;
+  font-size: 12px;
   color: #777;
-  line-height: 1.9;
+  line-height: 1.8;
 }
 
 /* ABOUT */
@@ -567,8 +517,7 @@ button, select {
 }
 
 .about-icon {
-  font-size: 34px;
-  margin-bottom: 10px;
+  font-size: 36px;
 }
 
 .about-label {
@@ -578,15 +527,15 @@ button, select {
 }
 
 .about-content h2 {
-  font-size: 25px;
+  font-size: 27px;
   color: var(--green);
-  margin: 12px 0;
+  margin: 13px 0;
 }
 
 .about-content p {
-  max-width: 760px;
-  margin: 10px auto 23px;
-  font-size: 13px;
+  max-width: 780px;
+  margin: 12px auto 25px;
+  font-size: 14px;
   line-height: 2.1;
   color: #777;
 }
@@ -595,7 +544,13 @@ button, select {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
+}
+
+.btn-light {
+  border-color: var(--border);
+  background: white;
+  color: var(--green);
 }
 
 /* CONTACT */
@@ -606,30 +561,30 @@ button, select {
 
 .contact-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
+  grid-template-columns: repeat(3,1fr);
+  gap: 17px;
 }
 
 .contact-card {
   background: white;
   border: 1px solid var(--border);
-  border-radius: 13px;
-  padding: 23px 12px;
+  border-radius: 15px;
+  padding: 25px 12px;
   text-align: center;
 }
 
 .contact-card span {
-  font-size: 28px;
+  font-size: 30px;
 }
 
 .contact-card h3 {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--green);
-  margin: 8px 0;
+  margin: 10px 0;
 }
 
 .contact-card p {
-  font-size: 12px;
+  font-size: 13px;
   color: #777;
   overflow-wrap: anywhere;
 }
@@ -650,7 +605,7 @@ footer {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 25px;
-  padding-bottom: 28px;
+  padding-bottom: 30px;
 }
 
 .footer-brand {
@@ -660,8 +615,8 @@ footer {
 }
 
 .footer-brand img {
-  width: 42px;
-  height: 42px;
+  width: 48px;
+  height: 48px;
   object-fit: contain;
   background: white;
   border-radius: 50%;
@@ -669,14 +624,14 @@ footer {
 }
 
 .footer-brand h3 {
-  font-size: 13px;
+  font-size: 14px;
 }
 
 footer p {
   color: #bdc2ce;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 2;
-  margin-top: 9px;
+  margin-top: 10px;
 }
 
 .footer-contact {
@@ -692,7 +647,7 @@ footer p {
   display: block;
   font-size: 12px;
   color: #cbd5df;
-  margin-top: 7px;
+  margin-top: 8px;
 }
 
 .footer-contact a:hover {
@@ -701,162 +656,165 @@ footer p {
 
 .copyright {
   text-align: center;
-  padding: 13px;
+  padding: 14px;
   background: #0c1322;
   font-size: 11px;
   color: #9ca3af;
 }
 
-/* MOBILE */
+/* MOBILE RESPONSIVE */
 
-@media(max-width: 700px) {
+@media(max-width:700px) {
 
   body {
-    padding-top: 68px;
+    padding-top: 78px;
   }
 
   .navbar {
-    min-height: 68px;
+    min-height: 78px;
     padding: 0 10px;
   }
 
   .logo {
-    width: 39px;
-    height: 39px;
-    min-width: 39px;
+    width: 66px;
+    height: 66px;
+    min-width: 66px;
   }
 
   .brand {
-    gap: 7px;
+    gap: 8px;
   }
 
-  .brand h3 {
-    font-size: 11px;
+  .brand-text h3 {
+    font-size: 15px;
     line-height: 1.4;
   }
 
-  .brand small {
-    font-size: 9px;
+  .brand-text small {
+    font-size: 12px;
   }
 
   .menu-button {
-    min-width: 82px;
-    height: 38px;
-    padding: 0 10px;
-    font-size: 12px;
-    gap: 6px;
+    min-width: 100px;
+    height: 45px;
+    padding: 0 12px;
+    font-size: 14px;
+    gap: 8px;
   }
 
   .menu {
     left: 10px;
     right: 10px;
     width: auto;
-    max-height: calc(100vh - 80px);
-    padding: 12px;
+    max-height: calc(100vh - 95px);
+    padding: 14px;
   }
 
   .menu-link {
-    padding: 11px 13px;
-    font-size: 13px;
+    padding: 12px 15px;
+    font-size: 14px;
   }
 
   .hero {
-    padding: 43px 0;
+    padding: 78px 0 72px;
+  }
+
+  .hero-label {
+    font-size: 17px;
+    margin-bottom: 22px;
   }
 
   .hero h1 {
-    font-size: 25px;
+    font-size: 34px;
     line-height: 1.5;
+    margin-bottom: 30px;
   }
 
   .hero p {
-    font-size: 12px;
-    line-height: 1.9;
+    font-size: 17px;
+    line-height: 2.3;
+  }
+
+  .hero-buttons {
+    gap: 10px;
   }
 
   .section {
-    padding: 40px 0;
+    padding: 55px 0;
+  }
+
+  .section-heading {
+    margin-bottom: 35px;
   }
 
   .section-heading h2 {
-    font-size: 21px;
+    font-size: 27px;
   }
 
   .section-heading p {
-    font-size: 11px;
-  }
-
-  .quick-grid {
-    gap: 8px;
-  }
-
-  .quick-card {
-    padding: 15px 5px;
-  }
-
-  .quick-card span {
-    font-size: 23px;
-  }
-
-  .quick-card h3 {
-    font-size: 11px;
-  }
-
-  .quick-card p {
-    font-size: 9px;
+    font-size: 14px;
   }
 
   .filter-card {
-    padding: 13px;
+    padding: 22px;
+    border-radius: 22px;
   }
 
   .filter-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 12px;
   }
 
   .form-group label {
-    font-size: 12px;
+    font-size: 13px;
+    margin-bottom: 13px;
   }
 
   .form-group select {
-    height: 44px;
-    font-size: 12px;
+    height: 58px;
+    padding: 0 9px;
+    font-size: 13px;
   }
 
   .filter-bottom {
-    flex-direction: column;
-    align-items: stretch;
+    align-items: center;
+    gap: 12px;
+    margin-top: 25px;
   }
 
   .filter-bottom span {
-    text-align: center;
+    flex: 1;
+    font-size: 11px;
   }
 
-  .filter-bottom .btn {
-    width: 100%;
+  .btn-green {
+    padding: 15px 18px;
+    font-size: 13px;
   }
 
-  .join-grid,
-  .footer-grid {
+  .join-grid {
     grid-template-columns: 1fr;
   }
 
   .join-card {
-    padding: 20px;
+    padding: 25px;
     min-height: auto;
   }
 
   .activity-grid {
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 12px;
   }
 
   .activity-card {
-    padding: 18px 10px;
+    padding: 20px 10px;
   }
 
   .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
     grid-template-columns: 1fr;
   }
 
@@ -865,20 +823,64 @@ footer p {
   }
 
   .about-content h2 {
-    font-size: 21px;
+    font-size: 22px;
   }
+
 }
 
-@media(max-width: 360px) {
-  .brand h3 {
+@media(max-width:380px) {
+
+  .brand-text h3 {
+    font-size: 12px;
+  }
+
+  .brand-text small {
     font-size: 10px;
+  }
+
+  .logo {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
   }
 
   .menu-button {
-    min-width: 70px;
+    min-width: 82px;
+    font-size: 12px;
   }
 
-  .quick-card h3 {
-    font-size: 10px;
+  .hero h1 {
+    font-size: 28px;
   }
+
+  .hero p {
+    font-size: 14px;
+  }
+
+  .filter-card {
+    padding: 14px;
+  }
+
+  .filter-grid {
+    gap: 16px 8px;
+  }
+
+  .form-group label {
+    font-size: 11px;
+  }
+
+  .form-group select {
+    font-size: 11px;
+    height: 50px;
+  }
+
+  .filter-bottom {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-bottom .btn {
+    width: 100%;
+  }
+
 }
