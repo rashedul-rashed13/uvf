@@ -51,10 +51,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const menu = document.getElementById("menu");
 
   if (menuButton && menu) {
-    menuButton.addEventListener("click", () => {
+    menuButton.addEventListener("click", (e) => {
+      e.stopPropagation();
       const opened = menu.classList.toggle("open");
       menu.classList.toggle("show", opened);
       menuButton.setAttribute("aria-expanded", String(opened));
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener("click", (e) => {
+      if (!menu.contains(e.target) && !menuButton.contains(e.target)) {
+        menu.classList.remove("open", "show");
+        menuButton.setAttribute("aria-expanded", "false");
+      }
     });
 
     menu.querySelectorAll("a").forEach(link => {
@@ -168,17 +177,21 @@ function formatCityCorporation(item) {
 }
 
 async function fetchLocationData(endpoint) {
-  const response = await fetch(`${LOCATION_API}${endpoint}`);
-
-  if (!response.ok) {
-    throw new Error("Location API request failed");
+  try {
+    const response = await fetch(`${LOCATION_API}${endpoint}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return getLocationArray(data);
+  } catch (error) {
+    console.error("API Fetch Error:", error);
+    return [];
   }
-
-  return getLocationArray(await response.json());
 }
 
 
-/* 6. FILTER ELEMENTS (Updated with your HTML IDs) */
+/* 6. FILTER ELEMENTS */
 
 function divisionSelect() {
   return document.getElementById("divisionSelect") ||
@@ -291,11 +304,12 @@ function renderAreaOptions() {
 /* 8. LOAD DIVISIONS */
 
 async function loadDivisions() {
-  try {
-    divisions = await fetchLocationData("/divisions");
-    renderDivisionOptions();
-  } catch (error) {
-    console.error("Division loading error:", error);
+  divisions = await fetchLocationData("/divisions");
+  renderDivisionOptions();
+  
+  const status = document.getElementById("locationStatus");
+  if (status) {
+    status.textContent = currentLanguage === "bn" ? "ঠিকানা সফলভাবে লোড হয়েছে" : "Locations loaded successfully";
   }
 }
 
@@ -323,25 +337,24 @@ async function loadDistricts(divisionName) {
     return;
   }
 
-  try {
-    const division = divisions.find(item =>
-      getEnglishName(item).toLowerCase() === divisionName.toLowerCase()
-    );
+  const division = divisions.find(item =>
+    getEnglishName(item).toLowerCase() === divisionName.toLowerCase()
+  );
 
-    if (!division) return;
-
-    districts = await fetchLocationData(
-      `/districts/${encodeURIComponent(getLocationId(division))}`
-    );
-
-    renderDistrictOptions();
-
-  } catch (error) {
-    console.error("District loading error:", error);
-  } finally {
+  if (!division) {
     if (district) district.disabled = false;
     if (area) area.disabled = false;
+    return;
   }
+
+  districts = await fetchLocationData(
+    `/districts/${encodeURIComponent(getLocationId(division))}`
+  );
+
+  renderDistrictOptions();
+
+  if (district) district.disabled = false;
+  if (area) area.disabled = false;
 }
 
 
@@ -361,24 +374,22 @@ async function loadUpazilas(districtName) {
     return;
   }
 
-  try {
-    const district = districts.find(item =>
-      getEnglishName(item).toLowerCase() === districtName.toLowerCase()
-    );
+  const district = districts.find(item =>
+    getEnglishName(item).toLowerCase() === districtName.toLowerCase()
+  );
 
-    if (!district) return;
-
-    upazilas = await fetchLocationData(
-      `/upazilas/${encodeURIComponent(getLocationId(district))}`
-    );
-
-    renderAreaOptions();
-
-  } catch (error) {
-    console.error("Upazila loading error:", error);
-  } finally {
+  if (!district) {
     if (area) area.disabled = false;
+    return;
   }
+
+  upazilas = await fetchLocationData(
+    `/upazilas/${encodeURIComponent(getLocationId(district))}`
+  );
+
+  renderAreaOptions();
+
+  if (area) area.disabled = false;
 }
 
 
@@ -441,33 +452,7 @@ function filterBloodDonors() {
 }
 
 
-/* 14. RESET FILTERS */
-
-function resetDonorFilters() {
-  const division = divisionSelect();
-  const district = districtSelect();
-  const area = areaSelect();
-  const bloodGroup = bloodGroupSelect();
-
-  if (division) division.value = "";
-
-  districts = [];
-  upazilas = [];
-  selectedDivision = "";
-  selectedDistrict = "";
-
-  renderDistrictOptions();
-  renderAreaOptions();
-
-  if (district) district.value = "";
-  if (area) area.value = "";
-  if (bloodGroup) bloodGroup.value = "";
-
-  filterBloodDonors();
-}
-
-
-/* 15. WEBSITE INITIALIZATION & START */
+/* 14. WEBSITE INITIALIZATION & START */
 
 document.addEventListener("DOMContentLoaded", () => {
   setLanguage(currentLanguage);
