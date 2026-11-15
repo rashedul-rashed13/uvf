@@ -1,14 +1,15 @@
 
 /* =====================================================
-   UNITED VOLUNTEERS FOUNDATION (UVF)
-   PUBLIC WEBSITE - SCRIPT.JS
-   Language + Mobile Menu + Bangladesh Locations
+   UNITED VOLUNTEERS FOUNDATION
+   PUBLIC WEBSITE SCRIPT
+   Language + Menu + Bangladesh Location
 ===================================================== */
 
 
 /* 1. LANGUAGE SYSTEM */
 
-let currentLanguage = localStorage.getItem("uvf_language") || "bn";
+let currentLanguage =
+  localStorage.getItem("uvf_language") || "bn";
 
 if (!["bn", "en"].includes(currentLanguage)) {
   currentLanguage = "bn";
@@ -61,6 +62,8 @@ function setLanguage(language) {
 }
 
 
+/* 2. LANGUAGE BUTTONS */
+
 document.addEventListener("click", event => {
 
   const button = event.target.closest("[data-language]");
@@ -72,7 +75,7 @@ document.addEventListener("click", event => {
 });
 
 
-/* 2. MOBILE MENU */
+/* 3. MOBILE MENU */
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -102,6 +105,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   });
 
+  menu.addEventListener("click", event => {
+    event.stopPropagation();
+  });
+
   document.addEventListener("click", event => {
 
     if (
@@ -122,7 +129,29 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-/* 3. BANGLADESH LOCATION API */
+/* 4. MENU ACTIVE LINK */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  document.querySelectorAll(".menu-link").forEach(link => {
+
+    link.addEventListener("click", () => {
+
+      document.querySelectorAll(".menu-link")
+        .forEach(item => item.classList.remove("active"));
+
+      if (link.getAttribute("href")?.startsWith("#")) {
+        link.classList.add("active");
+      }
+
+    });
+
+  });
+
+});
+
+
+/* 5. BANGLADESH LOCATION API */
 
 const LOCATION_API = "https://bdapis.vercel.app/geo/v2.0";
 
@@ -130,24 +159,21 @@ let divisions = [];
 let districts = [];
 let upazilas = [];
 
-let selectedDivision = "";
 let selectedDistrict = "";
 
 let locationsLoaded = false;
 
 
-/* 4. CITY CORPORATIONS */
+/* 6. CITY CORPORATIONS */
 
 const cityCorporations = {
 
   Dhaka: [
     {
-      district: "Dhaka",
       bn: "ঢাকা উত্তর সিটি কর্পোরেশন",
       en: "Dhaka North City Corporation"
     },
     {
-      district: "Dhaka",
       bn: "ঢাকা দক্ষিণ সিটি কর্পোরেশন",
       en: "Dhaka South City Corporation"
     }
@@ -155,7 +181,6 @@ const cityCorporations = {
 
   Chattogram: [
     {
-      district: "Chattogram",
       bn: "চট্টগ্রাম সিটি কর্পোরেশন",
       en: "Chattogram City Corporation"
     }
@@ -163,7 +188,6 @@ const cityCorporations = {
 
   Khulna: [
     {
-      district: "Khulna",
       bn: "খুলনা সিটি কর্পোরেশন",
       en: "Khulna City Corporation"
     }
@@ -171,7 +195,6 @@ const cityCorporations = {
 
   Rajshahi: [
     {
-      district: "Rajshahi",
       bn: "রাজশাহী সিটি কর্পোরেশন",
       en: "Rajshahi City Corporation"
     }
@@ -179,7 +202,6 @@ const cityCorporations = {
 
   Barishal: [
     {
-      district: "Barishal",
       bn: "বরিশাল সিটি কর্পোরেশন",
       en: "Barishal City Corporation"
     }
@@ -187,7 +209,6 @@ const cityCorporations = {
 
   Sylhet: [
     {
-      district: "Sylhet",
       bn: "সিলেট সিটি কর্পোরেশন",
       en: "Sylhet City Corporation"
     }
@@ -195,7 +216,6 @@ const cityCorporations = {
 
   Rangpur: [
     {
-      district: "Rangpur",
       bn: "রংপুর সিটি কর্পোরেশন",
       en: "Rangpur City Corporation"
     }
@@ -203,7 +223,6 @@ const cityCorporations = {
 
   Mymensingh: [
     {
-      district: "Mymensingh",
       bn: "ময়মনসিংহ সিটি কর্পোরেশন",
       en: "Mymensingh City Corporation"
     }
@@ -211,7 +230,6 @@ const cityCorporations = {
 
   Cumilla: [
     {
-      district: "Cumilla",
       bn: "কুমিল্লা সিটি কর্পোরেশন",
       en: "Cumilla City Corporation"
     }
@@ -219,7 +237,6 @@ const cityCorporations = {
 
   Gazipur: [
     {
-      district: "Gazipur",
       bn: "গাজীপুর সিটি কর্পোরেশন",
       en: "Gazipur City Corporation"
     }
@@ -227,7 +244,6 @@ const cityCorporations = {
 
   Narayanganj: [
     {
-      district: "Narayanganj",
       bn: "নারায়ণগঞ্জ সিটি কর্পোরেশন",
       en: "Narayanganj City Corporation"
     }
@@ -236,7 +252,7 @@ const cityCorporations = {
 };
 
 
-/* 5. LOCATION HELPERS */
+/* 7. LOCATION HELPERS */
 
 function getLocationArray(response) {
 
@@ -302,30 +318,7 @@ function formatLocation(item) {
 }
 
 
-function updateLocationStatus() {
-
-  const status = document.getElementById("locationStatus");
-
-  if (!status) return;
-
-  if (!locationsLoaded) {
-
-    status.textContent = currentLanguage === "bn"
-      ? "ঠিকানা লোড হচ্ছে..."
-      : "Loading locations...";
-
-    return;
-
-  }
-
-  status.textContent = currentLanguage === "bn"
-    ? "বাংলাদেশের বিভাগ ও ঠিকানার তালিকা প্রস্তুত"
-    : "Bangladesh location list is ready";
-
-}
-
-
-/* 6. FETCH LOCATION DATA */
+/* 8. FETCH LOCATION DATA */
 
 async function fetchLocationData(endpoint) {
 
@@ -336,7 +329,7 @@ async function fetchLocationData(endpoint) {
     );
 
     if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
+      throw new Error(`HTTP Error: ${response.status}`);
     }
 
     const data = await response.json();
@@ -354,34 +347,26 @@ async function fetchLocationData(endpoint) {
 }
 
 
-/* 7. SELECT ELEMENTS */
+/* 9. SELECT ELEMENTS */
 
 function divisionSelect() {
-
   return document.getElementById("divisionSelect");
-
 }
 
 function districtSelect() {
-
   return document.getElementById("districtSelect");
-
 }
 
 function areaSelect() {
-
   return document.getElementById("areaSelect");
-
 }
 
 function bloodGroupSelect() {
-
   return document.getElementById("bloodGroupSelect");
-
 }
 
 
-/* 8. SET DROPDOWN OPTIONS */
+/* 10. DROPDOWN BUILDER */
 
 function setSelectOptions(select, items, placeholder) {
 
@@ -414,15 +399,13 @@ function setSelectOptions(select, items, placeholder) {
       option => option.value === previousValue
     )
   ) {
-
     select.value = previousValue;
-
   }
 
 }
 
 
-/* 9. RENDER DIVISIONS */
+/* 11. RENDER DIVISIONS */
 
 function renderDivisionOptions() {
 
@@ -435,11 +418,8 @@ function renderDivisionOptions() {
     select,
 
     divisions.map(item => ({
-
       value: getEnglishName(item),
-
       label: formatLocation(item)
-
     })),
 
     currentLanguage === "bn"
@@ -451,7 +431,7 @@ function renderDivisionOptions() {
 }
 
 
-/* 10. RENDER DISTRICTS */
+/* 12. RENDER DISTRICTS */
 
 function renderDistrictOptions() {
 
@@ -464,11 +444,8 @@ function renderDistrictOptions() {
     select,
 
     districts.map(item => ({
-
       value: getEnglishName(item),
-
       label: formatLocation(item)
-
     })),
 
     currentLanguage === "bn"
@@ -480,7 +457,7 @@ function renderDistrictOptions() {
 }
 
 
-/* 11. RENDER UPAZILAS */
+/* 13. RENDER UPAZILAS */
 
 function renderAreaOptions() {
 
@@ -489,27 +466,17 @@ function renderAreaOptions() {
   if (!select) return;
 
   const items = upazilas.map(item => ({
-
     value: getEnglishName(item),
-
     label: formatLocation(item)
-
   }));
 
-  const corporationList = Object.values(cityCorporations)
-    .flat()
-    .filter(item => item.district === selectedDistrict);
-
-  corporationList.forEach(item => {
+  (cityCorporations[selectedDistrict] || []).forEach(item => {
 
     items.push({
-
       value: item.en,
-
       label: currentLanguage === "bn"
         ? item.bn
         : item.en
-
     });
 
   });
@@ -521,15 +488,40 @@ function renderAreaOptions() {
     items,
 
     currentLanguage === "bn"
-      ? "উপজেলা / সিটি কর্পোরেশন নির্বাচন করুন"
-      : "Select Upazila / City Corporation"
+      ? "এলাকা নির্বাচন করুন"
+      : "Select Area"
 
   );
 
 }
 
 
-/* 12. LOAD DIVISIONS */
+/* 14. LOCATION STATUS */
+
+function updateLocationStatus() {
+
+  const status = document.getElementById("locationStatus");
+
+  if (!status) return;
+
+  if (!locationsLoaded) {
+
+    status.textContent = currentLanguage === "bn"
+      ? "ঠিকানা লোড হচ্ছে..."
+      : "Loading locations...";
+
+    return;
+
+  }
+
+  status.textContent = currentLanguage === "bn"
+    ? "ঠিকানা সফলভাবে লোড হয়েছে"
+    : "Locations loaded successfully";
+
+}
+
+
+/* 15. LOAD DIVISIONS */
 
 async function loadDivisions() {
 
@@ -552,22 +544,21 @@ async function loadDivisions() {
   if (!locationsLoaded && status) {
 
     status.textContent = currentLanguage === "bn"
-      ? "ঠিকানা লোড হয়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন।"
-      : "Locations could not be loaded. Check your internet.";
+      ? "ঠিকানা লোড হয়নি। ইন্টারনেট পরীক্ষা করুন।"
+      : "Could not load locations. Check your internet.";
 
   }
 
 }
 
 
-/* 13. LOAD DISTRICTS */
+/* 16. LOAD DISTRICTS */
 
 async function loadDistricts(divisionName) {
 
   districts = [];
   upazilas = [];
 
-  selectedDivision = divisionName;
   selectedDistrict = "";
 
   renderDistrictOptions();
@@ -579,32 +570,21 @@ async function loadDistricts(divisionName) {
   if (district) district.disabled = true;
   if (area) area.disabled = true;
 
-  if (!divisionName) {
-
-    if (district) district.disabled = true;
-
-    if (area) area.disabled = true;
-
-    return;
-
-  }
+  if (!divisionName) return;
 
   const division = divisions.find(item =>
-
     getEnglishName(item).toLowerCase() ===
     divisionName.toLowerCase()
-
   );
 
-  if (!division) {
-
-    if (district) district.disabled = false;
-
-    return;
-
-  }
+  if (!division) return;
 
   const id = getLocationId(division);
+
+  if (!id) {
+    console.error("Division ID not found");
+    return;
+  }
 
   districts = await fetchLocationData(
     `/districts/${encodeURIComponent(id)}`
@@ -614,12 +594,10 @@ async function loadDistricts(divisionName) {
 
   if (district) district.disabled = false;
 
-  if (area) area.disabled = true;
-
 }
 
 
-/* 14. LOAD UPAZILAS */
+/* 17. LOAD UPAZILAS */
 
 async function loadUpazilas(districtName) {
 
@@ -636,15 +614,18 @@ async function loadUpazilas(districtName) {
   if (!districtName) return;
 
   const district = districts.find(item =>
-
     getEnglishName(item).toLowerCase() ===
     districtName.toLowerCase()
-
   );
 
   if (!district) return;
 
   const id = getLocationId(district);
+
+  if (!id) {
+    console.error("District ID not found");
+    return;
+  }
 
   upazilas = await fetchLocationData(
     `/upazilas/${encodeURIComponent(id)}`
@@ -657,7 +638,113 @@ async function loadUpazilas(districtName) {
 }
 
 
-/* 15. LOCATION EVENT LISTENERS */
+/* 18. FILTER DATA */
+
+function getBloodDonorFilters() {
+
+  return {
+
+    division: divisionSelect()?.value || "",
+
+    district: districtSelect()?.value || "",
+
+    upazila: areaSelect()?.value || "",
+
+    blood_group: bloodGroupSelect()?.value || ""
+
+  };
+
+}
+
+
+/* 19. DONOR FILTER EVENT */
+
+function filterBloodDonors() {
+
+  const filters = getBloodDonorFilters();
+
+  document.dispatchEvent(
+
+    new CustomEvent("uvf:donor-filter-change", {
+      detail: filters
+    })
+
+  );
+
+}
+
+
+/* 20. DONOR MESSAGE */
+
+function updateDonorMessage() {
+
+  const results = document.getElementById("donorResults");
+
+  if (!results) return;
+
+  results.innerHTML = "";
+
+  const box = document.createElement("div");
+  box.className = "empty-result";
+
+  const icon = document.createElement("span");
+  icon.textContent = "🩸";
+
+  const message = document.createElement("p");
+
+  message.textContent = currentLanguage === "bn"
+    ? "রক্তদাতার তথ্য দেখতে অনুসন্ধান করুন।"
+    : "Search to find blood donor information.";
+
+  box.append(icon, message);
+
+  results.appendChild(box);
+
+}
+
+
+/* 21. DONOR SEARCH BUTTON */
+
+function initializeDonorSearch() {
+
+  const button = document.getElementById("donorSearchButton");
+
+  if (!button) return;
+
+  button.addEventListener("click", () => {
+
+    const filters = getBloodDonorFilters();
+
+    filterBloodDonors();
+
+    const results = document.getElementById("donorResults");
+
+    if (!results) return;
+
+    results.innerHTML = "";
+
+    const box = document.createElement("div");
+    box.className = "empty-result";
+
+    const icon = document.createElement("span");
+    icon.textContent = "🩸";
+
+    const message = document.createElement("p");
+
+    message.textContent = currentLanguage === "bn"
+      ? "অনুসন্ধানের তথ্য প্রস্তুত। প্রকৃত রক্তদাতার ফলাফল পেতে ডেটাবেজ সংযুক্ত করতে হবে।"
+      : "Search filters are ready. Connect the database to display actual donor results.";
+
+    box.append(icon, message);
+
+    results.appendChild(box);
+
+  });
+
+}
+
+
+/* 22. LOCATION EVENT LISTENERS */
 
 function initializeLocationListeners() {
 
@@ -705,154 +792,31 @@ function initializeLocationListeners() {
 }
 
 
-/* 16. GET FILTER VALUES */
-
-function getBloodDonorFilters() {
-
-  return {
-
-    division: divisionSelect()?.value || "",
-
-    district: districtSelect()?.value || "",
-
-    upazila: areaSelect()?.value || "",
-
-    blood_group: bloodGroupSelect()?.value || ""
-
-  };
-
-}
-
-
-/* 17. DONOR FILTER EVENT */
-
-function filterBloodDonors() {
-
-  const filters = getBloodDonorFilters();
-
-  document.dispatchEvent(
-
-    new CustomEvent("uvf:donor-filter-change", {
-
-      detail: filters
-
-    })
-
-  );
-
-}
-
-
-/* 18. DONOR SEARCH BUTTON */
-
-function updateDonorMessage() {
-
-  const results = document.getElementById("donorResults");
-
-  if (!results) return;
-
-  results.innerHTML = "";
-
-  const box = document.createElement("div");
-
-  box.className = "empty-result";
-
-  const icon = document.createElement("span");
-  icon.textContent = "🩸";
-
-  const message = document.createElement("p");
-
-  message.textContent = currentLanguage === "bn"
-    ? "রক্তদাতার তথ্য দেখতে অনুসন্ধান করুন। ডেটাবেজ সংযুক্ত হলে ফলাফল এখানে দেখাবে।"
-    : "Search for donors. Results will appear here once the database is connected.";
-
-  box.append(icon, message);
-
-  results.appendChild(box);
-
-}
-
-
-function initializeDonorSearch() {
-
-  const button = document.getElementById("donorSearchButton");
-
-  if (!button) return;
-
-  button.addEventListener("click", () => {
-
-    const filters = getBloodDonorFilters();
-
-    filterBloodDonors();
-
-    const results = document.getElementById("donorResults");
-
-    if (!results) return;
-
-    results.innerHTML = "";
-
-    const box = document.createElement("div");
-
-    box.className = "empty-result";
-
-    const icon = document.createElement("span");
-    icon.textContent = "🩸";
-
-    const message = document.createElement("p");
-
-    message.textContent = currentLanguage === "bn"
-      ? "রক্তদাতা অনুসন্ধান ব্যবস্থা প্রস্তুত। প্রকৃত ফলাফল পেতে Supabase Database সংযোগ করতে হবে।"
-      : "The donor search interface is ready. Connect the Supabase database to display actual results.";
-
-    box.append(icon, message);
-
-    results.appendChild(box);
-
-    // Future Supabase integration:
-    // Listen for "uvf:donor-filter-change" event
-    // and query the approved donor records.
-
-  });
-
-}
-
-
-/* 19. INITIALIZE LOCATIONS */
-
-async function loadLocations() {
-
-  await loadDivisions();
-
-  initializeLocationListeners();
-
-}
-
-
-/* 20. FOOTER YEAR */
+/* 23. FOOTER YEAR */
 
 function updateFooterYear() {
 
   const year = document.getElementById("currentYear");
 
   if (year) {
-
     year.textContent = new Date().getFullYear();
-
   }
 
 }
 
 
-/* 21. WEBSITE START */
+/* 24. INITIALIZE WEBSITE */
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
 
   setLanguage(currentLanguage);
 
-  loadLocations();
+  initializeLocationListeners();
 
   initializeDonorSearch();
 
   updateFooterYear();
+
+  await loadDivisions();
 
 });
