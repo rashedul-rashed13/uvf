@@ -620,3 +620,145 @@ footer p{
     text-align:left;
   }
 }
+/* MOBILE RESPONSIVE DESIGN */
+@media(max-width: 600px){
+
+  body{
+    padding-top: 68px; /* ফিক্সড হেডারের উচ্চতা অনুযায়ী প্যাডিং */
+  }
+
+  .navbar{
+    min-height: 68px;
+    padding: 0 10px;
+  }
+
+  .logo{
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+  }
+
+  .brand h3{
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .brand small{
+    font-size: 8.5px;
+  }
+
+  /* মোবাইল মেনু বাটন */
+  .menu-button{
+    min-width: 82px;
+    height: 38px;
+    padding: 0 10px;
+    font-size: 12px;
+    gap: 6px;
+    border-radius: 8px;
+  }
+
+  .menu-button span:first-child{
+    font-size: 16px;
+  }
+
+  /* মোবাইল ড্রপডাউন মেনু (সেন্টার ও পারফেক্ট সাইজ) */
+  .menu{
+    position: absolute;
+    top: 100%;
+    left: 10px;
+    right: 10px;
+    width: auto;
+    max-height: calc(100vh - 80px);
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  .menu-link{
+    padding: 11px 14px;
+    font-size: 14px;
+    border-radius: 8px;
+  }
+
+  /* হিরো সেকশন মোবাইল ভিউ */
+  .hero{
+    padding: 38px 0;
+  }
+
+  .hero h1{
+    font-size: 22px;
+    line-height: 1.4;
+  }
+
+  .hero p{
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+  .section{
+    padding: 35px 0;
+  }
+
+  .section-heading h2{
+    font-size: 20px;
+  }
+
+  /* রক্তদাতা অনুসন্ধান ফিল্ডগুলো মোবাইলে সুন্দরভাবে সাজানো */
+  .filter-card{
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .filter-grid{
+    grid-template-columns: 1fr; /* মোবাইলে এক কলামে থাকবে যাতে সিলেক্ট অপশন বড় দেখায় */
+    gap: 12px;
+  }
+
+  .form-group label{
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+
+  .form-group select{
+    height: 44px;
+    font-size: 12px;
+    padding: 0 10px;
+  }
+
+  .filter-bottom{
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .filter-bottom span{
+    text-align: center;
+    font-size: 11px;
+  }
+
+  .filter-bottom .btn{
+    width: 100%;
+    text-align: center;
+    padding: 12px;
+    font-size: 13px;
+  }
+
+  /* জয়েন ও স্ট্যাটিস্টিক্স কার্ড */
+  .join-grid,
+  .stats-grid,
+  .footer-grid{
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .join-card{
+    padding: 18px;
+    min-height: auto;
+  }
+
+  .footer-contact{
+    text-align: left;
+    margin-top: 15px;
+  }
+}
