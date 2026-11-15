@@ -1,7 +1,6 @@
 /* =====================================================
-   UNITED VOLUNTEERS FOUNDATION (UVF)
-   script.js
-   Supabase connection will be added later.
+   UNITED VOLUNTEERS FOUNDATION (UVF) - SCRIPT.JS
+   Dynamic Bangladesh Location & Language Switcher
 ===================================================== */
 
 
@@ -14,6 +13,7 @@ function setLanguage(language) {
   localStorage.setItem("uvf_language", language);
   document.documentElement.lang = language;
 
+  // Static text translations using data attributes
   document.querySelectorAll("[data-bn][data-en]").forEach(element => {
     element.textContent = language === "bn"
       ? element.dataset.bn
@@ -28,6 +28,7 @@ function setLanguage(language) {
       : element.dataset.placeholderEn;
   });
 
+  // Re-render dropdowns dynamically based on current language
   renderDivisionOptions();
   renderDistrictOptions();
   renderAreaOptions();
@@ -170,16 +171,15 @@ function getLocationId(item) {
   return item.id ?? item._id ?? item.code ?? "";
 }
 
+// ভাষা অনুযায়ী শুধু বাংলা অথবা শুধু ইংরেজি নাম দেখানোর জন্য ফাংশন আপডেট করা হয়েছে
 function formatLocation(item) {
   const bn = getBanglaName(item);
   const en = getEnglishName(item);
-  return bn && en ? `${bn} - ${en}` : bn || en;
+  return currentLanguage === "bn" ? (bn || en) : (en || bn);
 }
 
 function formatCityCorporation(item) {
-  return currentLanguage === "bn"
-    ? `${item.bn} - ${item.en}`
-    : item.en;
+  return currentLanguage === "bn" ? (item.bn || item.en) : (item.en || item.bn);
 }
 
 async function fetchLocationData(endpoint) {
@@ -253,7 +253,7 @@ function renderDivisionOptions() {
   setSelectOptions(
     select,
     divisions.map(item => ({
-      value: getEnglishName(item),
+      value: getEnglishName(item), // ভ্যালু সবসময় ইংরেজিতে থাকবে ব্যাকএন্ড বা ফিল্টারিংয়ের সুবিধার জন্য
       label: formatLocation(item)
     })),
     currentLanguage === "bn"
@@ -287,6 +287,7 @@ function renderAreaOptions() {
     label: formatLocation(item)
   }));
 
+  // নির্দিষ্ট জেলার সিটি কর্পোরেশন যুক্ত করা
   (cityCorporations[selectedDistrict] || []).forEach(item => {
     items.push({
       value: item.en,
@@ -436,10 +437,7 @@ async function loadLocations() {
 }
 
 
-/* 13. BLOOD DONOR FILTER
-   Supabase connection will be added later.
-   This function prepares the selected filters.
-*/
+/* 13. BLOOD DONOR FILTER */
 
 function getBloodDonorFilters() {
   return {
@@ -501,25 +499,17 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-/* =====================================================
-   END OF UVF SCRIPT
-===================================================== */
-document.addEventListener("DOMContentLoaded", () => {
+/* 17. MOBILE MENU TOGGLE HANDLER */
 
+document.addEventListener("DOMContentLoaded", () => {
   const menuButton = document.getElementById("menuButton");
   const menu = document.getElementById("menu");
 
   if (!menuButton || !menu) return;
 
   menuButton.addEventListener("click", () => {
-
     const opened = menu.classList.toggle("open");
-
-    menuButton.setAttribute(
-      "aria-expanded",
-      String(opened)
-    );
-
+    menuButton.setAttribute("aria-expanded", String(opened));
   });
 
   menu.querySelectorAll("a").forEach(link => {
@@ -528,9 +518,4 @@ document.addEventListener("DOMContentLoaded", () => {
       menuButton.setAttribute("aria-expanded", "false");
     });
   });
-
 });
-
-
-
-
